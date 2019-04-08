@@ -5,8 +5,10 @@
   "editor.tabSize": 2,
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
+  "explorer.sortOrder": "default",
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
+  "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "prettier.arrowParens": "avoid",
@@ -18,6 +20,5 @@
   "prettier.semi": true,
   "prettier.singleQuote": false,
   "prettier.tabWidth": 2,
-  "prettier.useTabs": false,
-  "explorer.sortOrder": "default"
+  "prettier.useTabs": false
 }

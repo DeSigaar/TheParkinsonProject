@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
+import PropTypes from "prop-types";
 import { TestComponent } from "../components/AppComponents";
 
 export default class TestScreen extends Component {
+  static propTypes = {
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = {
     title: "Test"
   };
