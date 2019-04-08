@@ -1,11 +1,25 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "private": true,
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "prettier-eslint '**/*.js' --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:fix",
+      "git add"
+    ]
   },
   "jest": {
     "preset": "jest-expo"
@@ -19,8 +33,13 @@
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
-  },
-  "private": true
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.12.4",
+    "jest-expo": "^32.0.0",
+    "prettier": "1.16.4",
+    "prettier-eslint": "^8.8.2",
+    "prettier-eslint-cli": "^4.7.1"
+  }
 }

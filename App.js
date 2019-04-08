@@ -12,6 +12,8 @@ export default class App extends Component {
       isLoadingComplete: false
     };
 
+    console.log("Hello" + "my" + "friend");
+
     // Initialize Firebase only when it hasn't been initialized yet
     if (!firebase.apps.length) firebase.initializeApp(ApiKeys.FirebaseConfig);
   }
