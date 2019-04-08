@@ -9,7 +9,7 @@ export default class FirstScreen extends Component {
   };
 
   static navigationOptions = {
-    title: "Test"
+    title: "First"
   };
 
   render() {
