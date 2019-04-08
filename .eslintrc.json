@@ -21,6 +21,7 @@
   "plugins": ["react", "prettier"],
   "rules": {
     "camelcase": "error",
+<<<<<<< HEAD
     "prettier/prettier": [
       "error",
       {
@@ -35,6 +36,9 @@
         "useTabs": false
       }
     ],
+=======
+    "prettier/prettier": "error",
+>>>>>>> 95c2e305864e44a4cf93497e2e0f910c7c37b0ef
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],

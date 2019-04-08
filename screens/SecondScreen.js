@@ -19,7 +19,11 @@ export default class SecondScreen extends Component {
     return (
       <View style={styles.container}>
         <Text>Second screen (Variable: {variable})</Text>
+<<<<<<< HEAD
         <Button title="Go back" onPress={() => navigate("First")} />
+=======
+        <Button title="Go back" onPress={() => navigate("Test")} />
+>>>>>>> 95c2e305864e44a4cf93497e2e0f910c7c37b0ef
       </View>
     );
   }
