@@ -8,7 +8,11 @@ export default {
     messagingSenderId: "1050654953722"
   },
   GoogleLogin: {
-    clientId: "1050654953722-fspmh7gkmvlshu830qaj24bnqdivqadb.apps.googleusercontent.com",
-    clientSecret: "Atjx_1XJvubaBBaFUcw5vfvc"
+    android: {
+      clientId: "1050654953722-8jpgbdjrg53q4pi294jquuhfd68ijpu6.apps.googleusercontent.com"
+    },
+    iOS: {
+      clientId: "1050654953722-90olatnmaa6pc2uj7gqgdplf4oifq0q7.apps.googleusercontent.com"
+    }
   }
 };

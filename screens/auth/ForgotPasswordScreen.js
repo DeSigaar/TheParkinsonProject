@@ -30,6 +30,7 @@ export default class ForgotPasswordScreen extends Component {
       .then(
         () => {
           // Send password reset email was successful
+          this.setState({ loading: false });
           Alert.alert("Wachtwoord opnieuw instellen email is verstuurd!");
         },
         error => {

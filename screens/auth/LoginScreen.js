@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, View, StyleSheet, Text, Alert } from "react-native";
+import { ActivityIndicator, Platform, View, StyleSheet, Text, Alert } from "react-native";
 import * as firebase from "firebase";
 import { Google } from "expo";
 
@@ -48,25 +48,43 @@ export default class LoginScreen extends Component {
 
   handlePressGoogleLogin = async () => {
     // Start logging in with Google
-    console.log(ApiKeys.GoogleLogin.clientId);
-
+    // TODO / BUG / FEATURE
+    // Google login only works within the Expo client app - standalone apps won't work
     Google.logInAsync({
-      clientId: ApiKeys.GoogleLogin.clientId
+      clientId: Platform.OS === "ios" ? ApiKeys.GoogleLogin.iOS.clientId : ApiKeys.GoogleLogin.android.clientId
     })
-      .then(
-        loginResult => {
-          console.log("Successful");
-          console.log(loginResult);
-        },
-        error => {
-          console.log("Something went wrong... " + error);
-        }
-      )
-      .catch(e => {
-        console.log("idk anymore");
-        console.log(e);
+      .then(loginResult => {
+        var credential = firebase.auth.GoogleAuthProvider.credential(loginResult.idToken);
+        // Sign in with credential from the Google user.
+        firebase
+          .auth()
+          .signInAndRetrieveDataWithCredential(credential)
+          .catch(function(error) {
+            // Something went wrong
+            console.log("Something went wrong! " + error);
+          });
+      })
+      .catch(error => {
+        console.log("Something went wrong! " + error);
       });
   };
+
+  handlePressAnonLogin() {
+    // Logging user in without any creds
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(
+        () => {
+          // callback
+        },
+        error => {
+          var errorCode = error.code;
+          var errorMessage = error.Message;
+          console.log(errorCode + " " + errorMessage);
+        }
+      );
+  }
 
   handlePressSignup() {
     // Navigate to SignupScreen
@@ -108,6 +126,8 @@ export default class LoginScreen extends Component {
           <Button onPress={() => this.handlePressLogin()}>Inloggen</Button>
 
           <Button onPress={() => this.handlePressGoogleLogin()}>Log in met Google</Button>
+
+          <Button onPress={() => this.handlePressAnonLogin()}>Log in zonder iets</Button>
 
           <Text>---</Text>
           <Button onPress={() => this.handlePressSignup()}>Account aanmaken</Button>
