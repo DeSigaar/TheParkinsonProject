@@ -15,14 +15,12 @@ const RootStackNavigator = createAppContainer(
       Signup: { screen: SignupScreen },
       ForgotPassword: { screen: ForgotPasswordScreen },
       App: { screen: AppNavigator }
+    },
+    {
+      defaultNavigationOptions: {
+        header: null
+      }
     }
-    // {
-    //   navigationOptions: () => ({
-    //     headerTitleStyle: {
-    //       fontWeight: "normal"
-    //     }
-    //   })
-    // }
   )
 );
 
@@ -51,6 +49,7 @@ export default class RootNavigator extends Component {
   }
 
   _handleNotification = ({ origin, data }) => {
+    // eslint-disable-next-line no-console
     console.log(`Push notification ${origin} with data: ${JSON.stringify(data)}`);
   };
 }

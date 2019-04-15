@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, View, StyleSheet } from "react-native";
-import { NavigationActions } from "react-navigation";
+import { ActivityIndicator, View, StyleSheet, Text, Alert } from "react-native";
+import * as firebase from "firebase";
+import { Google } from "expo";
+
+import ApiKeys from "../../constants/ApiKeys";
+
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 
@@ -10,35 +14,72 @@ export default class LoginScreen extends Component {
     navigation: PropTypes.object
   };
 
-  static navigationOptions = {
-    title: "Inloggen"
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
       password: "",
-      authenticating: false
+      loading: false
     };
   }
 
-  onPressLogin() {
-    this.setState({ authenticating: true });
+  handlePressLogin() {
+    // Log in the user
+    this.setState({ loading: true });
 
-    setTimeout(() => {
-      this.setState({ authenticating: false });
-    }, 1000);
+    const { email, password } = this.state;
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        () => {
+          // Login was successful
+          this.setState({ loading: false });
+        },
+        error => {
+          // Returned an error and is displaying it to the user
+          this.setState({ loading: false });
+          Alert.alert(error.message);
+        }
+      );
   }
 
-  onPressSignup() {
-    // Navigate to new screen without a back button being showed
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: "Signup" })], 0);
+  handlePressGoogleLogin = async () => {
+    // Start logging in with Google
+    console.log(ApiKeys.GoogleLogin.clientId);
+
+    Google.logInAsync({
+      clientId: ApiKeys.GoogleLogin.clientId
+    })
+      .then(
+        loginResult => {
+          console.log("Successful");
+          console.log(loginResult);
+        },
+        error => {
+          console.log("Something went wrong... " + error);
+        }
+      )
+      .catch(e => {
+        console.log("idk anymore");
+        console.log(e);
+      });
+  };
+
+  handlePressSignup() {
+    // Navigate to SignupScreen
+    this.props.navigation.navigate("Signup");
+  }
+
+  handlePressForgotPassword() {
+    // Navigate to ForgotPasswordScreen
+    this.props.navigation.navigate("ForgotPassword");
   }
 
   renderCurrentState() {
-    if (this.state.authenticating) {
+    if (this.state.loading) {
       return (
         <View>
           <ActivityIndicator size="large" />
@@ -47,11 +88,15 @@ export default class LoginScreen extends Component {
     } else {
       return (
         <View style={styles.form}>
+          <Text>Inloggen</Text>
           <Input
             label="Email"
             placeholder="Vul je email in..."
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
           />
           <Input
             label="Wachtwoord"
@@ -60,9 +105,13 @@ export default class LoginScreen extends Component {
             value={this.state.password}
             secureTextEntry
           />
-          <Button onPress={() => this.onPressLogin()}>Inloggen</Button>
+          <Button onPress={() => this.handlePressLogin()}>Inloggen</Button>
 
-          <Button onPress={() => this.onPressSignup()}>Account aanmaken</Button>
+          <Button onPress={() => this.handlePressGoogleLogin()}>Log in met Google</Button>
+
+          <Text>---</Text>
+          <Button onPress={() => this.handlePressSignup()}>Account aanmaken</Button>
+          <Button onPress={() => this.handlePressForgotPassword()}>Wachtwoord vergeten?</Button>
         </View>
       );
     }

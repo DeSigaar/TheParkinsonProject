@@ -8,21 +8,35 @@ export default class Input extends Component {
     value: PropTypes.string,
     onChangeText: PropTypes.func,
     placeholder: PropTypes.string,
-    secureTextEntry: PropTypes.bool
+    secureTextEntry: PropTypes.bool,
+    keyboardType: PropTypes.string,
+    autoCapitalize: PropTypes.string,
+    autoCorrect: PropTypes.bool
   };
 
   render() {
-    const { label, value, onChangeText, placeholder, secureTextEntry } = this.props;
+    const {
+      label,
+      value,
+      onChangeText,
+      placeholder,
+      secureTextEntry,
+      keyboardType,
+      autoCapitalize,
+      autoCorrect
+    } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.label}>{label}</Text>
         <TextInput
-          autoCorrect={false}
+          style={styles.input}
+          value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          style={styles.input}
           secureTextEntry={secureTextEntry}
-          value={value}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+          autoCorrect={autoCorrect}
         />
       </View>
     );

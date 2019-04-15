@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset } from "expo";
 import * as firebase from "firebase";
@@ -9,6 +10,10 @@ import RootNavigator from "./navigation/RootNavigator";
 import AppNavigator from "./navigation/AppNavigator";
 
 export default class App extends Component {
+  static propTypes = {
+    skipLoadingScreen: PropTypes.any
+  };
+
   constructor(props) {
     super(props);
 
@@ -35,6 +40,7 @@ export default class App extends Component {
   _handleLoadingError = error => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
+    // eslint-disable-next-line no-console
     console.warn(error);
   };
 
@@ -43,7 +49,10 @@ export default class App extends Component {
   };
 
   render() {
-    if ((!this.state.isLoadingComplete || !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) {
+    const { isLoadingComplete, isAuthenticationReady, isAuthenticated } = this.state;
+    const { skipLoadingScreen } = this.props;
+
+    if ((!isLoadingComplete || !isAuthenticationReady) && !skipLoadingScreen) {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
@@ -56,7 +65,7 @@ export default class App extends Component {
         <View style={styles.container}>
           {Platform.OS === "ios" && <StatusBar barStyle="default" />}
           {Platform.OS === "android" && <View style={styles.statusBarUnderlay} />}
-          {this.state.isAuthenticated ? <AppNavigator /> : <RootNavigator />}
+          {isAuthenticated ? <AppNavigator /> : <RootNavigator />}
         </View>
       );
     }
