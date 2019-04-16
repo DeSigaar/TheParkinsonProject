@@ -43,12 +43,17 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^32.0.0",
-    "firebase": "^5.9.3",
+    "expo": "^32.0.6",
+    "firebase": "^5.9.4",
     "prop-types": "^15.7.2",
-    "react": "16.5.0",
+    "react": "^16.5.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-navigation": "^3.6.1"
+    "react-navigation": "^3.8.1",
+    "react-redux": "^6.0.0",
+    "react-redux-firebase": "^2.2.6",
+    "redux": "^4.0.1",
+    "redux-firestore": "^0.7.3",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

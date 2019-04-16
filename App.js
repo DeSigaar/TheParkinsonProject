@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset } from "expo";
 import * as firebase from "firebase";
+import { Provider } from "react-redux";
+import store from "./store";
 
 import ApiKeys from "./constants/ApiKeys";
 
@@ -62,11 +64,13 @@ export default class App extends Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          {Platform.OS === "android" && <View style={styles.statusBarUnderlay} />}
-          {isAuthenticated ? <AppNavigator /> : <RootNavigator />}
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+            {Platform.OS === "android" && <View style={styles.statusBarUnderlay} />}
+            {isAuthenticated ? <AppNavigator /> : <RootNavigator />}
+          </View>
+        </Provider>
       );
     }
   }

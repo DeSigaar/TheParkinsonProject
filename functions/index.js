@@ -10,9 +10,9 @@ exports.createUserInFirestore = functions.auth.user().onCreate(user => {
 
   // TODO
   // Create collections instead of objects
-
   const docData = {
-    name: displayName,
+    uid,
+    displayName,
     email,
     photoURL,
     phoneNumber,
