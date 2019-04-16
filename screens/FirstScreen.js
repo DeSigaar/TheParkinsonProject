@@ -13,10 +13,6 @@ class FirstScreen extends Component {
     authError: PropTypes.string
   };
 
-  static navigationOptions = {
-    title: "First"
-  };
-
   render() {
     const { navigation, logOut, authError } = this.props;
     if (authError) Alert.alert(authError);

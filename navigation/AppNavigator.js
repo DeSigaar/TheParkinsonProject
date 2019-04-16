@@ -9,11 +9,9 @@ export default createAppContainer(
       Second: { screen: SecondScreen }
     },
     {
-      navigationOptions: () => ({
-        headerTitleStyle: {
-          fontWeight: "normal"
-        }
-      })
+      defaultNavigationOptions: {
+        header: null
+      }
     }
   )
 );
