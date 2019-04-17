@@ -8,8 +8,8 @@ import store from "./store";
 
 import ApiKeys from "./constants/ApiKeys";
 
-import RootNavigator from "./navigation/RootNavigator";
 import AppNavigator from "./navigation/AppNavigator";
+import AuthNavigator from "./navigation/AuthNavigator";
 
 export default class App extends Component {
   static propTypes = {
@@ -36,7 +36,7 @@ export default class App extends Component {
   };
 
   _loadResourcesAsync = async () => {
-    return Promise.all([Asset.loadAsync([require("./assets/icon.png")])]);
+    return Promise.all([Asset.loadAsync([require("./assets/icon.png"), require("./assets/auth_background.jpg")])]);
   };
 
   _handleLoadingError = error => {
@@ -68,7 +68,7 @@ export default class App extends Component {
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
             {Platform.OS === "android" && <View style={styles.statusBarUnderlay} />}
-            {isAuthenticated ? <AppNavigator /> : <RootNavigator />}
+            {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
           </View>
         </Provider>
       );

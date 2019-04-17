@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Notifications } from "expo";
+import { ImageBackground } from "react-native";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import AppNavigator from "./AppNavigator";
 import registerForPushNotificationsAsync from "../api/registerForPushNotificationsAsync";
@@ -34,7 +35,15 @@ export default class RootNavigator extends Component {
   }
 
   render() {
-    return <RootStackNavigator />;
+    return (
+      <ImageBackground
+        source={require("../assets/auth_background.jpg")}
+        imageStyle={{ resizeMode: "cover" }}
+        style={{ width: "100%", height: "100%", flex: 1 }}
+      >
+        {/* <RootStackNavigator /> */}
+      </ImageBackground>
+    );
   }
 
   _registerForPushNotifications() {

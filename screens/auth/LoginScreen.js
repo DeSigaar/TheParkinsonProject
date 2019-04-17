@@ -145,7 +145,6 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
     padding: 20,
     alignItems: "center",
     justifyContent: "center",

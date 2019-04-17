@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, View, StyleSheet, Text, Alert } from "react-native";
+import { ActivityIndicator, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
 import { connect } from "react-redux";
 import { sendPasswordResetEmail, setAuthLoading } from "../../store/actions/authActions";
 
@@ -74,7 +74,7 @@ class ForgotPasswordScreen extends Component {
     //   );
   };
 
-  renderCurrentState() {
+  renderCurrentState = () => {
     const { email, loading } = this.state;
     const { navigation, authLoading, authError, authMessage } = this.props;
     console.log("TCL: ForgotPasswordScreen -> renderCurrentState -> loading", loading);
@@ -107,7 +107,7 @@ class ForgotPasswordScreen extends Component {
         </View>
       );
     }
-  }
+  };
 
   render() {
     return <View style={styles.container}>{this.renderCurrentState()}</View>;
@@ -117,8 +117,6 @@ class ForgotPasswordScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
-    padding: 20,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row"

@@ -52,7 +52,7 @@ export default class SignupScreen extends Component {
     this.props.navigation.navigate("Login");
   }
 
-  renderCurrentState() {
+  renderCurrentState = () => {
     if (this.state.loading) {
       return (
         <View>
@@ -93,7 +93,7 @@ export default class SignupScreen extends Component {
         </View>
       );
     }
-  }
+  };
 
   render() {
     return <View style={styles.container}>{this.renderCurrentState()}</View>;
@@ -103,7 +103,6 @@ export default class SignupScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
