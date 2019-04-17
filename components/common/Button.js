@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 
 export default class Button extends Component {
@@ -12,7 +12,7 @@ export default class Button extends Component {
     const { onPress, children } = this.props;
 
     return (
-      <TouchableOpacity onPress={onPress} style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={0.75}>
         <Text style={styles.text}>{children}</Text>
       </TouchableOpacity>
     );
@@ -21,16 +21,19 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 10,
-    padding: 20,
     width: "100%",
-    backgroundColor: "#00AEEf",
     alignItems: "center",
-    borderRadius: 3
+    backgroundColor: "#454545",
+    borderRadius: 5,
+    paddingTop: 15,
+    paddingRight: 25,
+    paddingBottom: 15,
+    paddingLeft: 25,
+    marginBottom: 10
   },
   text: {
+    fontFamily: "product-sans",
     color: "#FFFFFF",
-    fontWeight: "700",
-    fontSize: 18
+    fontSize: 20
   }
 });

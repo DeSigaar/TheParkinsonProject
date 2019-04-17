@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
+import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "react-native";
 import { connect } from "react-redux";
-import { sendPasswordResetEmail, setAuthLoading } from "../../store/actions/authActions";
+import { sendPasswordResetEmail, setAuthLoading, clearError } from "../../store/actions/authActions";
 
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
@@ -12,6 +12,7 @@ class ForgotPasswordScreen extends Component {
     navigation: PropTypes.object,
     sendPasswordResetEmail: PropTypes.func,
     setAuthLoading: PropTypes.func,
+    clearError: PropTypes.func,
     authLoading: PropTypes.bool,
     authError: PropTypes.string,
     authMessage: PropTypes.string
@@ -21,108 +22,136 @@ class ForgotPasswordScreen extends Component {
     super(props);
 
     this.state = {
-      email: "",
-      loading: false
+      email: ""
     };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevProps.authLoading) {
-      this.setState({ loading: false });
-    }
-  };
-
   handlePressForgotPassword = () => {
     // Send password reset to email through action
-    const { sendPasswordResetEmail, setAuthLoading } = this.props;
+    const { sendPasswordResetEmail, setAuthLoading, clearError } = this.props;
     const { email } = this.state;
 
-    this.setState({ loading: true });
-
+    clearError();
     setAuthLoading();
-
-    // Do this more elegantly
+    // TODO: Do this more elegantly by using a callback on setAuthLoading?
     setTimeout(() => {
       sendPasswordResetEmail(email);
     }, 250);
+  };
 
-    // .then(
-    //   () => {
-    //     console.log("This worked!");
-    //     this.setState({ loading: false });
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
-
-    // const { email } = this.state;
-    // firebase
-    //   .auth()
-    //   .sendPasswordResetEmail(email)
-    //   .then(
-    //     () => {
-    //       // Send password reset email was successful
-    //       this.setState({ loading: false });
-    //       Alert.alert("Wachtwoord opnieuw instellen email is verstuurd!");
-    //     },
-    //     error => {
-    //       // Returned an error and is displaying it to the user
-    //       this.setState({ loading: false });
-    //       Alert.alert(error.message);
-    //     }
-    //   );
+  handlePressNavigateLogin = () => {
+    // Navigate to LoginScreen and clear errors and messages
+    const { clearError, navigation } = this.props;
+    clearError();
+    navigation.navigate("Login");
   };
 
   renderCurrentState = () => {
-    const { email, loading } = this.state;
-    const { navigation, authLoading, authError, authMessage } = this.props;
-    console.log("TCL: ForgotPasswordScreen -> renderCurrentState -> loading", loading);
+    const { email } = this.state;
+    const { authLoading, authMessage, authError } = this.props;
 
-    if (authMessage) Alert.alert(authMessage);
-    if (authError) Alert.alert(authError);
     if (authLoading) {
-      return (
-        <View>
-          <ActivityIndicator size="large" />
-        </View>
-      );
+      return <ActivityIndicator size="large" />;
     } else {
       return (
         <View style={styles.form}>
-          <Text>Wachtwoord vergeten</Text>
+          <View style={styles.upper}>
+            <View style={styles.upperTop}>
+              <Text style={styles.h1}>Wachtwoord vergeten?</Text>
+            </View>
+            <View style={styles.upperBottom}>
+              <Text style={styles.h2}>Herstel hier je wachtwoord</Text>
+            </View>
+          </View>
+
           <Input
-            label="Email"
-            placeholder="Vul je email in..."
+            placeholder="Email"
             onChangeText={email => this.setState({ email })}
             value={email}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
+            error={authError}
           />
-          <Button onPress={this.handlePressForgotPassword}>Stuur mij een nieuw wachtwoord</Button>
+          <Button onPress={this.handlePressForgotPassword}>Stuur een email</Button>
+          <Text style={styles.error}>{authError}</Text>
+          <Text style={styles.success}>{authMessage}</Text>
 
-          <Text>---</Text>
-          <Button onPress={() => navigation.navigate("Login")}>Ik weet mijn wachtwoord weer</Button>
+          <Button onPress={this.handlePressNavigateLogin}>Inloggen</Button>
         </View>
       );
     }
   };
 
   render() {
-    return <View style={styles.container}>{this.renderCurrentState()}</View>;
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../../assets/auth_background.jpg")}
+          imageStyle={styles.backgroundImage}
+          style={styles.background}
+        >
+          <View style={styles.inner}>{this.renderCurrentState()}</View>
+        </ImageBackground>
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row"
   },
-  form: {
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: null,
+    height: null,
     flex: 1
+  },
+  backgroundImage: {
+    resizeMode: "cover"
+  },
+  inner: {
+    flex: 1,
+    padding: 32,
+    paddingTop: 64,
+    paddingBottom: 64
+  },
+  form: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  upper: {},
+  upperTop: {},
+  upperBottom: {},
+  h1: {
+    fontFamily: "product-sans-bold",
+    color: "#FFFFFF",
+    fontSize: 25,
+    textAlign: "center"
+  },
+  h2: {
+    fontFamily: "product-sans",
+    color: "#FFFFFF",
+    fontSize: 20,
+    textAlign: "center"
+  },
+  error: {
+    fontFamily: "product-sans",
+    color: "#FF0000"
+  },
+  success: {
+    fontFamily: "product-sans",
+    color: "#00FF00"
   }
 });
 
@@ -143,6 +172,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setAuthLoading: () => {
       dispatch(setAuthLoading());
+    },
+    clearError: () => {
+      dispatch(clearError());
     }
   };
 };

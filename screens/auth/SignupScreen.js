@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, View, StyleSheet, Text, Alert } from "react-native";
+import { ActivityIndicator, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
 import * as firebase from "firebase";
 
 import Input from "../../components/common/Input";
@@ -62,10 +62,16 @@ export default class SignupScreen extends Component {
     } else {
       return (
         <View style={styles.form}>
-          <Text>Account aanmaken</Text>
+          <View style={styles.upper}>
+            <View style={styles.upperTop}>
+              <Text style={styles.h1}>Nieuw hier?</Text>
+            </View>
+            <View style={styles.upperBottom}>
+              <Text style={styles.h2}>Maak hier je account aan</Text>
+            </View>
+          </View>
           <Input
-            label="Email"
-            placeholder="Vul een email..."
+            placeholder="Email"
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
             keyboardType="email-address"
@@ -73,30 +79,39 @@ export default class SignupScreen extends Component {
             autoCorrect={false}
           />
           <Input
-            label="Wachtwoord"
-            placeholder="Vul een wachtwoord in..."
+            placeholder="Wachtwoord"
             onChangeText={password => this.setState({ password })}
             value={this.state.password}
             secureTextEntry
           />
           <Input
-            label="Herhaal wachtwoord"
-            placeholder="Vul het wachtwoord opnieuw in..."
+            placeholder="Bevestig wachtwoord"
             onChangeText={passwordConfirm => this.setState({ passwordConfirm })}
             value={this.state.passwordConfirm}
             secureTextEntry
           />
-          <Button onPress={() => this.handlePressSignup()}>Account aanmaken</Button>
+          <Button onPress={() => this.handlePressSignup()}>Registreer</Button>
 
-          <Text>---</Text>
-          <Button onPress={() => this.handlePressLogin()}>Ik heb wel een account</Button>
+          {/* TODO: Registreer met Google dmv zelfde login func */}
+
+          <Button onPress={() => this.handlePressLogin()}>Inloggen</Button>
         </View>
       );
     }
   };
 
   render() {
-    return <View style={styles.container}>{this.renderCurrentState()}</View>;
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../../assets/auth_background.jpg")}
+          imageStyle={styles.backgroundImage}
+          style={styles.background}
+        >
+          <View style={styles.inner}>{this.renderCurrentState()}</View>
+        </ImageBackground>
+      </View>
+    );
   }
 }
 
@@ -108,7 +123,43 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row"
   },
-  form: {
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: null,
+    height: null,
     flex: 1
+  },
+  backgroundImage: {
+    resizeMode: "cover"
+  },
+  inner: {
+    flex: 1,
+    padding: 32,
+    paddingTop: 64,
+    paddingBottom: 64
+  },
+  form: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  upper: {},
+  upperTop: {},
+  upperBottom: {},
+  h1: {
+    fontFamily: "product-sans-bold",
+    color: "#FFFFFF",
+    fontSize: 25,
+    textAlign: "center"
+  },
+  h2: {
+    fontFamily: "product-sans",
+    color: "#FFFFFF",
+    fontSize: 20,
+    textAlign: "center"
   }
 });

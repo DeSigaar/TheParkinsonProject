@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, Platform, View, StyleSheet, Text, Alert } from "react-native";
+import { ActivityIndicator, Platform, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
 import * as firebase from "firebase";
 import { Google } from "expo";
 
@@ -24,7 +24,7 @@ export default class LoginScreen extends Component {
     };
   }
 
-  handlePressLogin() {
+  handlePressLogin = () => {
     // Log in the user
     this.setState({ loading: true });
 
@@ -44,7 +44,7 @@ export default class LoginScreen extends Component {
           Alert.alert(error.message);
         }
       );
-  }
+  };
 
   handlePressGoogleLogin = async () => {
     // Start logging in with Google
@@ -69,7 +69,7 @@ export default class LoginScreen extends Component {
       });
   };
 
-  handlePressAnonLogin() {
+  handlePressAnonLogin = () => {
     // Logging user in without any creds
     firebase
       .auth()
@@ -84,20 +84,12 @@ export default class LoginScreen extends Component {
           console.log(errorCode + " " + errorMessage);
         }
       );
-  }
-
-  handlePressSignup() {
-    // Navigate to SignupScreen
-    this.props.navigation.navigate("Signup");
-  }
-
-  handlePressForgotPassword() {
-    // Navigate to ForgotPasswordScreen
-    this.props.navigation.navigate("ForgotPassword");
-  }
+  };
 
   renderCurrentState() {
-    if (this.state.loading) {
+    const { navigation } = this.props;
+    const { loading, email, password } = this.state;
+    if (loading) {
       return (
         <View>
           <ActivityIndicator size="large" />
@@ -106,39 +98,56 @@ export default class LoginScreen extends Component {
     } else {
       return (
         <View style={styles.form}>
-          <Text>Inloggen</Text>
+          <View style={styles.upper}>
+            <View style={styles.upperTop}>
+              <Text style={styles.h1}>Welkom bij</Text>
+              <Text style={styles.h1}>The Parkinson Project</Text>
+            </View>
+            <View style={styles.upperBottom}>
+              <Text style={styles.h2}>Log hier in met je account</Text>
+            </View>
+          </View>
+
           <Input
-            label="Email"
-            placeholder="Vul je email in..."
+            placeholder="Email"
             onChangeText={email => this.setState({ email })}
-            value={this.state.email}
+            value={email}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
           />
           <Input
             label="Wachtwoord"
-            placeholder="Vul je wachtwoord in..."
+            placeholder="Wachtwoord"
             onChangeText={password => this.setState({ password })}
-            value={this.state.password}
+            value={password}
             secureTextEntry
           />
-          <Button onPress={() => this.handlePressLogin()}>Inloggen</Button>
+          <Button onPress={this.handlePressLogin}>Log in</Button>
 
-          <Button onPress={() => this.handlePressGoogleLogin()}>Log in met Google</Button>
+          <Button onPress={this.handlePressGoogleLogin}>Log in met Google</Button>
 
-          <Button onPress={() => this.handlePressAnonLogin()}>Log in zonder iets</Button>
+          <Button onPress={this.handlePressAnonLogin}>Ga verder zonder account</Button>
 
-          <Text>---</Text>
-          <Button onPress={() => this.handlePressSignup()}>Account aanmaken</Button>
-          <Button onPress={() => this.handlePressForgotPassword()}>Wachtwoord vergeten?</Button>
+          <Button onPress={() => navigation.navigate("Signup")}>Registreren</Button>
+          <Button onPress={() => navigation.navigate("ForgotPassword")}>Wachtwoord vergeten</Button>
         </View>
       );
     }
   }
 
   render() {
-    return <View style={styles.container}>{this.renderCurrentState()}</View>;
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../../assets/auth_background.jpg")}
+          imageStyle={styles.backgroundImage}
+          style={styles.background}
+        >
+          <View style={styles.inner}>{this.renderCurrentState()}</View>
+        </ImageBackground>
+      </View>
+    );
   }
 }
 
@@ -150,7 +159,43 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row"
   },
-  form: {
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: null,
+    height: null,
     flex: 1
+  },
+  backgroundImage: {
+    resizeMode: "cover"
+  },
+  inner: {
+    flex: 1,
+    padding: 32,
+    paddingTop: 64,
+    paddingBottom: 64
+  },
+  form: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  upper: {},
+  upperTop: {},
+  upperBottom: {},
+  h1: {
+    fontFamily: "product-sans-bold",
+    color: "#FFFFFF",
+    fontSize: 25,
+    textAlign: "center"
+  },
+  h2: {
+    fontFamily: "product-sans",
+    color: "#FFFFFF",
+    fontSize: 20,
+    textAlign: "center"
   }
 });

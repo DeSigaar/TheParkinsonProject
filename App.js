@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
-import { AppLoading, Asset } from "expo";
+import { StyleSheet, View } from "react-native";
+import { AppLoading, Asset, Font } from "expo";
 import * as firebase from "firebase";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -36,7 +36,15 @@ export default class App extends Component {
   };
 
   _loadResourcesAsync = async () => {
-    return Promise.all([Asset.loadAsync([require("./assets/icon.png"), require("./assets/auth_background.jpg")])]);
+    return Promise.all([
+      Asset.loadAsync([require("./assets/icon.png"), require("./assets/auth_background.jpg")]),
+      Font.loadAsync({
+        "product-sans": require("./assets/fonts/ProductSansRegular.ttf"),
+        "product-sans-bold": require("./assets/fonts/ProductSansBold.ttf"),
+        "product-sans-italic": require("./assets/fonts/ProductSansItalic.ttf"),
+        "product-sans-bold-italic": require("./assets/fonts/ProductSansBoldItalic.ttf")
+      })
+    ]);
   };
 
   _handleLoadingError = error => {
@@ -65,11 +73,7 @@ export default class App extends Component {
     } else {
       return (
         <Provider store={store}>
-          <View style={styles.container}>
-            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            {Platform.OS === "android" && <View style={styles.statusBarUnderlay} />}
-            {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
-          </View>
+          <View style={styles.container}>{isAuthenticated ? <AppNavigator /> : <AuthNavigator />}</View>
         </Provider>
       );
     }
@@ -78,11 +82,6 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: "rgba(0,0,0,0.2)"
+    flex: 1
   }
 });

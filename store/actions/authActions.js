@@ -18,17 +18,9 @@ export const logInWithGoogle = credentials => {
   return { type: "LOGIN_SUCCESS" };
 };
 
-export const setAuthLoading = () => {
-  return { type: "AUTH_LOADING" };
-};
-
 export const sendPasswordResetEmail = email => {
   // Send password reset to email
   return dispatch => {
-    console.log("fired sent");
-    // dispatch({ type: "AUTH_LOADING" });
-    console.log("fired loading");
-
     firebase
       .auth()
       .sendPasswordResetEmail(email)
@@ -62,4 +54,12 @@ export const logOut = () => {
         dispatch({ type: "LOGOUT_ERROR", error });
       });
   };
+};
+
+export const clearError = () => {
+  return { type: "AUTH_CLEAR" };
+};
+
+export const setAuthLoading = () => {
+  return { type: "AUTH_LOADING" };
 };
