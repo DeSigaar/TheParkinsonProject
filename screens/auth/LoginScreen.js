@@ -6,8 +6,7 @@ import { Google } from "expo";
 
 import ApiKeys from "../../constants/ApiKeys";
 
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
+import { Input, Button, Upper } from "../../components/auth";
 
 export default class LoginScreen extends Component {
   static propTypes = {
@@ -98,15 +97,7 @@ export default class LoginScreen extends Component {
     } else {
       return (
         <View style={styles.form}>
-          <View style={styles.upper}>
-            <View style={styles.upperTop}>
-              <Text style={styles.h1}>Welkom bij</Text>
-              <Text style={styles.h1}>The Parkinson Project</Text>
-            </View>
-            <View style={styles.upperBottom}>
-              <Text style={styles.h2}>Log hier in met je account</Text>
-            </View>
-          </View>
+          <Upper top="Welkom bij" top2="The Parkinson Project" bottom="Log hier in met je account" />
 
           <Input
             placeholder="Email"
@@ -117,20 +108,24 @@ export default class LoginScreen extends Component {
             autoCorrect={false}
           />
           <Input
-            label="Wachtwoord"
             placeholder="Wachtwoord"
             onChangeText={password => this.setState({ password })}
             value={password}
             secureTextEntry
           />
-          <Button onPress={this.handlePressLogin}>Log in</Button>
+          <Button
+            onPress={this.handlePressLogin}
+            style={{ backgroundColor: "#454545", color: "#FFFFFF" }}
+            type="dark"
+            title="Log in"
+          />
 
-          <Button onPress={this.handlePressGoogleLogin}>Log in met Google</Button>
+          <Button onPress={this.handlePressGoogleLogin} type="light" title="Log in met Google" />
 
-          <Button onPress={this.handlePressAnonLogin}>Ga verder zonder account</Button>
+          <Button onPress={this.handlePressAnonLogin} type="light" title="Ga verder zonder account" />
 
-          <Button onPress={() => navigation.navigate("Signup")}>Registreren</Button>
-          <Button onPress={() => navigation.navigate("ForgotPassword")}>Wachtwoord vergeten</Button>
+          <Button onPress={() => navigation.navigate("Signup")} type="light" title="Registreren" />
+          <Button onPress={() => navigation.navigate("ForgotPassword")} type="light" title="Wachtwoord vergeten" />
         </View>
       );
     }
@@ -140,7 +135,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require("../../assets/auth_background.jpg")}
+          source={require("../../assets/images/auth/background.jpg")}
           imageStyle={styles.backgroundImage}
           style={styles.background}
         >
@@ -181,7 +176,7 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   upper: {},
   upperTop: {},

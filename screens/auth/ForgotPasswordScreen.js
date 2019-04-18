@@ -4,8 +4,7 @@ import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "reac
 import { connect } from "react-redux";
 import { sendPasswordResetEmail, setAuthLoading, clearError } from "../../store/actions/authActions";
 
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
+import { Input, Button, Upper } from "../../components/auth";
 
 class ForgotPasswordScreen extends Component {
   static propTypes = {
@@ -33,7 +32,6 @@ class ForgotPasswordScreen extends Component {
 
     clearError();
     setAuthLoading();
-    // TODO: Do this more elegantly by using a callback on setAuthLoading?
     setTimeout(() => {
       sendPasswordResetEmail(email);
     }, 250);
@@ -51,18 +49,11 @@ class ForgotPasswordScreen extends Component {
     const { authLoading, authMessage, authError } = this.props;
 
     if (authLoading) {
-      return <ActivityIndicator size="large" />;
+      return <ActivityIndicator style={styles.load} size="large" />;
     } else {
       return (
         <View style={styles.form}>
-          <View style={styles.upper}>
-            <View style={styles.upperTop}>
-              <Text style={styles.h1}>Wachtwoord vergeten?</Text>
-            </View>
-            <View style={styles.upperBottom}>
-              <Text style={styles.h2}>Herstel hier je wachtwoord</Text>
-            </View>
-          </View>
+          <Upper top="Wachtwoord vergeten?" bottom="Herstel hier je wachtwoord" />
 
           <Input
             placeholder="Email"
@@ -73,11 +64,11 @@ class ForgotPasswordScreen extends Component {
             autoCorrect={false}
             error={authError}
           />
-          <Button onPress={this.handlePressForgotPassword}>Stuur een email</Button>
+          <Button onPress={this.handlePressForgotPassword} type="dark" title="Stuur een email" />
           <Text style={styles.error}>{authError}</Text>
           <Text style={styles.success}>{authMessage}</Text>
 
-          <Button onPress={this.handlePressNavigateLogin}>Inloggen</Button>
+          <Button onPress={this.handlePressNavigateLogin} type="light" title="Inloggen" />
         </View>
       );
     }
@@ -87,7 +78,7 @@ class ForgotPasswordScreen extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require("../../assets/auth_background.jpg")}
+          source={require("../../assets/images/auth/background.jpg")}
           imageStyle={styles.backgroundImage}
           style={styles.background}
         >
@@ -130,20 +121,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  upper: {},
-  upperTop: {},
-  upperBottom: {},
-  h1: {
-    fontFamily: "product-sans-bold",
-    color: "#FFFFFF",
-    fontSize: 25,
-    textAlign: "center"
-  },
-  h2: {
-    fontFamily: "product-sans",
-    color: "#FFFFFF",
-    fontSize: 20,
-    textAlign: "center"
+  load: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
   },
   error: {
     fontFamily: "product-sans",

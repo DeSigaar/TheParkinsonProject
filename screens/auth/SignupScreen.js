@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { ActivityIndicator, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
 import * as firebase from "firebase";
 
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
+import { Input, Button, Upper } from "../../components/auth";
 
 export default class SignupScreen extends Component {
   static propTypes = {
@@ -62,14 +61,7 @@ export default class SignupScreen extends Component {
     } else {
       return (
         <View style={styles.form}>
-          <View style={styles.upper}>
-            <View style={styles.upperTop}>
-              <Text style={styles.h1}>Nieuw hier?</Text>
-            </View>
-            <View style={styles.upperBottom}>
-              <Text style={styles.h2}>Maak hier je account aan</Text>
-            </View>
-          </View>
+          <Upper top="Nieuw hier?" bottom="Maak hier je account aan" />
           <Input
             placeholder="Email"
             onChangeText={email => this.setState({ email })}
@@ -90,11 +82,11 @@ export default class SignupScreen extends Component {
             value={this.state.passwordConfirm}
             secureTextEntry
           />
-          <Button onPress={() => this.handlePressSignup()}>Registreer</Button>
+          <Button onPress={() => this.handlePressSignup()} type="dark" title="Registreer" />
 
           {/* TODO: Registreer met Google dmv zelfde login func */}
 
-          <Button onPress={() => this.handlePressLogin()}>Inloggen</Button>
+          <Button onPress={() => this.handlePressLogin()} type="light" title="Inloggen" />
         </View>
       );
     }
@@ -104,7 +96,7 @@ export default class SignupScreen extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require("../../assets/auth_background.jpg")}
+          source={require("../../assets/images/auth/background.jpg")}
           imageStyle={styles.backgroundImage}
           style={styles.background}
         >
@@ -146,20 +138,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
-  },
-  upper: {},
-  upperTop: {},
-  upperBottom: {},
-  h1: {
-    fontFamily: "product-sans-bold",
-    color: "#FFFFFF",
-    fontSize: 25,
-    textAlign: "center"
-  },
-  h2: {
-    fontFamily: "product-sans",
-    color: "#FFFFFF",
-    fontSize: 20,
-    textAlign: "center"
   }
 });

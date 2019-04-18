@@ -37,7 +37,7 @@ export default class App extends Component {
 
   _loadResourcesAsync = async () => {
     return Promise.all([
-      Asset.loadAsync([require("./assets/icon.png"), require("./assets/auth_background.jpg")]),
+      Asset.loadAsync([require("./assets/images/icon/icon.png"), require("./assets/images/auth/background.jpg")]),
       Font.loadAsync({
         "product-sans": require("./assets/fonts/ProductSansRegular.ttf"),
         "product-sans-bold": require("./assets/fonts/ProductSansBold.ttf"),

@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Text, View, Alert, Button } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logOut } from "../store/actions/authActions";
-
-import Button from "../components/common/Button";
 
 class FirstScreen extends Component {
   static propTypes = {
@@ -21,9 +19,9 @@ class FirstScreen extends Component {
       <View style={styles.container}>
         <Text>The Parkinson Project</Text>
 
-        <Button onPress={() => navigation.navigate("Second", { variable: 2 })}>Go to second screen</Button>
+        <Button onPress={() => navigation.navigate("Second", { variable: 2 })} title="Go to second screen" />
 
-        <Button onPress={logOut}>Uitloggen</Button>
+        <Button onPress={logOut} title="Uitloggen" />
       </View>
     );
   }

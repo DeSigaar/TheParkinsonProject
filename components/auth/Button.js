@@ -5,15 +5,16 @@ import PropTypes from "prop-types";
 export default class Button extends Component {
   static propTypes = {
     onPress: PropTypes.func,
-    children: PropTypes.string
+    title: PropTypes.string,
+    type: PropTypes.string.isRequired
   };
 
   render() {
-    const { onPress, children } = this.props;
-
+    const { onPress, title, type } = this.props;
+    const typeStyle = type === "dark" ? styles.dark : styles.light;
     return (
-      <TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={0.75}>
-        <Text style={styles.text}>{children}</Text>
+      <TouchableOpacity style={[styles.button, typeStyle]} onPress={onPress} activeOpacity={0.75}>
+        <Text style={[styles.text, typeStyle]}>{title}</Text>
       </TouchableOpacity>
     );
   }
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     alignItems: "center",
-    backgroundColor: "#454545",
     borderRadius: 5,
     paddingTop: 15,
     paddingRight: 25,
@@ -33,7 +33,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "product-sans",
-    color: "#FFFFFF",
     fontSize: 20
+  },
+  dark: {
+    backgroundColor: "#454545",
+    color: "#FFFFFF"
+  },
+  light: {
+    backgroundColor: "#FFFFFF",
+    color: "#454545"
   }
 });

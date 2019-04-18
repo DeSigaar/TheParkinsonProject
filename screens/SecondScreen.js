@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import PropTypes from "prop-types";
-
-import Button from "../components/common/Button";
 
 export default class SecondScreen extends Component {
   static propTypes = {
@@ -20,7 +18,7 @@ export default class SecondScreen extends Component {
     return (
       <View style={styles.container}>
         <Text>Second screen (Variable: {variable})</Text>
-        <Button onPress={() => navigate("First")}>Go back</Button>
+        <Button title="Go back" onPress={() => navigate("First")} />
       </View>
     );
   }
