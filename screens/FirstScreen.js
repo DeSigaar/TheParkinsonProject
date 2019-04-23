@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Alert, Button } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logOut } from "../store/actions/authActions";
+import { MenuItem } from "../components";
+import Gradients from "../constants/Gradients";
 
 class FirstScreen extends Component {
   static propTypes = {
@@ -17,11 +19,22 @@ class FirstScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Text>The Parkinson Project</Text>
+        <View style={styles.menuItemContainer}>
+          <MenuItem title="Medicijnen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.blue} />
+          <MenuItem
+            title="Oefeningen"
+            img="http://logodust.com/img/free/logo28.png"
+            gradientColor={Gradients.green}
+            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+          />
+          <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} />
+          <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} />
+          <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} />
+          {/* <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} /> */}
+        </View>
 
-        <Button onPress={() => navigation.navigate("Second", { variable: 2 })} title="Go to second screen" />
-
-        <Button onPress={logOut} title="Uitloggen" />
+        <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} />
+        <Button title="Uitloggen" onPress={logOut} />
       </View>
     );
   }
@@ -30,7 +43,17 @@ class FirstScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    marginLeft: 20,
+    marginRight: 20
+  },
+  menuItemContainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    // flexDirection: 'column',
+    justifyContent: "flex-start",
+    alignItems: "stretch"
   }
 });
 
