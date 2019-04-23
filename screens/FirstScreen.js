@@ -1,24 +1,27 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Alert, Button } from "react-native";
 import PropTypes from "prop-types";
-import { FirstComponent } from "../components";
+import { connect } from "react-redux";
+import { logOut } from "../store/actions/authActions";
 
-export default class FirstScreen extends Component {
+class FirstScreen extends Component {
   static propTypes = {
-    navigation: PropTypes.object
-  };
-
-  static navigationOptions = {
-    title: "First"
+    navigation: PropTypes.object,
+    logOut: PropTypes.func,
+    authError: PropTypes.string
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigation, logOut, authError } = this.props;
+    if (authError) Alert.alert(authError);
+
     return (
       <View style={styles.container}>
         <Text>The Parkinson Project</Text>
-        <FirstComponent />
-        <Button title="Go to second screen" onPress={() => navigate("Second", { variable: 2 })} />
+
+        <Button onPress={() => navigation.navigate("Second", { variable: 2 })} title="Go to second screen" />
+
+        <Button onPress={logOut} title="Uitloggen" />
       </View>
     );
   }
@@ -30,3 +33,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff"
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    authError: state.auth.authError
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    ...ownProps,
+    logOut: () => {
+      dispatch(logOut());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FirstScreen);
