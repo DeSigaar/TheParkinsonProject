@@ -48,6 +48,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.5.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-dialog": "^5.6.0",
+    "react-native-modal-datetime-picker": "^7.4.0",
     "react-navigation": "^3.8.1",
     "react-redux": "^6.0.0",
     "react-redux-firebase": "^2.2.6",
