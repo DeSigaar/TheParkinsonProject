@@ -15,11 +15,13 @@ const authReducer = (state = initState, action) => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
+        authLoading: false,
         authError: null
       };
     case "LOGIN_ERROR":
       return {
         ...state,
+        authLoading: false,
         authError: action.error.message
       };
     case "PASSWORDRESET_SUCCESS":
@@ -48,6 +50,7 @@ const authReducer = (state = initState, action) => {
     case "AUTH_CLEAR":
       return {
         ...state,
+        authLoading: false,
         authError: null,
         authMessage: null
       };

@@ -1,16 +1,27 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, Platform, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
-import * as firebase from "firebase";
-import { Google } from "expo";
-
-import ApiKeys from "../../constants/ApiKeys";
+import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "react-native";
+import { connect } from "react-redux";
+import {
+  logInWithCreds,
+  logInWithGoogle,
+  logInAsAnon,
+  setAuthLoading,
+  clearError
+} from "../../store/actions/authActions";
 
 import { Input, Button, Upper } from "../../components/auth";
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    logInWithCreds: PropTypes.func,
+    logInWithGoogle: PropTypes.func,
+    logInAsAnon: PropTypes.func,
+    setAuthLoading: PropTypes.func,
+    clearError: PropTypes.func,
+    authLoading: PropTypes.bool,
+    authError: PropTypes.string
   };
 
   constructor(props) {
@@ -25,70 +36,56 @@ export default class LoginScreen extends Component {
 
   handlePressLogin = () => {
     // Log in the user
-    this.setState({ loading: true });
-
     const { email, password } = this.state;
+    const { logInWithCreds, setAuthLoading, clearError } = this.props;
 
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(
-        () => {
-          // Login was successful
-          this.setState({ loading: false });
-        },
-        error => {
-          // Returned an error and is displaying it to the user
-          this.setState({ loading: false });
-          Alert.alert(error.message);
-        }
-      );
+    clearError();
+    setAuthLoading();
+    setTimeout(() => {
+      logInWithCreds({ email, password });
+    }, 250);
   };
 
-  handlePressGoogleLogin = async () => {
+  handlePressGoogleLogin = () => {
     // Start logging in with Google
-    // TODO / BUG / FEATURE
-    // Google login only works within the Expo client app - standalone apps won't work
-    Google.logInAsync({
-      clientId: Platform.OS === "ios" ? ApiKeys.GoogleLogin.iOS.clientId : ApiKeys.GoogleLogin.android.clientId
-    })
-      .then(loginResult => {
-        var credential = firebase.auth.GoogleAuthProvider.credential(loginResult.idToken);
-        // Sign in with credential from the Google user.
-        firebase
-          .auth()
-          .signInAndRetrieveDataWithCredential(credential)
-          .catch(function(error) {
-            // Something went wrong
-            console.log("Something went wrong! " + error);
-          });
-      })
-      .catch(error => {
-        console.log("Something went wrong! " + error);
-      });
+    const { logInWithGoogle, setAuthLoading, clearError } = this.props;
+
+    clearError();
+    setAuthLoading();
+    setTimeout(() => {
+      logInWithGoogle();
+    }, 250);
   };
 
   handlePressAnonLogin = () => {
     // Logging user in without any creds
-    firebase
-      .auth()
-      .signInAnonymously()
-      .then(
-        () => {
-          // callback
-        },
-        error => {
-          var errorCode = error.code;
-          var errorMessage = error.Message;
-          console.log(errorCode + " " + errorMessage);
-        }
-      );
+    const { logInAsAnon, setAuthLoading, clearError } = this.props;
+
+    clearError();
+    setAuthLoading();
+    setTimeout(() => {
+      logInAsAnon();
+    }, 250);
+  };
+
+  handlePressNavigateSignup = () => {
+    // Navigate to SignupScreen and clear errors and messages
+    const { clearError, navigation } = this.props;
+    clearError();
+    navigation.navigate("Signup");
+  };
+
+  handlePressNavigateForgotPassword = () => {
+    // Navigate to ForgotPasswordScreen and clear errors and messages
+    const { clearError, navigation } = this.props;
+    clearError();
+    navigation.navigate("ForgotPassword");
   };
 
   renderCurrentState() {
-    const { navigation } = this.props;
-    const { loading, email, password } = this.state;
-    if (loading) {
+    const { email, password } = this.state;
+    const { authLoading, authError } = this.props;
+    if (authLoading) {
       return (
         <View>
           <ActivityIndicator size="large" />
@@ -98,7 +95,6 @@ export default class LoginScreen extends Component {
       return (
         <View style={styles.form}>
           <Upper top="Welkom bij" top2="The Parkinson Project" bottom="Log hier in met je account" />
-
           <Input
             placeholder="Email"
             onChangeText={email => this.setState({ email })}
@@ -113,19 +109,18 @@ export default class LoginScreen extends Component {
             value={password}
             secureTextEntry
           />
-          <Button
-            onPress={this.handlePressLogin}
-            style={{ backgroundColor: "#454545", color: "#FFFFFF" }}
-            type="dark"
-            title="Log in"
-          />
+          <Button onPress={this.handlePressLogin} type="dark" title="Log in" />
+          {/* TODO: Display error here */}
 
+          {/* TODO: Create divider */}
+
+          {/* TODO: Create Google Button */}
           <Button onPress={this.handlePressGoogleLogin} type="light" title="Log in met Google" />
-
           <Button onPress={this.handlePressAnonLogin} type="light" title="Ga verder zonder account" />
 
-          <Button onPress={() => navigation.navigate("Signup")} type="light" title="Registreren" />
-          <Button onPress={() => navigation.navigate("ForgotPassword")} type="light" title="Wachtwoord vergeten" />
+          {/* TODO: Make these chevrons */}
+          <Button onPress={this.handlePressNavigateSignup} type="light" title="Registreren" />
+          <Button onPress={this.handlePressNavigateForgotPassword} type="light" title="Wachtwoord vergeten" />
         </View>
       );
     }
@@ -194,3 +189,37 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    authLoading: state.auth.authLoading,
+    authError: state.auth.authError
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    ...ownProps,
+    logInWithCreds: credentials => {
+      dispatch(logInWithCreds(credentials));
+    },
+    logInWithGoogle: () => {
+      dispatch(logInWithGoogle());
+    },
+    logInAsAnon: () => {
+      dispatch(logInAsAnon());
+    },
+    setAuthLoading: () => {
+      dispatch(setAuthLoading());
+    },
+    clearError: () => {
+      dispatch(clearError());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginScreen);

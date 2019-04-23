@@ -4,7 +4,7 @@ import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "reac
 import { connect } from "react-redux";
 import { sendPasswordResetEmail, setAuthLoading, clearError } from "../../store/actions/authActions";
 
-import { Input, Button, Upper } from "../../components/auth";
+import { Input, Button, Upper, Chevron } from "../../components/auth";
 
 class ForgotPasswordScreen extends Component {
   static propTypes = {
@@ -27,8 +27,8 @@ class ForgotPasswordScreen extends Component {
 
   handlePressForgotPassword = () => {
     // Send password reset to email through action
-    const { sendPasswordResetEmail, setAuthLoading, clearError } = this.props;
     const { email } = this.state;
+    const { sendPasswordResetEmail, setAuthLoading, clearError } = this.props;
 
     clearError();
     setAuthLoading();
@@ -54,7 +54,6 @@ class ForgotPasswordScreen extends Component {
       return (
         <View style={styles.form}>
           <Upper top="Wachtwoord vergeten?" bottom="Herstel hier je wachtwoord" />
-
           <Input
             placeholder="Email"
             onChangeText={email => this.setState({ email })}
@@ -62,13 +61,13 @@ class ForgotPasswordScreen extends Component {
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
-            error={authError}
           />
           <Button onPress={this.handlePressForgotPassword} type="dark" title="Stuur een email" />
-          <Text style={styles.error}>{authError}</Text>
-          <Text style={styles.success}>{authMessage}</Text>
-
-          <Button onPress={this.handlePressNavigateLogin} type="light" title="Inloggen" />
+          <View style={styles.errors}>
+            {authError ? <Text style={styles.error}>{authError}</Text> : null}
+            {authMessage ? <Text style={styles.success}>{authMessage}</Text> : null}
+          </View>
+          <Chevron onPress={this.handlePressNavigateLogin} type="light" title="Inloggen" />
         </View>
       );
     }
@@ -125,6 +124,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  errors: {
+    height: 50
   },
   error: {
     fontFamily: "product-sans",

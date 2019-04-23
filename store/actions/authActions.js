@@ -1,4 +1,8 @@
 import * as firebase from "firebase";
+import { Platform } from "react-native";
+import { Google } from "expo";
+
+import ApiKeys from "../../constants/ApiKeys";
 
 export const logInWithCreds = credentials => {
   return dispatch => {
@@ -14,8 +18,44 @@ export const logInWithCreds = credentials => {
   };
 };
 
-export const logInWithGoogle = credentials => {
-  return { type: "LOGIN_SUCCESS" };
+export const logInWithGoogle = () => {
+  // TODO / BUG / FEATURE
+  // Google login only works within the Expo client app - standalone apps won't work
+  return dispatch => {
+    Google.logInAsync({
+      clientId: Platform.OS === "ios" ? ApiKeys.GoogleLogin.iOS.clientId : ApiKeys.GoogleLogin.android.clientId
+    })
+      .then(loginResult => {
+        var credential = firebase.auth.GoogleAuthProvider.credential(loginResult.idToken);
+        // Sign in with credential from the Google user.
+        firebase
+          .auth()
+          .signInAndRetrieveDataWithCredential(credential)
+          .then(() => {
+            dispatch({ type: "LOGIN_SUCCESS" });
+          })
+          .catch(error => {
+            dispatch({ type: "LOGIN_ERROR", error });
+          });
+      })
+      .catch(error => {
+        dispatch({ type: "LOGIN_ERROR", error });
+      });
+  };
+};
+
+export const logInAsAnon = () => {
+  return dispatch => {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(() => {
+        dispatch({ type: "LOGIN_SUCCESS" });
+      })
+      .catch(error => {
+        dispatch({ type: "LOGIN_ERROR", error });
+      });
+  };
 };
 
 export const sendPasswordResetEmail = email => {
@@ -28,14 +68,10 @@ export const sendPasswordResetEmail = email => {
         () => {
           // Send password reset email was successful
           dispatch({ type: "PASSWORDRESET_SUCCESS" });
-          // this.setState({ loading: false });
-          // Alert.alert("Wachtwoord opnieuw instellen email is verstuurd!");
         },
         error => {
-          dispatch({ type: "PASSWORDRESET_ERROR", error });
           // Returned an error and is displaying it to the user
-          // this.setState({ loading: false });
-          // Alert.alert(error.message);
+          dispatch({ type: "PASSWORDRESET_ERROR", error });
         }
       );
   };
