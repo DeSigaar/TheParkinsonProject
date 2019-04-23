@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import AppNavigator from "./navigation/AppNavigator";
 import ApiKeys from "./constants/ApiKeys";
 import * as firebase from "firebase";
-
 export default class App extends Component {
   constructor(props) {
     super(props);
