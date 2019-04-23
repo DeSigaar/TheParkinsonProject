@@ -1,24 +1,24 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 
 export default class Chevron extends Component {
   static propTypes = {
     onPress: PropTypes.func,
     title: PropTypes.string,
-    type: PropTypes.string.isRequired
+    direction: PropTypes.string.isRequired
   };
 
   render() {
-    const { onPress, title, type } = this.props;
-    const typeStyle = type === "dark" ? styles.dark : styles.light;
+    const { onPress, title, direction } = this.props;
+    const directionStyle = direction === "left" ? styles.left : styles.right;
     return (
-      <TouchableOpacity style={[styles.chevron, typeStyle]} onPress={onPress} activeOpacity={0.75}>
-        <View>
-          <FontAwesome name="chevron-left" size={32} color="black" />
-
-          <Text style={[styles.text, typeStyle]}>{title}</Text>
+      <TouchableOpacity style={[styles.chevron, directionStyle]} onPress={onPress} activeOpacity={0.5}>
+        <View style={styles.container}>
+          {direction === "left" ? <AntDesign style={styles.iconLeft} name="left" size={18} color="white" /> : null}
+          <Text style={styles.text}>{title}</Text>
+          {direction === "right" ? <AntDesign style={styles.iconRight} name="right" size={18} color="white" /> : null}
         </View>
       </TouchableOpacity>
     );
@@ -27,25 +27,36 @@ export default class Chevron extends Component {
 
 const styles = StyleSheet.create({
   chevron: {
-    width: "100%",
-    alignItems: "center",
-    borderRadius: 5,
-    paddingTop: 15,
-    paddingRight: 25,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    marginBottom: 10
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    position: "absolute",
+    bottom: 0
+  },
+  left: {
+    left: 0
+  },
+  right: {
+    right: 0
   },
   text: {
     fontFamily: "product-sans",
-    fontSize: 20
-  },
-  dark: {
-    backgroundColor: "#454545",
+    fontSize: 20,
     color: "#FFFFFF"
   },
-  light: {
-    backgroundColor: "#FFFFFF",
-    color: "#454545"
+  container: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  iconLeft: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 5
+  },
+  iconRight: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 5
   }
 });

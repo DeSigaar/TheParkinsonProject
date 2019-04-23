@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "react-native";
+import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
 import {
   logInWithCreds,
@@ -10,7 +11,7 @@ import {
   clearError
 } from "../../store/actions/authActions";
 
-import { Input, Button, Upper } from "../../components/auth";
+import { Input, Button, Upper, Chevron } from "../../components/auth";
 
 class LoginScreen extends Component {
   static propTypes = {
@@ -29,8 +30,7 @@ class LoginScreen extends Component {
 
     this.state = {
       email: "",
-      password: "",
-      loading: false
+      password: ""
     };
   }
 
@@ -79,6 +79,7 @@ class LoginScreen extends Component {
     // Navigate to ForgotPasswordScreen and clear errors and messages
     const { clearError, navigation } = this.props;
     clearError();
+    // TODO: Make it navigate to the left
     navigation.navigate("ForgotPassword");
   };
 
@@ -86,11 +87,7 @@ class LoginScreen extends Component {
     const { email, password } = this.state;
     const { authLoading, authError } = this.props;
     if (authLoading) {
-      return (
-        <View>
-          <ActivityIndicator size="large" />
-        </View>
-      );
+      return <ActivityIndicator style={styles.load} size="large" />;
     } else {
       return (
         <View style={styles.form}>
@@ -110,7 +107,7 @@ class LoginScreen extends Component {
             secureTextEntry
           />
           <Button onPress={this.handlePressLogin} type="dark" title="Log in" />
-          {/* TODO: Display error here */}
+          <View style={styles.errors}>{authError ? <Text style={styles.error}>{authError}</Text> : null}</View>
 
           {/* TODO: Create divider */}
 
@@ -119,8 +116,8 @@ class LoginScreen extends Component {
           <Button onPress={this.handlePressAnonLogin} type="light" title="Ga verder zonder account" />
 
           {/* TODO: Make these chevrons */}
-          <Button onPress={this.handlePressNavigateSignup} type="light" title="Registreren" />
-          <Button onPress={this.handlePressNavigateForgotPassword} type="light" title="Wachtwoord vergeten" />
+          <Chevron onPress={this.handlePressNavigateSignup} title="Registreren" direction="right" />
+          <Chevron onPress={this.handlePressNavigateForgotPassword} title="Wachtwoord vergeten" direction="left" />
         </View>
       );
     }
@@ -173,20 +170,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  upper: {},
-  upperTop: {},
-  upperBottom: {},
-  h1: {
-    fontFamily: "product-sans-bold",
-    color: "#FFFFFF",
-    fontSize: 25,
-    textAlign: "center"
+  load: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
   },
-  h2: {
+  errors: {
+    height: 25
+  },
+  error: {
     fontFamily: "product-sans",
-    color: "#FFFFFF",
-    fontSize: 20,
-    textAlign: "center"
+    color: "#FF0000"
+  },
+  success: {
+    fontFamily: "product-sans",
+    color: "#00FF00"
   }
 });
 

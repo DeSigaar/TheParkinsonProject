@@ -13,7 +13,7 @@ export default class Button extends Component {
     const { onPress, title, type } = this.props;
     const typeStyle = type === "dark" ? styles.dark : styles.light;
     return (
-      <TouchableOpacity style={[styles.button, typeStyle]} onPress={onPress} activeOpacity={0.75}>
+      <TouchableOpacity style={[styles.button, typeStyle]} onPress={onPress} activeOpacity={0.8}>
         <Text style={[styles.text, typeStyle]}>{title}</Text>
       </TouchableOpacity>
     );

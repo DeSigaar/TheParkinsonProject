@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { ActivityIndicator, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
 import * as firebase from "firebase";
 
-import { Input, Button, Upper } from "../../components/auth";
+import { Input, Button, Upper, Chevron } from "../../components/auth";
 
 export default class SignupScreen extends Component {
   static propTypes = {
@@ -46,10 +46,10 @@ export default class SignupScreen extends Component {
       );
   }
 
-  handlePressLogin() {
+  handlePressLogin = () => {
     // Navigate to LoginScreen
     this.props.navigation.navigate("Login");
-  }
+  };
 
   renderCurrentState = () => {
     if (this.state.loading) {
@@ -86,7 +86,7 @@ export default class SignupScreen extends Component {
 
           {/* TODO: Registreer met Google dmv zelfde login func */}
 
-          <Button onPress={() => this.handlePressLogin()} type="light" title="Inloggen" />
+          <Chevron onPress={this.handlePressLogin} title="Inloggen" direction="left" />
         </View>
       );
     }

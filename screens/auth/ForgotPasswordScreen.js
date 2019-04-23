@@ -20,6 +20,13 @@ class ForgotPasswordScreen extends Component {
   constructor(props) {
     super(props);
 
+    if (props.navigation.state.params.init) {
+      props.navigation.navigate("Login");
+    }
+
+    // console.log(props);
+    console.log(props.navigation.state.params.init);
+
     this.state = {
       email: ""
     };
@@ -67,7 +74,7 @@ class ForgotPasswordScreen extends Component {
             {authError ? <Text style={styles.error}>{authError}</Text> : null}
             {authMessage ? <Text style={styles.success}>{authMessage}</Text> : null}
           </View>
-          <Chevron onPress={this.handlePressNavigateLogin} type="light" title="Inloggen" />
+          <Chevron onPress={this.handlePressNavigateLogin} title="Inloggen" direction="right" />
         </View>
       );
     }
