@@ -1,13 +1,30 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
-import * as firebase from "firebase";
+import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "react-native";
+import { connect } from "react-redux";
+import {
+  registerWithCreds,
+  logInWithGoogle,
+  logInAsAnon,
+  setAuthLoading,
+  clearError
+} from "../../store/actions/authActions";
 
-import { Input, Button, Upper, Chevron } from "../../components/auth";
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
-export default class SignupScreen extends Component {
+import { Input, Button, Upper, Chevron, Divider, GoogleButton } from "../../components/auth";
+
+class SignupScreen extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    registerWithCreds: PropTypes.func,
+    logInWithGoogle: PropTypes.func,
+    logInAsAnon: PropTypes.func,
+    setAuthLoading: PropTypes.func,
+    clearError: PropTypes.func,
+    authLoading: PropTypes.bool,
+    authError: PropTypes.string
   };
 
   constructor(props) {
@@ -16,77 +33,94 @@ export default class SignupScreen extends Component {
     this.state = {
       email: "",
       password: "",
-      passwordConfirm: "",
-      loading: false
+      passwordConfirm: ""
     };
   }
 
-  handlePressSignup() {
-    // Signup user
-    this.setState({ loading: true });
+  handlePressSignup = () => {
+    // Signup the user
     const { email, password, passwordConfirm } = this.state;
+    const { registerWithCreds, setAuthLoading, clearError } = this.props;
 
-    if (password !== passwordConfirm) {
-      Alert.alert("Wachtwoorden zijn niet hetzelfde!");
-      return;
-    }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(
-        () => {
-          // Signup was successful
-          this.setState({ loading: false });
-        },
-        error => {
-          // Returned an error and is displaying it to the user
-          this.setState({ loading: false });
-          Alert.alert(error.message);
-        }
-      );
-  }
+    clearError();
+    setAuthLoading();
+    setTimeout(() => {
+      registerWithCreds({ email, password, passwordConfirm });
+    }, 250);
+  };
 
-  handlePressLogin = () => {
-    // Navigate to LoginScreen
-    this.props.navigation.navigate("Login");
+  handlePressGoogleRegister = () => {
+    // Start registering in with Google
+    const { logInWithGoogle, setAuthLoading, clearError } = this.props;
+
+    clearError();
+    setAuthLoading();
+    setTimeout(() => {
+      logInWithGoogle();
+    }, 250);
+  };
+
+  handlePressAnonRegister = () => {
+    // Registering user without any creds
+    const { logInAsAnon, setAuthLoading, clearError } = this.props;
+
+    clearError();
+    setAuthLoading();
+    setTimeout(() => {
+      logInAsAnon();
+    }, 250);
+  };
+
+  handlePressNavigateLogin = () => {
+    // Navigate to ForgotPasswordScreen and clear errors and messages
+    const { clearError, navigation } = this.props;
+
+    clearError();
+    navigation.navigate("Login");
   };
 
   renderCurrentState = () => {
-    if (this.state.loading) {
-      return (
-        <View>
-          <ActivityIndicator size="large" />
-        </View>
-      );
+    const { email, password, passwordConfirm } = this.state;
+    const { authLoading, authError } = this.props;
+
+    if (authLoading) {
+      return <ActivityIndicator style={styles.load} size="large" />;
     } else {
       return (
         <View style={styles.form}>
           <Upper top="Nieuw hier?" bottom="Maak hier je account aan" />
-          <Input
-            placeholder="Email"
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <Input
-            placeholder="Wachtwoord"
-            onChangeText={password => this.setState({ password })}
-            value={this.state.password}
-            secureTextEntry
-          />
-          <Input
-            placeholder="Bevestig wachtwoord"
-            onChangeText={passwordConfirm => this.setState({ passwordConfirm })}
-            value={this.state.passwordConfirm}
-            secureTextEntry
-          />
-          <Button onPress={() => this.handlePressSignup()} type="dark" title="Registreer" />
 
-          {/* TODO: Registreer met Google dmv zelfde login func */}
+          <View style={styles.innerForm}>
+            <Input
+              placeholder="Email"
+              onChangeText={email => this.setState({ email })}
+              value={email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <Input
+              placeholder="Wachtwoord"
+              onChangeText={password => this.setState({ password })}
+              value={password}
+              secureTextEntry
+            />
+            <Input
+              placeholder="Bevestig wachtwoord"
+              onChangeText={passwordConfirm => this.setState({ passwordConfirm })}
+              value={passwordConfirm}
+              secureTextEntry
+            />
+            <Button onPress={this.handlePressSignup} type="dark" value="Registreer" />
+            <View style={styles.errors}>{authError ? <Text style={styles.error}>{authError}</Text> : null}</View>
 
-          <Chevron onPress={this.handlePressLogin} title="Inloggen" direction="left" />
+            <Divider />
+
+            <GoogleButton onPress={this.handlePressGoogleRegister} value="Registreren met Google" />
+            <Button onPress={this.handlePressAnonRegister} type="light" value="Ga verder zonder account" />
+          </View>
+
+          <Chevron onPress={this.handlePressNavigateLogin} direction="left" value="Inloggen" />
         </View>
       );
     }
@@ -100,7 +134,7 @@ export default class SignupScreen extends Component {
           imageStyle={styles.backgroundImage}
           style={styles.background}
         >
-          <View style={styles.inner}>{this.renderCurrentState()}</View>
+          <View style={styles.innerContainer}>{this.renderCurrentState()}</View>
         </ImageBackground>
       </View>
     );
@@ -128,7 +162,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: "cover"
   },
-  inner: {
+  innerContainer: {
     flex: 1,
     padding: 32,
     paddingTop: 64,
@@ -138,5 +172,62 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  innerForm: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginTop: 75
+  },
+  load: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  errors: {
+    height: 25
+  },
+  error: {
+    fontFamily: ProductSans.regular,
+    color: Colors.errorText
+  },
+  success: {
+    fontFamily: ProductSans.regular,
+    color: Colors.successText
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    authLoading: state.auth.authLoading,
+    authError: state.auth.authError
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    ...ownProps,
+    registerWithCreds: credentials => {
+      dispatch(registerWithCreds(credentials));
+    },
+    logInWithGoogle: () => {
+      dispatch(logInWithGoogle());
+    },
+    logInAsAnon: () => {
+      dispatch(logInAsAnon());
+    },
+    setAuthLoading: () => {
+      dispatch(setAuthLoading());
+    },
+    clearError: () => {
+      dispatch(clearError());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignupScreen);

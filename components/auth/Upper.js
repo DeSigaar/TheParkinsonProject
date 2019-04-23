@@ -2,21 +2,24 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
+
 export default class Upper extends Component {
   static propTypes = {
     top: PropTypes.string,
-    top2: PropTypes.string,
+    underTop: PropTypes.string,
     bottom: PropTypes.string
   };
 
   render() {
-    const { top, top2, bottom } = this.props;
+    const { top, underTop, bottom } = this.props;
     return (
       <View style={styles.container}>
-        {top || top2 ? (
-          <View style={styles.upperTop}>
+        {top || underTop ? (
+          <View>
             {top ? <Text style={styles.h1}>{top}</Text> : null}
-            {top2 ? <Text style={styles.h1}>{top2}</Text> : null}
+            {underTop ? <Text style={styles.h1}>{underTop}</Text> : null}
           </View>
         ) : null}
         {bottom ? (
@@ -32,7 +35,8 @@ export default class Upper extends Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 150,
+    height: 140,
+    marginTop: -15,
     position: "absolute",
     top: 0,
     left: 0,
@@ -42,19 +46,18 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10
   },
-  upperTop: {},
   upperBottom: {
-    marginTop: 20
+    marginTop: 15
   },
   h1: {
-    fontFamily: "product-sans-bold",
-    color: "#FFFFFF",
+    fontFamily: ProductSans.bold,
+    color: Colors.white,
     fontSize: 25,
     textAlign: "center"
   },
   h2: {
-    fontFamily: "product-sans",
-    color: "#FFFFFF",
+    fontFamily: ProductSans.regular,
+    color: Colors.white,
     fontSize: 20,
     textAlign: "center"
   }
