@@ -2,19 +2,24 @@ import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
+
 export default class Button extends Component {
   static propTypes = {
     onPress: PropTypes.func,
-    title: PropTypes.string,
+    value: PropTypes.string,
     type: PropTypes.string.isRequired
   };
 
   render() {
-    const { onPress, title, type } = this.props;
-    const typeStyle = type === "dark" ? styles.dark : styles.light;
+    const { onPress, value, type } = this.props;
+    const styleBackground = type === "dark" ? styles.darkBackground : styles.lightBackground;
+    const styleText = type === "dark" ? styles.lightText : styles.darkText;
+
     return (
-      <TouchableOpacity style={[styles.button, typeStyle]} onPress={onPress} activeOpacity={0.75}>
-        <Text style={[styles.text, typeStyle]}>{title}</Text>
+      <TouchableOpacity style={[styles.button, styleBackground]} onPress={onPress} activeOpacity={0.8}>
+        <Text style={[styles.text, styleText]}>{value}</Text>
       </TouchableOpacity>
     );
   }
@@ -32,15 +37,19 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   text: {
-    fontFamily: "product-sans",
+    fontFamily: ProductSans.regular,
     fontSize: 20
   },
-  dark: {
-    backgroundColor: "#454545",
-    color: "#FFFFFF"
+  darkText: {
+    color: Colors.darkGray
   },
-  light: {
-    backgroundColor: "#FFFFFF",
-    color: "#454545"
+  lightText: {
+    color: Colors.white
+  },
+  darkBackground: {
+    backgroundColor: Colors.darkGray
+  },
+  lightBackground: {
+    backgroundColor: Colors.white
   }
 });

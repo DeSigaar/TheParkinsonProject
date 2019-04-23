@@ -1,24 +1,28 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import PropTypes from "prop-types";
+
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Chevron extends Component {
   static propTypes = {
     onPress: PropTypes.func,
-    title: PropTypes.string,
-    type: PropTypes.string.isRequired
+    value: PropTypes.string,
+    direction: PropTypes.string.isRequired
   };
 
   render() {
-    const { onPress, title, type } = this.props;
-    const typeStyle = type === "dark" ? styles.dark : styles.light;
-    return (
-      <TouchableOpacity style={[styles.chevron, typeStyle]} onPress={onPress} activeOpacity={0.75}>
-        <View>
-          <FontAwesome name="chevron-left" size={32} color="black" />
+    const { onPress, value, direction } = this.props;
+    const directionStyle = direction === "left" ? styles.left : styles.right;
 
-          <Text style={[styles.text, typeStyle]}>{title}</Text>
+    return (
+      <TouchableOpacity style={[styles.chevron, directionStyle]} onPress={onPress} activeOpacity={0.5}>
+        <View style={styles.container}>
+          {direction === "left" ? <AntDesign style={[styles.icon, styles.iconLeft]} name="left" /> : null}
+          <Text style={styles.text}>{value}</Text>
+          {direction === "right" ? <AntDesign style={[styles.icon, styles.iconRight]} name="right" /> : null}
         </View>
       </TouchableOpacity>
     );
@@ -27,25 +31,35 @@ export default class Chevron extends Component {
 
 const styles = StyleSheet.create({
   chevron: {
-    width: "100%",
-    alignItems: "center",
-    borderRadius: 5,
-    paddingTop: 15,
-    paddingRight: 25,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    marginBottom: 10
+    padding: 10,
+    position: "absolute",
+    bottom: -10
+  },
+  left: {
+    left: -10
+  },
+  right: {
+    right: -10
   },
   text: {
-    fontFamily: "product-sans",
-    fontSize: 20
+    fontFamily: ProductSans.regular,
+    fontSize: 20,
+    color: Colors.white
   },
-  dark: {
-    backgroundColor: "#454545",
-    color: "#FFFFFF"
+  container: {
+    flexDirection: "row",
+    alignItems: "center"
   },
-  light: {
-    backgroundColor: "#FFFFFF",
-    color: "#454545"
+  icon: {
+    alignItems: "center",
+    justifyContent: "center",
+    color: Colors.white,
+    fontSize: 16
+  },
+  iconLeft: {
+    marginRight: 5
+  },
+  iconRight: {
+    marginLeft: 5
   }
 });
