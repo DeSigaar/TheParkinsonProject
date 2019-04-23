@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { StyleSheet, View, Platform, StatusBar } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import * as firebase from "firebase";
-import { Provider, connect } from "react-redux";
-// import { setCurrentUser } from "./store/actions/authActions";
+import { Provider } from "react-redux";
 import store from "./store";
 
 import ApiKeys from "./constants/ApiKeys";
@@ -12,7 +11,7 @@ import ApiKeys from "./constants/ApiKeys";
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
-class App extends Component {
+export default class App extends Component {
   static propTypes = {
     skipLoadingScreen: PropTypes.any
   };
@@ -92,26 +91,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     ...ownProps,
-//     user: state.auth.user
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//   return {
-//     ...ownProps,
-//     setCurrentUser: user => {
-//       dispatch(setCurrentUser(user));
-//     }
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
-
-export default App;
