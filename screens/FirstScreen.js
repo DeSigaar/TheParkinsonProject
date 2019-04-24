@@ -18,6 +18,8 @@ class FirstScreen extends Component {
     const { navigation, logOut, authError, user } = this.props;
     if (authError) Alert.alert(authError);
 
+    console.log(user);
+
     return (
       <View style={styles.container}>
         <View style={styles.menuItemContainer}>
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    user: state.auth.user,
+    user: state.firebase.profile,
     authError: state.auth.authError
   };
 };

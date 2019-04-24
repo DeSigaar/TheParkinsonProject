@@ -33,14 +33,21 @@ export default class App extends Component {
   }
 
   onAuthStateChanged = user => {
-    this.setState({ isAuthenticationReady: true });
-    this.setState({ isAuthenticated: !!user });
-    this.setState({ user });
+    this.setState({
+      ...this.state,
+      isAuthenticationReady: true,
+      isAuthenticated: !!user,
+      user
+    });
   };
 
   _loadResourcesAsync = async () => {
     return Promise.all([
-      Asset.loadAsync([require("./assets/images/icon/icon.png"), require("./assets/images/auth/background.jpg")]),
+      Asset.loadAsync([
+        require("./assets/images/icon/icon.png"),
+        require("./assets/images/icon/splash.png"),
+        require("./assets/images/auth/background.jpg")
+      ]),
       Font.loadAsync({
         "product-sans": require("./assets/fonts/ProductSans/ProductSansRegular.ttf"),
         "product-sans-bold": require("./assets/fonts/ProductSans/ProductSansBold.ttf"),
