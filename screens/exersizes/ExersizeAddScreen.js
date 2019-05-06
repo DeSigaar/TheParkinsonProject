@@ -84,16 +84,17 @@ export default class ExersizeAddScreen extends Component {
           </View>
         </View>
         <View style={styles.datePickerBox}>
-          <TouchableOpacity style={styles.datePickerButtonLeft} onPress={() => this.showDateTimePicker('start')} activeOpacity={0.8} >
-            <View>
-              <Text>Stardatum</Text>
-              <Text>{this.state.startText}</Text>
+          <TouchableOpacity style={styles.datePickerButtonLeft} onPress={() => this.showDateTimePicker('start')} activeOpacity={0.8} > 
+            <View style={styles.textCenterHorizontalVertical}>
+              <Text style={styles.datePickerBoxHeaderText}>Stardatum</Text>
+              <Text style={styles.datePickerBoxText}>{this.state.startText}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.datePickerButtonRight} onPress={() => this.showDateTimePicker('end')} activeOpacity={0.8} >
-            <View>
-              <Text>Einddatum</Text>
-              <Text>{this.state.endText}</Text>
+          
+            <View style={styles.textCenterHorizontalVertical}>
+              <Text style={styles.datePickerBoxHeaderText}>Einddatum</Text>
+              <Text style={styles.datePickerBoxText}>{this.state.endText}</Text>
             </View>
           </TouchableOpacity>
           <DateTimePicker
@@ -101,8 +102,6 @@ export default class ExersizeAddScreen extends Component {
             onConfirm={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
           />
-          
-           
         </View>
         <View>
           <Text style={styles.inputHeader}>{this.state.repetitieHeader}</Text>
@@ -128,11 +127,9 @@ export default class ExersizeAddScreen extends Component {
               <Button onPress={() => doNothing()} style={styles.dayButton} title="Zo"></Button>
             </View>
             <Text>Test</Text>
-            
           </View>
         </View>
       </View>
-
     );
   }
 }
@@ -160,26 +157,52 @@ const styles = StyleSheet.create({
   },
   inpuperiodeBoxtHeader: {
     width: 50
-  },
+  },    
   dropdown: {
     width: 50
   },
   periodeBoxInput: {
     width: 50
   },
+  textCenterHorizontalVertical: {
+    height: 75, 
+    justifyContent:"center", 
+    alignItems:"center"
+  },
   //Datepickerstuff
   datePickerBox: {
     marginTop: 50,
-    flex: 1,
+    height: 75,
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+  },
+  datePickerBoxHeaderText: {
+    color: '#B1B1B1',
+    fontSize: 19
+  },
+  datePickerBoxText: {
+    fontSize: 19
   },
   datePickerButtonLeft: {
     width: '50%',
     flex: 1, 
-  },
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderLeftColor: '#000',
+    borderLeftWidth: 1.5,
+    borderTopColor: '#000',
+    borderTopWidth: 1.5,
+    borderBottomColor: '#000',
+    borderBottomWidth: 1.5,
+    marginRight: -1
+  },  
   datePickerButtonRight: {
     width: '50%',
     flex: 1,
-  }
+    borderWidth: 1.5,
+    textAlign: 'center',
+    borderTopEndRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+
 });
