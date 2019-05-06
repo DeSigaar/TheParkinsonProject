@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { MenuItem } from "../../components";
 import Gradients from "../../constants/Gradients";
 
- class MedicinesHomeScreen extends Component {
+class MedicinesHomeScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object
   };
@@ -22,7 +22,12 @@ import Gradients from "../../constants/Gradients";
         <Text>medicine</Text>
         <Button title="Go back" onPress={() => navigate("First")} />
         <View>
-          <MenuItem title="Add" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} onPress={() => navigate("MedicinesAddScreen")}/>
+          <MenuItem
+            title="Add"
+            img="http://logodust.com/img/free/logo28.png"
+            gradientColor={Gradients.green}
+            onPress={() => navigate("MedicinesAddScreen")}
+          />
         </View>
       </View>
     );

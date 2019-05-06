@@ -12,8 +12,8 @@ export default createAppContainer(
       First: { screen: FirstScreen },
       Second: { screen: SecondScreen },
       ExerciseHomeScreen: { screen: ExerciseHomeScreen },
-      MedicinesHomeScreen: {screen: MedicinesHomeScreen},
-      MedicinesAddScreen: {screen: MedicinesAddScreen}
+      MedicinesHomeScreen: { screen: MedicinesHomeScreen },
+      MedicinesAddScreen: { screen: MedicinesAddScreen }
     },
     {
       defaultNavigationOptions: {

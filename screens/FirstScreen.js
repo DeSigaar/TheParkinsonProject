@@ -20,7 +20,12 @@ class FirstScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.menuItemContainer}>
-          <MenuItem title="Medicijnen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.blue} onPress={() => navigation.navigate("MedicinesHomeScreen")}/>
+          <MenuItem
+            title="Medicijnen"
+            img="http://logodust.com/img/free/logo28.png"
+            gradientColor={Gradients.blue}
+            onPress={() => navigation.navigate("MedicinesHomeScreen")}
+          />
           <MenuItem
             title="Oefeningen"
             img="http://logodust.com/img/free/logo28.png"
