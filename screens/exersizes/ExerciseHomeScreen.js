@@ -21,7 +21,6 @@ export default class ExerciseHomeScreen extends Component {
         <Button title="Go back" onPress={() => navigate("First")} />
         <Text>Test</Text>
         <Button title="Add exersize ofzo" onPress={() => navigate("ExersizeAddScreen")} />
-   
       </View>
     );
   }
