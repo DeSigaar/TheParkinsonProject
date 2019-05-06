@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 
 import Colors from "../../constants/Colors";
@@ -14,17 +14,20 @@ export default class Upper extends Component {
 
   render() {
     const { top, underTop, bottom } = this.props;
+    const androidH1Style = Platform.OS === "android" ? styles.androidH1 : null;
+    const androidH2Style = Platform.OS === "android" ? styles.androidH2 : null;
+
     return (
       <View style={styles.container}>
         {top || underTop ? (
           <View>
-            {top ? <Text style={styles.h1}>{top}</Text> : null}
-            {underTop ? <Text style={styles.h1}>{underTop}</Text> : null}
+            {top ? <Text style={[styles.h1, androidH1Style]}>{top}</Text> : null}
+            {underTop ? <Text style={[styles.h1, androidH1Style]}>{underTop}</Text> : null}
           </View>
         ) : null}
         {bottom ? (
           <View style={styles.upperBottom}>
-            <Text style={styles.h2}>{bottom}</Text>
+            <Text style={[styles.h2, androidH2Style]}>{bottom}</Text>
           </View>
         ) : null}
       </View>
@@ -60,5 +63,11 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 20,
     textAlign: "center"
+  },
+  androidH1: {
+    fontSize: 21
+  },
+  androidH2: {
+    fontSize: 16
   }
 });
