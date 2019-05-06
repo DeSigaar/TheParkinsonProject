@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Alert, Button } from "react-native";
+import { StyleSheet, View, Alert, Button } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logOut } from "../store/actions/authActions";
@@ -10,12 +10,15 @@ class FirstScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     logOut: PropTypes.func,
+    user: PropTypes.object,
     authError: PropTypes.string
   };
 
   render() {
-    const { navigation, logOut, authError } = this.props;
+    const { navigation, logOut, authError, user } = this.props;
     if (authError) Alert.alert(authError);
+
+    console.log(user);
 
     return (
       <View style={styles.container}>
@@ -60,6 +63,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
+    user: state.firebase.profile,
     authError: state.auth.authError
   };
 };

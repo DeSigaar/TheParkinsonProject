@@ -1,27 +1,33 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
+
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Upper extends Component {
   static propTypes = {
     top: PropTypes.string,
-    top2: PropTypes.string,
+    underTop: PropTypes.string,
     bottom: PropTypes.string
   };
 
   render() {
-    const { top, top2, bottom } = this.props;
+    const { top, underTop, bottom } = this.props;
+    const androidH1Style = Platform.OS === "android" ? styles.androidH1 : null;
+    const androidH2Style = Platform.OS === "android" ? styles.androidH2 : null;
+
     return (
       <View style={styles.container}>
-        {top || top2 ? (
-          <View style={styles.upperTop}>
-            {top ? <Text style={styles.h1}>{top}</Text> : null}
-            {top2 ? <Text style={styles.h1}>{top2}</Text> : null}
+        {top || underTop ? (
+          <View>
+            {top ? <Text style={[styles.h1, androidH1Style]}>{top}</Text> : null}
+            {underTop ? <Text style={[styles.h1, androidH1Style]}>{underTop}</Text> : null}
           </View>
         ) : null}
         {bottom ? (
           <View style={styles.upperBottom}>
-            <Text style={styles.h2}>{bottom}</Text>
+            <Text style={[styles.h2, androidH2Style]}>{bottom}</Text>
           </View>
         ) : null}
       </View>
@@ -32,7 +38,8 @@ export default class Upper extends Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 150,
+    height: 140,
+    marginTop: -15,
     position: "absolute",
     top: 0,
     left: 0,
@@ -42,20 +49,25 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10
   },
-  upperTop: {},
   upperBottom: {
-    marginTop: 20
+    marginTop: 15
   },
   h1: {
-    fontFamily: "product-sans-bold",
-    color: "#FFFFFF",
+    fontFamily: ProductSans.bold,
+    color: Colors.white,
     fontSize: 25,
     textAlign: "center"
   },
   h2: {
-    fontFamily: "product-sans",
-    color: "#FFFFFF",
+    fontFamily: ProductSans.regular,
+    color: Colors.white,
     fontSize: 20,
     textAlign: "center"
+  },
+  androidH1: {
+    fontSize: 21
+  },
+  androidH2: {
+    fontSize: 16
   }
 });
