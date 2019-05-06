@@ -16,9 +16,19 @@ exports.createUserInFirestore = functions.auth.user().onCreate(user => {
     email,
     photoURL,
     phoneNumber,
+    expoPushToken,
     activities: {},
     exercises: {},
-    medication: {}
+    medication: {},
+    moments: [
+      { id: 1, name: "Opstaan" },
+      { id: 2, name: "Ontbijt" },
+      { id: 3, name: "Tandenpoetsen" },
+      { id: 4, name: "Lunch" },
+      { id: 5, name: "Avondeten" },
+      { id: 6, name: "Tandenpoetsen" },
+      { id: 7, name: "Voor het slapen" }
+    ]
   };
 
   return admin

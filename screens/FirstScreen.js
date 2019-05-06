@@ -36,6 +36,7 @@ class FirstScreen extends Component {
           {/* <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} /> */}
         </View>
 
+        <Button title="Test scherm" onPress={() => navigation.navigate("Test")} />
         <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} />
         <Button title="Uitloggen" onPress={logOut} />
       </View>
