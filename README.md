@@ -37,7 +37,7 @@ $ cd TheParkinsonProject
 
 ### Setup
 
-First, globally install the latest expo-cli
+First, globally install the latest expo-cli (this may need to be done as administrator / sudo'd)
 ```
 $ npm i -g expo-cli@latest
 ```

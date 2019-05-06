@@ -18,7 +18,8 @@ const Navigation = createAppContainer(
     {
       defaultNavigationOptions: {
         header: null
-      }
+      },
+      initialRouteName: "First" // Change this if you want to directly go to a screen you are developing
     }
   )
 );

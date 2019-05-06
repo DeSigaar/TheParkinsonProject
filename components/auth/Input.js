@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, TextInput, Platform } from "react-native";
 import PropTypes from "prop-types";
 
 import Colors from "../../constants/Colors";
@@ -18,10 +18,11 @@ export default class Input extends Component {
 
   render() {
     const { value, onChangeText, placeholder, secureTextEntry, keyboardType, autoCapitalize, autoCorrect } = this.props;
+    const androidInputStyle = Platform.OS === "android" ? styles.androidInput : null;
 
     return (
       <TextInput
-        style={styles.input}
+        style={[styles.input, androidInputStyle]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -48,5 +49,12 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 25,
     marginBottom: 10
+  },
+  androidInput: {
+    fontSize: 16,
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingLeft: 20
   }
 });
