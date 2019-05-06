@@ -11,6 +11,8 @@ import ApiKeys from "./constants/ApiKeys";
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
+import { Permissions, Notifications } from "expo";
+
 export default class App extends Component {
   static propTypes = {
     skipLoadingScreen: PropTypes.any
