@@ -15,10 +15,8 @@ class FirstScreen extends Component {
   };
 
   render() {
-    const { navigation, logOut, authError, user } = this.props;
+    const { navigation, logOut, authError } = this.props;
     if (authError) Alert.alert(authError);
-
-    console.log(user);
 
     return (
       <View style={styles.container}>

@@ -58,8 +58,6 @@ export default class App extends Component {
   };
 
   _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
     // eslint-disable-next-line no-console
     console.warn(error);
   };
