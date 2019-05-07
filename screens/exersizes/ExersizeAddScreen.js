@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, Picker, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Button, Picker, TouchableOpacity, TextInput } from "react-native";
 import PropTypes from "prop-types";
 import Input from "../../components/common/Input";
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -52,7 +52,13 @@ export default class ExersizeAddScreen extends Component {
     }
     if(Date.parse(this.state.startText) > Date.parse(this.state.endText)){
       this.setState({endText: this.state.startText}); 
-    } 
+    }
+    if(Date.parse(this.state.endText) < Date.parse(this.state.startText)){
+      this.setState({startText: this.state.endText}); 
+    }
+    console.log(this.state.startText);
+    console.log(this.state.endText);
+    console.log("_______");
 
 
     this.hideDateTimePicker();
@@ -69,67 +75,96 @@ export default class ExersizeAddScreen extends Component {
     const { navigation } = this.props;
     const { navigate } = navigation;
     return (
-      <View style={styles.container}>
-        <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} /> 
-        <View>
-          <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
-          <View style={styles.textInputBox}>
-            <Input style={styles.textInput} placeholder="Test1"></Input>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
-          <View style={styles.textInputBox}>
-            <Input placeholder="Test1"></Input>
-          </View>
-        </View>
-        <View style={styles.datePickerBox}>
+    <View style={styles.container}>
+      <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} /> 
+      <View>
+        <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
+        <TextInput style={styles.textInput} placeholder="Test1"></TextInput>
+      </View>
+      <View>
+        <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
+      </View>
+      <View style={styles.datePickerBox}>
           <TouchableOpacity style={styles.datePickerButtonLeft} onPress={() => this.showDateTimePicker('start')} activeOpacity={0.8} > 
             <View style={styles.textCenterHorizontalVertical}>
               <Text style={styles.datePickerBoxHeaderText}>Stardatum</Text>
               <Text style={styles.datePickerBoxText}>{this.state.startText}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.datePickerButtonRight} onPress={() => this.showDateTimePicker('end')} activeOpacity={0.8} >
-          
-            <View style={styles.textCenterHorizontalVertical}>
-              <Text style={styles.datePickerBoxHeaderText}>Einddatum</Text>
-              <Text style={styles.datePickerBoxText}>{this.state.endText}</Text>
-            </View>
-          </TouchableOpacity>
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this.handleDatePicked}
-            onCancel={this.hideDateTimePicker}
-          />
-        </View>
-        <View>
-          <Text style={styles.inputHeader}>{this.state.repetitieHeader}</Text>
-          <View style={styles.periodeBoxView}>
-            <Input style={styles.periodeBoxInput} placeholder="Test"></Input>
-            <Picker
+        <TouchableOpacity style={styles.datePickerButtonRight} onPress={() => this.showDateTimePicker('end')} activeOpacity={0.8} >
+        
+          <View style={styles.textCenterHorizontalVertical}>
+            <Text style={styles.datePickerBoxHeaderText}>Einddatum</Text>
+            <Text style={styles.datePickerBoxText}>{this.state.endText}</Text>
+          </View>
+        </TouchableOpacity>
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
+        />
+      </View>
+      {/* -------------------------------------------------------------------------------------------------------------- */}
+      <View>
+        <Text style={styles.inputHeader}>{this.state.repetitieHeader}</Text>
+        <View style={styles.periodeBoxView}>
+          <Text style={styles.periodeElke}>Elke</Text>
+          <TextInput placeholderTextColor="#fff" style={styles.periodeBoxInputBox} keyboardType="number-pad" placeholder="10"></TextInput>
+        
+          <View style={styles.periodeBoxPickerBox}>
+            <Picker 
+             
               selectedValue={this.state.indication}
               style={styles.dropdown}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({indication: itemValue})
               }>
+              
               <Picker.Item label="Dag" value="day" />
               <Picker.Item label="Week" value="week" />
               <Picker.Item label="Maand" value="month" />
             </Picker> 
-            <View style={styles.periodeBoxButtons}>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Ma"></Button>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Di"></Button>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Wo"></Button>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Do"></Button>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Vr"></Button>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Za"></Button>
-              <Button onPress={() => doNothing()} style={styles.dayButton} title="Zo"></Button>
-            </View>
-            <Text>Test</Text>
           </View>
         </View>
+        <View style={styles.periodeBoxButtons}>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+            <View style={styles.weekButton}>
+              <Text style={styles.weekButtonText}>Ma</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothin} activeOpacity={0.8} > 
+          <View style={styles.weekButton}>
+            <Text style={styles.weekButtonText}>Di</Text>
+          </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+            <View style={styles.weekButton}>
+              <Text style={styles.weekButtonText}>Wo</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+            <View style={styles.weekButton}>
+              <Text style={styles.weekButtonText}>Do</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+            <View style={styles.weekButton}>
+              <Text style={styles.weekButtonText}>Vr</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+            <View style={styles.weekButton}>
+              <Text style={styles.weekButtonText}>Za</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+            <View style={styles.weekButton}>
+              <Text style={styles.weekButtonText}>Zo</Text>
+            </View>
+          </TouchableOpacity>
+        </View> 
       </View>
+    </View>
     );
   }
 }
@@ -139,17 +174,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     padding: 20
-  },
-  textInputBox: {
-    borderWidth: 1.5,
-    borderColor: '#5A5A5A',
-    borderRadius: 15,
-  },  
+  }, 
   textInput: {
-    alignSelf:'center'
+    width: "100%",
+    height: 36,
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 13,
+    paddingLeft: 5,
+    paddingLeft: 5
   },
   inputHeader: {
     fontSize: 20,
+    paddingTop: 16,
     color: '#5A5A5A'
   },
   dayButton: {
@@ -158,12 +195,8 @@ const styles = StyleSheet.create({
   inpuperiodeBoxtHeader: {
     width: 50
   },    
-  dropdown: {
-    width: 50
-  },
-  periodeBoxInput: {
-    width: 50
-  },
+ 
+
   textCenterHorizontalVertical: {
     height: 75, 
     justifyContent:"center", 
@@ -171,7 +204,6 @@ const styles = StyleSheet.create({
   },
   //Datepickerstuff
   datePickerBox: {
-    marginTop: 50,
     height: 75,
     justifyContent: 'center',
     flexDirection: 'row',
@@ -186,23 +218,86 @@ const styles = StyleSheet.create({
   datePickerButtonLeft: {
     width: '50%',
     flex: 1, 
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 13,
+    borderBottomLeftRadius: 13,
     borderLeftColor: '#000',
-    borderLeftWidth: 1.5,
+    borderLeftWidth: 1,
     borderTopColor: '#000',
-    borderTopWidth: 1.5,
+    borderTopWidth: 1,
     borderBottomColor: '#000',
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 1,
     marginRight: -1
   },  
   datePickerButtonRight: {
     width: '50%',
     flex: 1,
-    borderWidth: 1.5,
+    borderWidth: 1,
     textAlign: 'center',
-    borderTopEndRadius: 10,
-    borderBottomRightRadius: 10,
+    borderTopEndRadius: 13,
+    borderBottomRightRadius: 13,
   },
+  //End Datepickerstuff
+  //Start periodeBox
+  periodeBoxView: {
+    display: 'flex',
+    padding: 16,
+    backgroundColor: '#A8E063',
+    borderTopEndRadius: 13,
+    borderTopLeftRadius: 13,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    flexDirection: 'row'
+  },
+  periodeBoxPickerBox: {
+    width: '40%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
+    marginLeft: 16
+  },
+  periodeBoxInputBox: {
+   width: '15%',
+   textAlign: 'center',
+   borderBottomWidth: 1,
+   borderBottomColor: '#fff',
+   color: '#fff',
+   backgroundColor: '#A8E063',
+   
 
+  },
+  dropdown: {
+    color: '#fff'
+  }, 
+  periodeElke :{
+    width: '100%',
+    color: '#fff',
+    fontSize: 19
+  },
+  //End periodeBox
+  //Weekbuttons start
+  periodeBoxButtons: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    backgroundColor: '#56AB2F',
+    borderBottomLeftRadius: 13,
+    borderBottomRightRadius: 13,
+  },
+  weekButton :{
+    textAlign: 'center'
+  },
+  weekButtonText :{
+    color: 'white',
+    textAlign: 'center',
+  },
+  weekButtonsBox :{
+    width: 40,
+    marginTop: 10,
+    marginBottom: 10,
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 20000,
+    backgroundColor: 'green',
+
+  }
+  //Weekbuttons end
 });
