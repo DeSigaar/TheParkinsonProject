@@ -1,5 +1,5 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import FirstScreen from "../screens/FirstScreen";
+import HomeScreen from "../screens/HomeScreen";
 import SecondScreen from "../screens/SecondScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 
@@ -7,7 +7,7 @@ import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 export default createAppContainer(
   createStackNavigator(
     {
-      First: { screen: FirstScreen },
+      First: { screen: HomeScreen },
       Second: { screen: SecondScreen },
       ExerciseHomeScreen: { screen: ExerciseHomeScreen }
     },
