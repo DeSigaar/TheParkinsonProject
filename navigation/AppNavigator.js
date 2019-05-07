@@ -6,7 +6,6 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import FirstScreen from "../screens/FirstScreen";
 import SecondScreen from "../screens/SecondScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
-import NotificationTest from "../screens/NotificationTest";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
@@ -14,8 +13,7 @@ const Navigation = createAppContainer(
     {
       First: { screen: FirstScreen },
       Second: { screen: SecondScreen },
-      ExerciseHomeScreen: { screen: ExerciseHomeScreen },
-      NotificationTest: { screen: NotificationTest }
+      ExerciseHomeScreen: { screen: ExerciseHomeScreen }
     },
     {
       defaultNavigationOptions: {
