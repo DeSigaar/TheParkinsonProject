@@ -10,7 +10,10 @@ import {
   clearError
 } from "../../store/actions/authActions";
 
-import { Input, Button, Upper } from "../../components/auth";
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
+
+import { Input, Button, Upper, Chevron, Divider, GoogleButton } from "../../components/auth";
 
 class LoginScreen extends Component {
   static propTypes = {
@@ -29,8 +32,7 @@ class LoginScreen extends Component {
 
     this.state = {
       email: "",
-      password: "",
-      loading: false
+      password: ""
     };
   }
 
@@ -71,6 +73,7 @@ class LoginScreen extends Component {
   handlePressNavigateSignup = () => {
     // Navigate to SignupScreen and clear errors and messages
     const { clearError, navigation } = this.props;
+
     clearError();
     navigation.navigate("Signup");
   };
@@ -78,6 +81,7 @@ class LoginScreen extends Component {
   handlePressNavigateForgotPassword = () => {
     // Navigate to ForgotPasswordScreen and clear errors and messages
     const { clearError, navigation } = this.props;
+
     clearError();
     navigation.navigate("ForgotPassword");
   };
@@ -85,42 +89,40 @@ class LoginScreen extends Component {
   renderCurrentState() {
     const { email, password } = this.state;
     const { authLoading, authError } = this.props;
+
     if (authLoading) {
-      return (
-        <View>
-          <ActivityIndicator size="large" />
-        </View>
-      );
+      return <ActivityIndicator style={styles.load} size="large" />;
     } else {
       return (
         <View style={styles.form}>
-          <Upper top="Welkom bij" top2="The Parkinson Project" bottom="Log hier in met je account" />
-          <Input
-            placeholder="Email"
-            onChangeText={email => this.setState({ email })}
-            value={email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <Input
-            placeholder="Wachtwoord"
-            onChangeText={password => this.setState({ password })}
-            value={password}
-            secureTextEntry
-          />
-          <Button onPress={this.handlePressLogin} type="dark" title="Log in" />
-          {/* TODO: Display error here */}
+          <Upper top="Welkom bij" underTop="The Parkinson Project" bottom="Log hier in met je account" />
 
-          {/* TODO: Create divider */}
+          <View style={styles.innerForm}>
+            <Input
+              placeholder="Email"
+              onChangeText={email => this.setState({ email })}
+              value={email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <Input
+              placeholder="Wachtwoord"
+              onChangeText={password => this.setState({ password })}
+              value={password}
+              secureTextEntry
+            />
+            <Button onPress={this.handlePressLogin} value="Log in" type="dark" />
+            <View style={styles.errors}>{authError ? <Text style={styles.error}>{authError}</Text> : null}</View>
 
-          {/* TODO: Create Google Button */}
-          <Button onPress={this.handlePressGoogleLogin} type="light" title="Log in met Google" />
-          <Button onPress={this.handlePressAnonLogin} type="light" title="Ga verder zonder account" />
+            <Divider />
 
-          {/* TODO: Make these chevrons */}
-          <Button onPress={this.handlePressNavigateSignup} type="light" title="Registreren" />
-          <Button onPress={this.handlePressNavigateForgotPassword} type="light" title="Wachtwoord vergeten" />
+            <GoogleButton onPress={this.handlePressGoogleLogin} value="Log in met Google" />
+            <Button onPress={this.handlePressAnonLogin} type="light" value="Ga verder zonder account" />
+          </View>
+
+          <Chevron onPress={this.handlePressNavigateSignup} direction="right" value="Registreren" />
+          <Chevron onPress={this.handlePressNavigateForgotPassword} direction="left" value="Wachtwoord vergeten" />
         </View>
       );
     }
@@ -134,7 +136,7 @@ class LoginScreen extends Component {
           imageStyle={styles.backgroundImage}
           style={styles.background}
         >
-          <View style={styles.inner}>{this.renderCurrentState()}</View>
+          <View style={styles.innerContainer}>{this.renderCurrentState()}</View>
         </ImageBackground>
       </View>
     );
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: "cover"
   },
-  inner: {
+  innerContainer: {
     flex: 1,
     padding: 32,
     paddingTop: 64,
@@ -173,20 +175,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  upper: {},
-  upperTop: {},
-  upperBottom: {},
-  h1: {
-    fontFamily: "product-sans-bold",
-    color: "#FFFFFF",
-    fontSize: 25,
-    textAlign: "center"
+  innerForm: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginTop: 75
   },
-  h2: {
-    fontFamily: "product-sans",
-    color: "#FFFFFF",
-    fontSize: 20,
-    textAlign: "center"
+  load: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  errors: {
+    height: 25
+  },
+  error: {
+    fontFamily: ProductSans.regular,
+    color: Colors.errorText
   }
 });
 
