@@ -6,9 +6,7 @@ import { logOut, setExpoPushToken } from "../store/actions/authActions";
 import { MenuItem } from "../components";
 import Gradients from "../constants/Gradients";
 import { Permissions, Notifications } from "expo";
-
-const PUSH_ENDPOINT = "https://exp.host/--/api/v2/push/send";
-let token = "";
+import { sendPushNotification } from "../store/actions/notifiActions";
 
 class FirstScreen extends Component {
   static propTypes = {
@@ -57,7 +55,7 @@ class FirstScreen extends Component {
     }
 
     //Get push notification token
-    token = await Notifications.getExpoPushTokenAsync();
+    let token = await Notifications.getExpoPushTokenAsync();
 
     //add token to firebase
     let uid = this.props.user.uid;
@@ -65,23 +63,6 @@ class FirstScreen extends Component {
     if (uid && token) {
       this.props.setExpoPushToken(uid, token);
     }
-  };
-
-  sendPushNotification = () => {
-    let response = fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        to: token,
-        sound: "default",
-        badge: "1",
-        title: "demo",
-        body: "teskt demo plz work gvd!!!"
-      })
-    });
   };
 
   render() {
@@ -103,7 +84,6 @@ class FirstScreen extends Component {
           <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} />
           {/* <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} /> */}
         </View>
-        <Button title="Send push notification" onPress={() => this.sendPushNotification()} />
         <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} />
         <Button title="Uitloggen" onPress={logOut} />
       </View>
