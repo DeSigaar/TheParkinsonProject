@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Text, Image, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, View, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo";
 import Colors from "../../constants/Colors";
 
@@ -34,7 +34,6 @@ export default class MenuItem extends Component {
 
 const styles = StyleSheet.create({
   item: {
-    // flex: 1,
     marginLeft: 7,
     marginRight: 7,
     marginTop: 7,
@@ -55,10 +54,10 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   gradient: {
+    elevation: 5,
     padding: 25,
     alignItems: "center",
-    borderRadius: 10,
-    elevation: 5
+    borderRadius: 10
     // shadowColor: "#000",
     // shadowOffset: { width: 20, height: 20 },
     // shadowOpacity: 1,

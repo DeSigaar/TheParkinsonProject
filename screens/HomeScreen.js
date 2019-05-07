@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Alert, Button } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Alert, Button } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logOut } from "../store/actions/authActions";
@@ -20,8 +20,8 @@ class HomeScreen extends Component {
     if (authError) Alert.alert(authError);
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.intro}>Goedemorgen Loek</Text>
+      <ScrollView style={styles.container}>
+        <Text style={styles.intro}>Goedemorgen {user.displayName}</Text>
         <View style={styles.menuItemContainer}>
           <Upcoming
             img={require("../assets/images/icon/medication.png")}
@@ -57,9 +57,9 @@ class HomeScreen extends Component {
           <MenuItem title="Schema" img={require("../assets/images/icon/schema.png")} gradientColor={Gradients.yellow} />
         </View>
 
-        {/* <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} />
-        <Button title="Uitloggen" onPress={logOut} /> */}
-      </View>
+        {/* <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} /> */}
+        {/* <Button title="Uitloggen" onPress={logOut} /> */}
+      </ScrollView>
     );
   }
 }
