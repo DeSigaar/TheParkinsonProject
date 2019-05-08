@@ -11,6 +11,8 @@ import ApiKeys from "./constants/ApiKeys";
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+
 export default class App extends Component {
   static propTypes = {
     skipLoadingScreen: PropTypes.any
@@ -42,19 +44,35 @@ export default class App extends Component {
   };
 
   _loadResourcesAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([
-        require("./assets/images/icon/icon.png"),
-        require("./assets/images/icon/splash.png"),
-        require("./assets/images/auth/background.jpg")
-      ]),
-      Font.loadAsync({
-        "product-sans": require("./assets/fonts/ProductSans/ProductSansRegular.ttf"),
-        "product-sans-bold": require("./assets/fonts/ProductSans/ProductSansBold.ttf"),
-        "product-sans-italic": require("./assets/fonts/ProductSans/ProductSansItalic.ttf"),
-        "product-sans-bold-italic": require("./assets/fonts/ProductSans/ProductSansBoldItalic.ttf")
-      })
+    cacheImages = images => {
+      return images.map(image => {
+        if (typeof image === "string") {
+          return Image.prefetch(image);
+        } else {
+          return Asset.fromModule(image).downloadAsync();
+        }
+      });
+    };
+    cacheFonts = fonts => {
+      return fonts.map(font => Font.loadAsync(font));
+    };
+
+    const imageAssets = cacheImages([
+      require("./assets/images/icon/icon.png"),
+      require("./assets/images/icon/splash.png"),
+      require("./assets/images/auth/background.jpg")
     ]);
+
+    const fontAssets = cacheFonts([
+      AntDesign.font,
+      MaterialIcons.font,
+      { "product-sans": require("./assets/fonts/ProductSans/ProductSansRegular.ttf") },
+      { "product-sans-bold": require("./assets/fonts/ProductSans/ProductSansBold.ttf") },
+      { "product-sans-italic": require("./assets/fonts/ProductSans/ProductSansItalic.ttf") },
+      { "product-sans-bold-italic": require("./assets/fonts/ProductSans/ProductSansBoldItalic.ttf") }
+    ]);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
   };
 
   _handleLoadingError = error => {

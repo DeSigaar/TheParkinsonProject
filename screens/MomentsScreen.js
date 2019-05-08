@@ -1,17 +1,28 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { LinearGradient } from "expo";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Gradients from "../constants/Gradients";
+import PropTypes from "prop-types";
 import moment from "moment";
 
-class TestScreen extends Component {
+import Header from "../components/common/Header";
+
+import Gradients from "../constants/Gradients";
+
+class MomentsScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
     moments: PropTypes.array
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      momentValues: {}
+    };
+  }
 
   renderMoments() {
     const { moments } = this.props;
@@ -27,8 +38,8 @@ class TestScreen extends Component {
             style={{
               height: 50,
               width: "100%",
-              borderRadius: 10,
-              padding: 10,
+              borderRadius: 13,
+              padding: 13,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center"
@@ -39,7 +50,7 @@ class TestScreen extends Component {
             locations={[0.3, 1]}
           >
             <Text style={{ color: "white" }}>{sortedMoment.name}</Text>
-            <Text style={{ color: "white" }}>{moment(sortedMoment.time.seconds * 1000).format("LT")}</Text>
+            <Text style={{ color: "white" }}>{moment(sortedMoment.time.seconds * 1000).format("HH:mm")}</Text>
           </LinearGradient>
         </View>
       );
@@ -47,15 +58,14 @@ class TestScreen extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <View style={styles.container}>
-        <Button
-          onPress={() => {
-            this.props.navigation.navigate("First");
-          }}
-          title="Back"
-        />
-        <View>{this.renderMoments()}</View>
+        <Header navigation={navigation} title="Momenten" />
+        <View style={styles.inner}>
+          <View>{this.renderMoments()}</View>
+        </View>
       </View>
     );
   }
@@ -65,9 +75,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    backgroundColor: "#ffffff",
-    marginLeft: 20,
-    marginRight: 20
+    backgroundColor: "#ffffff"
+  },
+  inner: {
+    marginTop: 75
   }
 });
 
@@ -88,4 +99,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TestScreen);
+)(MomentsScreen);
