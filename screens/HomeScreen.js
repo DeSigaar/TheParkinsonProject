@@ -12,16 +12,43 @@ class HomeScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     logOut: PropTypes.func,
-    authError: PropTypes.string
+    authError: PropTypes.string,
+    user: PropTypes.object
+  };
+
+  defineGreeting = () => {
+    const d = new Date();
+    const hours = d.getHours();
+
+    if (hours > 18) {
+      return "Goedenavond";
+    } else if (hours > 12) {
+      return "Goedemiddag";
+    } else {
+      return "Goedemorgen";
+    }
+  };
+
+  getFirstName = () => {
+    const { displayName } = this.props.user;
+    if (displayName) {
+      return displayName.split(" ")[0];
+    } else {
+      return "";
+    }
   };
 
   render() {
-    const { navigation, logOut, authError } = this.props;
+    const { navigation, logOut, authError, user } = this.props;
     if (authError) Alert.alert(authError);
 
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.intro}>Goedemorgen {user.displayName}</Text>
+        <Text style={styles.intro}>
+          {/* {this.defineGreeting()} {user.displayName} */}
+          {/* {this.defineGreeting()} {this.getFirstName(user.displayName)} */}
+          {this.defineGreeting()} {this.getFirstName()}
+        </Text>
         <View style={styles.menuItemContainer}>
           <Upcoming
             img={require("../assets/images/icon/medication.png")}
@@ -91,7 +118,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    user: state.firebase.profile
   };
 };
 

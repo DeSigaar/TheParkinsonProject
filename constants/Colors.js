@@ -1,18 +1,18 @@
 export default {
-  tintColor,
+  // tintColor,
   // Text colors
   greyTextColor: "#5D5D5D",
   whiteTextColor: "#fff",
 
   // Max's colors
   tabIconDefault: "#ccc",
-  tabIconSelected: tintColor,
+  // tabIconSelected: tintColor,
   tabBar: "#fefefe",
   errorBackground: "red",
   errorText: "#fff",
   warningBackground: "#EAEB5E",
   warningText: "#666804",
-  noticeBackground: tintColor,
+  // noticeBackground: tintColor,
   noticeText: "#fff",
 
   errorText: "#FF0000",
