@@ -17,15 +17,16 @@ class HomeScreen extends Component {
   };
 
   defineGreeting = () => {
-    const d = new Date();
-    const hours = d.getHours();
-
-    if (hours > 18) {
-      return "Goedenavond";
-    } else if (hours > 12) {
-      return "Goedemiddag";
-    } else {
-      return "Goedemorgen";
+    const hours = new Date().getHours();
+    switch (true) {
+      case hours >= 18:
+        return "Goedenavond";
+      case hours >= 12:
+        return "Goedemiddag";
+      case hours >= 6:
+        return "Goedemorgen";
+      default:
+        return "Goededag";
     }
   };
 
