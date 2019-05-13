@@ -12,7 +12,7 @@ export default class ExersizeAddScreen extends Component {
     super(props); 
     this.state = {
       oefeningHeader: "Oefening",
-      periodeHeader: "Periode",
+      periodeHeader: "Periode", 
       repetitieHeader: "Repetitie oefening",
       isDateTimePickerVisible: false,
       startText: "Vandaag",
