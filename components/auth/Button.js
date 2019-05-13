@@ -16,8 +16,8 @@ export default class Button extends Component {
     const { onPress, value, type } = this.props;
     const styleBackground = type === "dark" ? styles.darkBackground : styles.lightBackground;
     const styleText = type === "dark" ? styles.lightText : styles.darkText;
-    const androidButtonStyle = Platform.OS === "android" ? styles.androidButton : null;
-    const androidTextStyle = Platform.OS === "android" ? styles.androidText : null;
+    const androidButtonStyle = Platform.OS === "android" && styles.androidButton;
+    const androidTextStyle = Platform.OS === "android" && styles.androidText;
 
     return (
       <TouchableOpacity

@@ -6,7 +6,7 @@ import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Divider extends Component {
   render() {
-    const androidTextStyle = Platform.OS === "android" ? styles.androidText : null;
+    const androidTextStyle = Platform.OS === "android" && styles.androidText;
     return (
       <View style={styles.container}>
         <View style={styles.divider} />

@@ -18,7 +18,7 @@ export default class Input extends Component {
 
   render() {
     const { value, onChangeText, placeholder, secureTextEntry, keyboardType, autoCapitalize, autoCorrect } = this.props;
-    const androidInputStyle = Platform.OS === "android" ? styles.androidInput : null;
+    const androidInputStyle = Platform.OS === "android" && styles.androidInput;
 
     return (
       <TextInput

@@ -11,6 +11,7 @@ import ApiKeys from "./constants/ApiKeys";
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { Permissions, Notifications } from "expo";
 
 export default class App extends Component {
@@ -44,24 +45,44 @@ export default class App extends Component {
   };
 
   _loadResourcesAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([
-        require("./assets/images/icon/icon.png"),
-        require("./assets/images/icon/splash.png"),
-        require("./assets/images/auth/background.jpg")
-      ]),
-      Font.loadAsync({
-        "product-sans": require("./assets/fonts/ProductSans/ProductSansRegular.ttf"),
-        "product-sans-bold": require("./assets/fonts/ProductSans/ProductSansBold.ttf"),
-        "product-sans-italic": require("./assets/fonts/ProductSans/ProductSansItalic.ttf"),
-        "product-sans-bold-italic": require("./assets/fonts/ProductSans/ProductSansBoldItalic.ttf")
-      })
+    cacheImages = images => {
+      return images.map(image => {
+        if (typeof image === "string") {
+          return Image.prefetch(image);
+        } else {
+          return Asset.fromModule(image).downloadAsync();
+        }
+      });
+    };
+    cacheFonts = fonts => {
+      return fonts.map(font => Font.loadAsync(font));
+    };
+
+    const imageAssets = cacheImages([
+      require("./assets/images/auth/background.jpg"),
+      require("./assets/images/icon/icon.png"),
+      require("./assets/images/icon/splash.png"),
+      require("./assets/images/icon/activiteiten.png"),
+      require("./assets/images/icon/community.png"),
+      require("./assets/images/icon/medicatie.png"),
+      require("./assets/images/icon/oefeningen.png"),
+      require("./assets/images/icon/schema.png"),
+      require("./assets/images/icon/tipsTricks.png")
     ]);
+
+    const fontAssets = cacheFonts([
+      AntDesign.font,
+      MaterialIcons.font,
+      { "product-sans": require("./assets/fonts/ProductSans/ProductSansRegular.ttf") },
+      { "product-sans-bold": require("./assets/fonts/ProductSans/ProductSansBold.ttf") },
+      { "product-sans-italic": require("./assets/fonts/ProductSans/ProductSansItalic.ttf") },
+      { "product-sans-bold-italic": require("./assets/fonts/ProductSans/ProductSansBoldItalic.ttf") }
+    ]);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
   };
 
   _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
     // eslint-disable-next-line no-console
     console.warn(error);
   };

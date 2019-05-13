@@ -15,7 +15,8 @@
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll",
     "lint": "eslint '**/*.js'",
-    "lint:fix": "prettier-eslint '**/*.js' --write"
+    "lint:fix": "prettier-eslint '**/*.js' --write",
+    "deploy-functions": "npm run deploy --prefix functions"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -45,6 +46,7 @@
   "dependencies": {
     "expo": "^32.0.6",
     "firebase": "^5.9.4",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.5.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
