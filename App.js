@@ -59,9 +59,15 @@ export default class App extends Component {
     };
 
     const imageAssets = cacheImages([
+      require("./assets/images/auth/background.jpg"),
       require("./assets/images/icon/icon.png"),
       require("./assets/images/icon/splash.png"),
-      require("./assets/images/auth/background.jpg")
+      require("./assets/images/icon/activiteiten.png"),
+      require("./assets/images/icon/community.png"),
+      require("./assets/images/icon/medicatie.png"),
+      require("./assets/images/icon/oefeningen.png"),
+      require("./assets/images/icon/schema.png"),
+      require("./assets/images/icon/tipsTricks.png")
     ]);
 
     const fontAssets = cacheFonts([
