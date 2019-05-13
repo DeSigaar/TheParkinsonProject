@@ -51,11 +51,9 @@ class HomeScreen extends Component {
 
   getFirstName = () => {
     const { displayName } = this.props.user;
-    if (displayName) {
-      return displayName.split(" ")[0];
-    } else {
-      return "";
-    }
+
+    // Get first name or leave blank
+    return displayName ? displayName.split(" ")[0] : "";
   };
 
   registerForPushNotifications = async () => {
@@ -92,8 +90,6 @@ class HomeScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.intro}>
-          {/* {this.defineGreeting()} {user.displayName} */}
-          {/* {this.defineGreeting()} {this.getFirstName(user.displayName)} */}
           {this.defineGreeting()} {this.getFirstName()}
         </Text>
         <View style={styles.menuItemContainer}>
@@ -111,7 +107,7 @@ class HomeScreen extends Component {
             title="Oefeningen"
             img={require("../assets/images/icon/oefeningen.png")}
             gradientColor={Gradients.green}
-            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+            onPress={() => navigation.navigate("Exercises")}
           />
           <MenuItem
             title="Activiteiten"
@@ -128,11 +124,15 @@ class HomeScreen extends Component {
             img={require("../assets/images/icon/tipsTricks.png")}
             gradientColor={Gradients.purple}
           />
-          <MenuItem title="Schema" img={require("../assets/images/icon/schema.png")} gradientColor={Gradients.yellow} />
+          <MenuItem
+            title="Schema"
+            img={require("../assets/images/icon/schema.png")}
+            gradientColor={Gradients.yellow}
+            onPress={() => navigation.navigate("Moments")}
+          />
         </View>
 
-        {/* <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} /> */}
-        {/* <Button title="Uitloggen" onPress={logOut} /> */}
+        <Button title="Uitloggen" onPress={logOut} />
       </ScrollView>
     );
   }
