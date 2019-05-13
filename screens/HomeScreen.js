@@ -2,18 +2,37 @@ import React, { Component } from "react";
 import { StyleSheet, Text, ScrollView, View, Alert, Button } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logOut } from "../store/actions/authActions";
+import { logOut, setExpoPushToken } from "../store/actions/authActions";
 import { MenuItem } from "../components/home";
 import { Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
+import { Permissions, Notifications } from "expo";
 
 class HomeScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     logOut: PropTypes.func,
+    setExpoPushToken: PropTypes.func,
     authError: PropTypes.string,
     user: PropTypes.object
+  };
+
+  componentDidUpdate() {
+    const { user } = this.props;
+    if (!user.isEmpty) {
+      // User is present
+      if (!user.expoPushToken) {
+        // Token is not present and should be set
+        this.registerForPushNotifications();
+      }
+    }
+
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+  }
+
+  _handleNotification = notification => {
+    this.setState({ notification: notification });
   };
 
   defineGreeting = () => {
@@ -39,6 +58,33 @@ class HomeScreen extends Component {
     }
   };
 
+  registerForPushNotifications = async () => {
+    //Check for excisting permissions
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = status;
+
+    //If no excisting permission, ask for permission
+    if (status !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    //If no permission, exit the function
+    if (finalStatus !== "granted") {
+      return;
+    }
+
+    //Get push notification token
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    //add token to firebase
+    let uid = this.props.user.uid;
+
+    if (uid && token) {
+      this.props.setExpoPushToken(uid, token);
+    }
+  };
+
   render() {
     const { navigation, logOut, authError, user } = this.props;
     if (authError) Alert.alert(authError);
@@ -52,24 +98,24 @@ class HomeScreen extends Component {
         </Text>
         <View style={styles.menuItemContainer}>
           <Upcoming
-            img={require("../assets/images/icon/medication.png")}
+            img={require("../assets/images/icon/medicatie.png")}
             gradientColor={Gradients.blue}
             onPress={() => navigation.navigate("ExerciseHomeScreen")}
           />
           <MenuItem
             title="Medicijnen"
-            img={require("../assets/images/icon/medication.png")}
+            img={require("../assets/images/icon/medicatie.png")}
             gradientColor={Gradients.blue}
           />
           <MenuItem
             title="Oefeningen"
-            img={require("../assets/images/icon/exercises.png")}
+            img={require("../assets/images/icon/oefeningen.png")}
             gradientColor={Gradients.green}
             onPress={() => navigation.navigate("ExerciseHomeScreen")}
           />
           <MenuItem
             title="Activiteiten"
-            img={require("../assets/images/icon/activities.png")}
+            img={require("../assets/images/icon/activiteiten.png")}
             gradientColor={Gradients.orange}
           />
           <MenuItem
@@ -79,7 +125,7 @@ class HomeScreen extends Component {
           />
           <MenuItem
             title="Tips & Tricks"
-            img={require("../assets/images/icon/tips_tricks.png")}
+            img={require("../assets/images/icon/tipsTricks.png")}
             gradientColor={Gradients.purple}
           />
           <MenuItem title="Schema" img={require("../assets/images/icon/schema.png")} gradientColor={Gradients.yellow} />
@@ -129,6 +175,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     ...ownProps,
     logOut: () => {
       dispatch(logOut());
+    },
+    setExpoPushToken: (uid, token) => {
+      dispatch(setExpoPushToken(uid, token));
     }
   };
 };
