@@ -17,10 +17,19 @@ export default class ExersizeAddScreen extends Component {
       isDateTimePickerVisible: false,
       startText: "Vandaag",
       endText: "N.v.t.",
-      startOrEnd: ""
+      startOrEnd: "",
+      buttonMonday: false,
+      buttonTuesday: false,
+      buttonWednesday: false,
+      buttonThursday: false,
+      buttonFriday: false,
+      buttonSaturday: false,
+      buttonSunday: false,
     };
   } 
-
+  ToggleButtonFunction = (buttonName) =>{
+    this.setState({[buttonName]: !this.state[buttonName]});
+  } 
   showDateTimePicker = endOrStart => {
     if(endOrStart == "start"){
       this.setState({startOrEnd: endOrStart });
@@ -127,37 +136,37 @@ export default class ExersizeAddScreen extends Component {
           </View>
         </View>
         <View style={styles.periodeBoxButtons}>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonMonday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive} onPress={() => this.ToggleButtonFunction("buttonMonday") }  activeOpacity={0.8} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Ma</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothin} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonTuesday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive} onPress={() => this.ToggleButtonFunction("buttonTuesday")} activeOpacity={0.8} > 
           <View style={styles.weekButton}>
             <Text style={styles.weekButtonText}>Di</Text>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonWednesday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonWednesday")}  activeOpacity={0.8} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Wo</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonThursday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonThursday")}  activeOpacity={0.8} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Do</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonFriday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonFriday")}  activeOpacity={0.8} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Vr</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonSaturday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonSaturday")}  activeOpacity={0.8} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Za</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weekButtonsBox} onPress={() => this.doNothing} activeOpacity={0.8} > 
+          <TouchableOpacity style={ this.state.buttonSunday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonSunday")}  activeOpacity={0.8} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Zo</Text>
             </View>
@@ -289,7 +298,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
-  weekButtonsBox :{
+  weekButtonsBoxActive :{
     width: 40,
     marginTop: 10,
     marginBottom: 10,
@@ -297,7 +306,16 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20000,
     backgroundColor: 'green',
-
+  },
+  weekButtonsBoxInActive :{
+    width: 40,
+    marginTop: 10,
+    opacity: 0.5,
+    marginBottom: 10,
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 20000,
+    backgroundColor: 'green',
   }
   //Weekbuttons end
 });
