@@ -60,6 +60,10 @@ const authReducer = (state = initState, action) => {
         authError: null,
         authMessage: null
       };
+    case "SET_EXPOPUSHTOKEN":
+      return {
+        ...state
+      };
     default:
       return state;
   }

@@ -1,24 +1,73 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Alert, Button } from "react-native";
+import { StyleSheet, View, Alert, Button, Text } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logOut } from "../store/actions/authActions";
+import { logOut, setExpoPushToken } from "../store/actions/authActions";
 import { MenuItem } from "../components";
 import Gradients from "../constants/Gradients";
+import { Permissions, Notifications } from "expo";
+import { sendPushNotification } from "../store/actions/notifiActions";
 
 class FirstScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     logOut: PropTypes.func,
+    setExpoPushToken: PropTypes.func,
     user: PropTypes.object,
     authError: PropTypes.string
+  };
+
+  state = {
+    notification: {}
+  };
+
+  componentDidUpdate() {
+    const { user } = this.props;
+    if (!user.isEmpty) {
+      // User is present
+      if (!user.expoPushToken) {
+        // Token is not present and should be set
+        this.registerForPushNotifications();
+      }
+    }
+
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+  }
+
+  _handleNotification = notification => {
+    this.setState({ notification: notification });
+  };
+
+  registerForPushNotifications = async () => {
+    //Check for excisting permissions
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = status;
+
+    //If no excisting permission, ask for permission
+    if (status !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    //If no permission, exit the function
+    if (finalStatus !== "granted") {
+      return;
+    }
+
+    //Get push notification token
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    //add token to firebase
+    let uid = this.props.user.uid;
+
+    if (uid && token) {
+      this.props.setExpoPushToken(uid, token);
+    }
   };
 
   render() {
     const { navigation, logOut, authError, user } = this.props;
     if (authError) Alert.alert(authError);
-
-    console.log(user);
 
     return (
       <View style={styles.container}>
@@ -35,7 +84,6 @@ class FirstScreen extends Component {
           <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} />
           {/* <MenuItem title="Oefeningen" img="http://logodust.com/img/free/logo28.png" gradientColor={Gradients.green} /> */}
         </View>
-
         <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} />
         <Button title="Uitloggen" onPress={logOut} />
       </View>
@@ -73,6 +121,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     ...ownProps,
     logOut: () => {
       dispatch(logOut());
+    },
+    setExpoPushToken: (uid, token) => {
+      dispatch(setExpoPushToken(uid, token));
     }
   };
 };

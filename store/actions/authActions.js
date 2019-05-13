@@ -129,3 +129,13 @@ export const clearError = () => {
 export const setAuthLoading = () => {
   return { type: "AUTH_LOADING" };
 };
+
+export const setExpoPushToken = (uid, token) => {
+  return () => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(uid)
+      .update({ expoPushToken: token });
+  };
+};

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../store/actions/authActions";
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import FirstScreen from "../screens/FirstScreen";
+import HomeScreen from "../screens/HomeScreen";
 import SecondScreen from "../screens/SecondScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 
@@ -11,7 +11,7 @@ import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 const Navigation = createAppContainer(
   createStackNavigator(
     {
-      First: { screen: FirstScreen },
+      First: { screen: HomeScreen },
       Second: { screen: SecondScreen },
       ExerciseHomeScreen: { screen: ExerciseHomeScreen }
     },
