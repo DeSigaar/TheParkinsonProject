@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, Picker, TouchableOpacity, TextInput } from "react-native";
+import { StyleSheet, Text, View, Button, Picker, TouchableOpacity, TextInput, TouchableHighlight } from "react-native";
 import PropTypes from "prop-types";
 import Input from "../../components/common/Input";
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -11,13 +11,6 @@ export default class ExersizeAddScreen extends Component {
   constructor(props) {
     super(props); 
     this.state = {
-      oefeningHeader: "Oefening",
-      periodeHeader: "Periode", 
-      repetitieHeader: "Repetitie oefening",
-      isDateTimePickerVisible: false,
-      startText: "Vandaag",
-      endText: "N.v.t.",
-      startOrEnd: "",
       buttonMonday: false,
       buttonTuesday: false,
       buttonWednesday: false,
@@ -25,10 +18,19 @@ export default class ExersizeAddScreen extends Component {
       buttonFriday: false,
       buttonSaturday: false,
       buttonSunday: false,
+      oefeningHeader: "Oefening",
+      periodeHeader: "Periode", 
+      repetitieHeader: "Repetitie oefening",
+      isDateTimePickerVisible: false,
+      startText: "Vandaag",
+      endText: "N.v.t.",
+      startOrEnd: "",
     };
   } 
-  ToggleButtonFunction = (buttonName) =>{
-    this.setState({[buttonName]: !this.state[buttonName]});
+  toggleDateButton = (buttonName) =>{
+    this.setState({[buttonName]: !this.state[buttonName]}, () => {
+      console.log(buttonName + ": " + this.state[buttonName]);
+    }) ;
   } 
   showDateTimePicker = endOrStart => {
     if(endOrStart == "start"){
@@ -81,8 +83,9 @@ export default class ExersizeAddScreen extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
-    const { navigate } = navigation;
+    const { navigate } = this.props.navigation;
+
+    console.log(this.state.buttonMonday);
     return (
     <View style={styles.container}>
       <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} /> 
@@ -113,7 +116,7 @@ export default class ExersizeAddScreen extends Component {
           onCancel={this.hideDateTimePicker}
         />
       </View>
-      {/* -------------------------------------------------------------------------------------------------------------- */}
+      {/*--------------------------------  NEEDS TO BE A COMPONENT----------------------------------------------- */}
       <View>
         <Text style={styles.inputHeader}>{this.state.repetitieHeader}</Text>
         <View style={styles.periodeBoxView}>
@@ -136,41 +139,41 @@ export default class ExersizeAddScreen extends Component {
           </View>
         </View>
         <View style={styles.periodeBoxButtons}>
-          <TouchableOpacity style={ this.state.buttonMonday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive} onPress={() => this.ToggleButtonFunction("buttonMonday") }  activeOpacity={0.8} > 
+          <TouchableHighlight activeOpacity={0.4} style={ this.state.buttonMonday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive} onPress={()=>this.toggleDateButton("buttonMonday") }  > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Ma</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={ this.state.buttonTuesday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive} onPress={() => this.ToggleButtonFunction("buttonTuesday")} activeOpacity={0.8} > 
+          </TouchableHighlight>
+          <TouchableHighlight style={ this.state.buttonTuesday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive} onPress={() => this.toggleDateButton("buttonTuesday")} > 
           <View style={styles.weekButton}>
             <Text style={styles.weekButtonText}>Di</Text>
           </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={ this.state.buttonWednesday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonWednesday")}  activeOpacity={0.8} > 
+          </TouchableHighlight>
+          <TouchableHighlight style={ this.state.buttonWednesday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.toggleDateButton("buttonWednesday")}> 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Wo</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={ this.state.buttonThursday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonThursday")}  activeOpacity={0.8} > 
+          </TouchableHighlight>
+          <TouchableHighlight style={ this.state.buttonThursday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.toggleDateButton("buttonThursday")}   > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Do</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={ this.state.buttonFriday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonFriday")}  activeOpacity={0.8} > 
+          </TouchableHighlight>
+          <TouchableHighlight style={ this.state.buttonFriday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.toggleDateButton("buttonFriday")} > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Vr</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={ this.state.buttonSaturday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonSaturday")}  activeOpacity={0.8} > 
+          </TouchableHighlight>
+          <TouchableHighlight style={ this.state.buttonSaturday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.toggleDateButton("buttonSaturday")}  > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Za</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={ this.state.buttonSunday? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}  onPress={() => this.ToggleButtonFunction("buttonSunday")}  activeOpacity={0.8} > 
+          </TouchableHighlight>
+          <TouchableHighlight style={ this.state.buttonSunday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}   onPress={() => this.toggleDateButton("buttonSunday")}  > 
             <View style={styles.weekButton}>
               <Text style={styles.weekButtonText}>Zo</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View> 
       </View>
     </View>
@@ -310,12 +313,12 @@ const styles = StyleSheet.create({
   weekButtonsBoxInActive :{
     width: 40,
     marginTop: 10,
-    opacity: 0.5,
+    opacity: 0.4,
     marginBottom: 10,
     justifyContent: 'center',
     height: 40,
     borderRadius: 20000,
-    backgroundColor: 'green',
+    backgroundColor: '#489428',
   }
   //Weekbuttons end
 });
