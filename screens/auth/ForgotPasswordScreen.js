@@ -73,8 +73,8 @@ class ForgotPasswordScreen extends Component {
             />
             <Button onPress={this.handlePressForgotPassword} type="dark" value="Stuur een email" />
             <View style={styles.errors}>
-              {authError ? <Text style={styles.error}>{authError}</Text> : null}
-              {authMessage ? <Text style={styles.success}>{authMessage}</Text> : null}
+              {authError && <Text style={styles.error}>{authError}</Text>}
+              {authMessage && <Text style={styles.success}>{authMessage}</Text>}
             </View>
           </View>
 

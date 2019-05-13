@@ -13,9 +13,9 @@ export default class GoogleButton extends Component {
 
   render() {
     const { onPress, value } = this.props;
-    const androidButtonStyle = Platform.OS === "android" ? styles.androidButton : null;
-    const androidTextStyle = Platform.OS === "android" ? styles.androidText : null;
-    const androidImageStyle = Platform.OS === "android" ? styles.androidImage : null;
+    const androidButtonStyle = Platform.OS === "android" && styles.androidButton;
+    const androidTextStyle = Platform.OS === "android" && styles.androidText;
+    const androidImageStyle = Platform.OS === "android" && styles.androidImage;
 
     return (
       <TouchableOpacity style={[styles.button, androidButtonStyle]} onPress={onPress} activeOpacity={0.8}>

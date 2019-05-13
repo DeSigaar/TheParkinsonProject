@@ -28,21 +28,21 @@ export default class Header extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.side}>
-          {backButton ? (
+          {backButton && (
             <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.goBack()}>
               <MaterialIcons style={styles.icon} name="arrow-back" />
             </TouchableOpacity>
-          ) : null}
+          )}
         </View>
         <View style={styles.center}>
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.side}>
-          {actionButton ? (
+          {actionButton && (
             <TouchableOpacity activeOpacity={0.6} onPress={() => actionPress()}>
               <MaterialIcons style={styles.icon} name={actionType} />
             </TouchableOpacity>
-          ) : null}
+          )}
         </View>
       </View>
     );

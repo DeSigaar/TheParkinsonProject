@@ -1,24 +1,17 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { LinearGradient } from "expo";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import moment from "moment";
 
-import Header from "../components/common/Header";
-import Moments from "../components/Moments";
-
-import Gradients from "../constants/Gradients";
-
-class MomentsScreen extends Component {
+export default class Moments extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
-    user: PropTypes.object,
-    moments: PropTypes.array
+    moments: PropTypes.array,
+    colors: PropTypes.array
   };
 
   renderMoments() {
-    const { moments } = this.props;
+    const { moments, colors } = this.props;
 
     const sortedMoments = moments.sort((a, b) => {
       return a.time.seconds - b.time.seconds;
@@ -37,7 +30,7 @@ class MomentsScreen extends Component {
               justifyContent: "space-between",
               alignItems: "center"
             }}
-            colors={Gradients.blue}
+            colors={colors}
             start={[0, 0]}
             end={[1, 1]}
             locations={[0.3, 1]}
@@ -53,15 +46,11 @@ class MomentsScreen extends Component {
   }
 
   render() {
-    const { navigation, moments } = this.props;
-
     return (
       <View style={styles.container}>
-        <Header navigation={navigation} title="Momenten" />
-        <View style={styles.inner}>
-          {/* <View>{this.renderMoments()}</View> */}
-          <Moments moments={moments} colors={Gradients.blue} />
-        </View>
+        <Text style={{ color: "black", backgroundColor: "yellow" }}>Hello</Text>
+
+        <View>{this.renderMoments()}</View>
       </View>
     );
   }
@@ -69,30 +58,6 @@ class MomentsScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    flex: 1,
-    backgroundColor: "#ffffff"
-  },
-  inner: {
-    marginTop: 75
+    width: "100%"
   }
 });
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.firebase.profile,
-    moments: state.firebase.profile.moments
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    ...ownProps
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MomentsScreen);

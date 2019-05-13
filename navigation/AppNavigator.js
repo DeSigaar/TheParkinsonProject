@@ -6,7 +6,7 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import FirstScreen from "../screens/FirstScreen";
 import SecondScreen from "../screens/SecondScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
-import TestScreen from "../screens/MomentsScreen";
+import MomentsScreen from "../screens/MomentsScreen";
 
 // Create the App stack with options
 const Navigation = createAppContainer(

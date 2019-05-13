@@ -112,7 +112,7 @@ class SignupScreen extends Component {
               secureTextEntry
             />
             <Button onPress={this.handlePressSignup} type="dark" value="Registreer" />
-            <View style={styles.errors}>{authError ? <Text style={styles.error}>{authError}</Text> : null}</View>
+            <View style={styles.errors}>{authError && <Text style={styles.error}>{authError}</Text>}</View>
 
             <Divider />
 
