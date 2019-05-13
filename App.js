@@ -12,6 +12,7 @@ import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { Permissions, Notifications } from "expo";
 
 export default class App extends Component {
   static propTypes = {
