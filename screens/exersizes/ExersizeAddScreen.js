@@ -25,6 +25,7 @@ export default class ExersizeAddScreen extends Component {
       startText: "Vandaag",
       endText: "N.v.t.",
       startOrEnd: "",
+      textInputName
     };
   } 
   toggleDateButton = (buttonName) =>{
@@ -45,7 +46,6 @@ export default class ExersizeAddScreen extends Component {
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
- 
   handleDatePicked = date => {
     console.log("A date has been picked: ", date);
     let dateShorted = "";
@@ -85,13 +85,13 @@ export default class ExersizeAddScreen extends Component {
   render() {
     const { navigate } = this.props.navigation;
 
-    console.log(this.state.buttonMonday);
+    console.log(this.state.textInputName);
     return (
     <View style={styles.container}>
       <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} /> 
       <View>
         <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
-        <TextInput style={styles.textInput} placeholder="Test1"></TextInput>
+        <TextInput style={styles.textInput}  onChangeText={(textInputName) => this.setState({textInputName})} placeholder="Test1">{this.state.textInputName}</TextInput>
       </View>
       <View>
         <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
