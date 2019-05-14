@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "../store/actions/authActions";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
-import SecondScreen from "../screens/SecondScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 import MomentsScreen from "../screens/MomentsScreen";
 
@@ -12,16 +11,15 @@ import MomentsScreen from "../screens/MomentsScreen";
 const Navigation = createAppContainer(
   createStackNavigator(
     {
-      First: { screen: HomeScreen },
-      Second: { screen: SecondScreen },
-      ExerciseHomeScreen: { screen: ExerciseHomeScreen },
+      Home: { screen: HomeScreen },
+      Exercises: { screen: ExerciseHomeScreen },
       Moments: { screen: MomentsScreen }
     },
     {
       defaultNavigationOptions: {
         header: null
       },
-      initialRouteName: "First" // Change this if you want to directly go to a screen you are developing
+      initialRouteName: "Home" // Change this if you want to directly go to a screen you are developing
     }
   )
 );
