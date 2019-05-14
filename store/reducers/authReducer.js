@@ -7,6 +7,11 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case "SET_CURRENT_USER":
+      return {
+        ...state,
+        user: action.user
+      };
     case "AUTH_LOADING":
       return {
         ...state,
@@ -15,6 +20,7 @@ const authReducer = (state = initState, action) => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
+        user: action.user,
         authLoading: false,
         authError: null
       };
@@ -53,6 +59,10 @@ const authReducer = (state = initState, action) => {
         authLoading: false,
         authError: null,
         authMessage: null
+      };
+    case "SET_EXPOPUSHTOKEN":
+      return {
+        ...state
       };
     default:
       return state;

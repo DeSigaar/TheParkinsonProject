@@ -25,7 +25,7 @@ export default class ExersizeAddScreen extends Component {
       startText: "Vandaag",
       endText: "N.v.t.",
       startOrEnd: "",
-      textInputName
+      textInputName: "",
     };
   } 
   toggleDateButton = (buttonName) =>{

@@ -4,6 +4,9 @@ import { ActivityIndicator, View, StyleSheet, Text, ImageBackground } from "reac
 import { connect } from "react-redux";
 import { sendPasswordResetEmail, setAuthLoading, clearError } from "../../store/actions/authActions";
 
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
+
 import { Input, Button, Upper, Chevron } from "../../components/auth";
 
 class ForgotPasswordScreen extends Component {
@@ -19,6 +22,10 @@ class ForgotPasswordScreen extends Component {
 
   constructor(props) {
     super(props);
+
+    if (props.navigation.state.params.init) {
+      props.navigation.navigate("Login");
+    }
 
     this.state = {
       email: ""
@@ -54,20 +61,24 @@ class ForgotPasswordScreen extends Component {
       return (
         <View style={styles.form}>
           <Upper top="Wachtwoord vergeten?" bottom="Herstel hier je wachtwoord" />
-          <Input
-            placeholder="Email"
-            onChangeText={email => this.setState({ email })}
-            value={email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <Button onPress={this.handlePressForgotPassword} type="dark" title="Stuur een email" />
-          <View style={styles.errors}>
-            {authError ? <Text style={styles.error}>{authError}</Text> : null}
-            {authMessage ? <Text style={styles.success}>{authMessage}</Text> : null}
+
+          <View style={styles.innerForm}>
+            <Input
+              placeholder="Email"
+              onChangeText={email => this.setState({ email })}
+              value={email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <Button onPress={this.handlePressForgotPassword} type="dark" value="Stuur een email" />
+            <View style={styles.errors}>
+              {authError && <Text style={styles.error}>{authError}</Text>}
+              {authMessage && <Text style={styles.success}>{authMessage}</Text>}
+            </View>
           </View>
-          <Chevron onPress={this.handlePressNavigateLogin} type="light" title="Inloggen" />
+
+          <Chevron onPress={this.handlePressNavigateLogin} direction="right" value="Inloggen" />
         </View>
       );
     }
@@ -81,7 +92,7 @@ class ForgotPasswordScreen extends Component {
           imageStyle={styles.backgroundImage}
           style={styles.background}
         >
-          <View style={styles.inner}>{this.renderCurrentState()}</View>
+          <View style={styles.innerContainer}>{this.renderCurrentState()}</View>
         </ImageBackground>
       </View>
     );
@@ -109,7 +120,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: "cover"
   },
-  inner: {
+  innerContainer: {
     flex: 1,
     padding: 32,
     paddingTop: 64,
@@ -120,21 +131,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  innerForm: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%"
+  },
   load: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
   errors: {
-    height: 50
+    height: 25
   },
   error: {
-    fontFamily: "product-sans",
-    color: "#FF0000"
+    backgroundColor: Colors.darkGray,
+    height: 21,
+    padding: 2,
+    borderRadius: 2,
+    fontFamily: ProductSans.regular,
+    color: Colors.errorText
   },
   success: {
-    fontFamily: "product-sans",
-    color: "#00FF00"
+    backgroundColor: Colors.darkGray,
+    height: 21,
+    padding: 2,
+    borderRadius: 2,
+    fontFamily: ProductSans.regular,
+    color: Colors.successText
   }
 });
 
