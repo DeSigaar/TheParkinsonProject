@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, ScrollView, View, Alert, Button } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity } from "react-native";
+import { Permissions, Notifications } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logOut, setExpoPushToken } from "../store/actions/authActions";
-import { MenuItem } from "../components/home";
-import { Upcoming } from "../components/home";
+import { setExpoPushToken } from "../store/actions/authActions";
+import { MenuItem, Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
 import ProductSans from "../constants/fonts/ProductSans";
-import { Permissions, Notifications } from "expo";
 
 class HomeScreen extends Component {
   static propTypes = {
@@ -50,9 +49,7 @@ class HomeScreen extends Component {
     }
   };
 
-  getFirstName = () => {
-    const { displayName } = this.props.user;
-
+  getFirstName = displayName => {
     // Get first name or leave blank
     return displayName ? displayName.split(" ")[0] : "";
   };
@@ -85,14 +82,24 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { navigation, logOut, authError } = this.props;
-    if (authError) Alert.alert(authError);
+    const { navigation, user } = this.props;
 
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.intro}>
-          {this.defineGreeting()} {this.getFirstName()}
+          {this.defineGreeting()} {this.getFirstName(user.displayName)}
         </Text>
+        <TouchableOpacity
+          style={styles.profileContainer}
+          activeOpacity={0.6}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          {user.photoURL ? (
+            <Image source={{ uri: user.photoURL }} style={styles.photoURL} />
+          ) : (
+            <Image source={{ uri: "http://chittagongit.com/download/247043" }} style={styles.photoURL} />
+          )}
+        </TouchableOpacity>
         <View style={styles.menuItemContainer}>
           <Upcoming
             img={require("../assets/images/icon/home/medicatie.png")}
@@ -132,8 +139,6 @@ class HomeScreen extends Component {
             onPress={() => navigation.navigate("Moments")}
           />
         </View>
-
-        <Button title="Uitloggen" onPress={logOut} />
       </ScrollView>
     );
   }
@@ -154,6 +159,18 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20
   },
+  profileContainer: {
+    position: "absolute",
+    top: 56,
+    right: 0,
+    width: 36,
+    height: 36
+  },
+  photoURL: {
+    width: 36,
+    height: 36,
+    borderRadius: 18
+  },
   menuItemContainer: {
     flex: 1,
     flexDirection: "row",
@@ -166,7 +183,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    authError: state.auth.authError,
     user: state.firebase.profile
   };
 };
@@ -174,9 +190,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     ...ownProps,
-    logOut: () => {
-      dispatch(logOut());
-    },
     setExpoPushToken: (uid, token) => {
       dispatch(setExpoPushToken(uid, token));
     }
