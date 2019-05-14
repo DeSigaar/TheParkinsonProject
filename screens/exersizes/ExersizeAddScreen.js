@@ -1,16 +1,32 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button, Picker, TouchableOpacity, TextInput, TouchableHighlight } from "react-native";
 import PropTypes from "prop-types";
+import { connect} from "react-redux";
 import Input from "../../components/common/Input";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Colors from "../../constants/Colors";
 import { LinearGradient } from "expo";
 import Gradients from "../../constants/Gradients";
+import Moments from "../../components/Moments";
+import { ScrollView } from "react-native-gesture-handler";
 
-export default class ExersizeAddScreen extends Component {
+class ExersizeAddScreen extends Component {
+  static propTypes = {
+    navigation: PropTypes.object,
+    user: PropTypes.object,
+    moments: PropTypes.array.isRequired
+  };
   constructor(props) {
     super(props); 
+    let { moments } = this.props;
+    moments.forEach((moment, i) => {
+      moments[i] = {
+        ...moment,
+        count: 0
+      };
+    });
     this.state = {
+      moments,
       buttonMonday: false,
       buttonTuesday: false,
       buttonWednesday: false,
@@ -21,13 +37,35 @@ export default class ExersizeAddScreen extends Component {
       oefeningHeader: "Oefening",
       periodeHeader: "Periode", 
       repetitieHeader: "Repetitie oefening",
+      momentsHeader: "Kies momenten",
       isDateTimePickerVisible: false,
       startText: "Vandaag",
+      
       endText: "N.v.t.",
       startOrEnd: "",
       textInputName: "",
     };
   } 
+  handlePressMoment = (position, type) => {
+    let { moments } = this.state;
+    let count = moments[position].count;
+
+    switch (type) {
+      case "add":
+        count++;
+        break;
+      case "remove":
+        if (count !== 0) count--;
+        break;
+    }
+
+    moments[position] = {
+      ...moments[position],
+      count
+    };
+
+    this.setState({ moments });
+  };
   toggleDateButton = (buttonName) =>{
     this.setState({[buttonName]: !this.state[buttonName]}, () => {
       console.log(buttonName + ": " + this.state[buttonName]);
@@ -74,20 +112,17 @@ export default class ExersizeAddScreen extends Component {
 
     this.hideDateTimePicker();
   };
-  static propTypes = {
-    navigation: PropTypes.object
-  };
+
 
   static navigationOptions = {
     title: "Second"
   };
 
   render() {
+    const { moments } = this.state;
     const { navigate } = this.props.navigation;
-
-    console.log(this.state.textInputName);
     return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} /> 
       <View>
         <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
@@ -176,7 +211,22 @@ export default class ExersizeAddScreen extends Component {
           </TouchableHighlight>
         </View> 
       </View>
-    </View>
+      <View style={styles.momentenDoos}>
+        <Text style={styles.inputHeader}>{this.state.momentsHeader}</Text>
+        <Moments moments={moments} colors={Gradients.green} handlePress={this.handlePressMoment} />
+      </View>
+      <TouchableOpacity style={styles.btnSubmit}>
+          <LinearGradient
+            colors={Gradients.green}
+            start={[0, 0]}
+            end={[1, 1]}
+            locations={[0.3, 1]}
+            style={styles.gradient}
+          >
+            <Text style={styles.gradientText}>Submit</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+    </ScrollView>
     );
   }
 }
@@ -319,6 +369,45 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20000,
     backgroundColor: '#489428',
-  }
+  },
   //Weekbuttons end
+  momentenDoos: {
+    marginTop: 15
+  },
+  btnSubmit: {
+    width: "100%",
+    height: "5%",
+    color: "#fff",
+    marginTop: 24,
+    marginBottom: 80
+  },
+  gradient: {
+    height: "100%",
+    borderRadius: 13,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  gradientText: {
+    color: "#fff"
+  },
 });
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.firebase.profile,
+    moments: state.firebase.profile.moments
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    ...ownProps
+  };
+};
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExersizeAddScreen);
