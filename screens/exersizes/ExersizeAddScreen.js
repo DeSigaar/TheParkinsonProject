@@ -223,7 +223,7 @@ class ExersizeAddScreen extends Component {
             locations={[0.3, 1]}
             style={styles.gradient}
           >
-            <Text style={styles.gradientText}>Submit</Text>
+            <Text style={styles.gradientText}>Oefening Toevoegen</Text>
           </LinearGradient>
         </TouchableOpacity>
     </ScrollView>
