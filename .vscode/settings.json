@@ -5,10 +5,10 @@
   "editor.tabSize": 2,
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
+  "eslint.enable": true,
   "eslint.autoFixOnSave": true,
   "explorer.sortOrder": "default",
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
+  "files.autoSave": "onFocusChange",
   "files.eol": "\n",
   "files.exclude": {
     "**/.DS_Store": true,

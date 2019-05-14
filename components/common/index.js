@@ -1,3 +1,4 @@
+import Header from "./Header";
 import Input from "./Input";
 
-export { Input };
+export { Header, Input };

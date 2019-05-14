@@ -17,7 +17,8 @@ const createStoreWithFirebase = compose(
   reduxFirestore(ApiKeys.FirebaseConfig),
   reactReduxFirebase(firebase, {
     useFirestoreForProfile: true,
-    userProfile: "users"
+    userProfile: "users",
+    logErrors: false
   })
 )(createStore);
 

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Text, Image, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo";
+
 import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Upcoming extends Component {
   static propTypes = {
@@ -10,8 +12,6 @@ export default class Upcoming extends Component {
     gradientColor: PropTypes.array,
     onPress: PropTypes.func
   };
-
-  // let img = this.props.img;
 
   render() {
     return (
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     elevation: 4,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
     borderRadius: 10
   },
   textContainer: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   smallText: {
-    fontFamily: "product-sans",
+    fontFamily: ProductSans.regular,
     color: Colors.greyTextColor,
     marginBottom: 3,
     marginTop: 3
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   bigText: {
     color: Colors.greyTextColor,
     fontSize: 40,
-    fontFamily: "product-sans-bold"
+    fontFamily: ProductSans.bold
   },
   image: {
     width: 50,

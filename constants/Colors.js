@@ -21,5 +21,6 @@ export default {
   text: "#000000",
   white: "#FFFFFF",
   black: "#000000",
-  darkGray: "#454545"
+  darkGray: "#454545",
+  greyTextColor: "#5D5D5D"
 };
