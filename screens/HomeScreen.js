@@ -97,7 +97,7 @@ class HomeScreen extends Component {
           {user.photoURL ? (
             <Image source={{ uri: user.photoURL }} style={styles.photoURL} />
           ) : (
-            <Image source={{ uri: "http://chittagongit.com/download/247043" }} style={styles.photoURL} />
+            <Image source={require("../assets/images/home/no-profile.jpg")} style={styles.photoURL} />
           )}
         </TouchableOpacity>
         <View style={styles.menuItemContainer}>
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
     fontFamily: ProductSans.bold
   },
   container: {
-    flex: 1,
     backgroundColor: Colors.white,
     marginLeft: 20,
     marginRight: 20
@@ -172,7 +171,6 @@ const styles = StyleSheet.create({
     borderRadius: 18
   },
   menuItemContainer: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start",

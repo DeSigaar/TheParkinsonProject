@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
 import { MaterialIcons } from "@expo/vector-icons";
+
 import Colors from "../../constants/Colors";
 import ProductSans from "../../constants/fonts/ProductSans";
 
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 80,
-    paddingTop: 24,
+    paddingTop: 32,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"

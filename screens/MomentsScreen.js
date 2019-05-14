@@ -3,12 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Header from "../components/common/Header";
-import Moments from "../components/Moments";
+import { Header } from "../components/common";
+import { Moments } from "../components";
 
 import Gradients from "../constants/Gradients";
-import Colors from "../constants/Colors";
-
 
 class MomentsScreen extends Component {
   static propTypes = {
@@ -59,12 +57,12 @@ class MomentsScreen extends Component {
     const { moments } = this.state;
 
     return (
-      <View style={styles.container}>
+      <>
         <Header navigation={navigation} title="Momenten" />
-        <View style={styles.inner}>
+        <View style={styles.container}>
           <Moments moments={moments} colors={Gradients.blue} handlePress={this.handlePressMoment} />
         </View>
-      </View>
+      </>
     );
   }
 }
@@ -72,10 +70,6 @@ class MomentsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    flex: 1,
-    backgroundColor: Colors.white
-  },
-  inner: {
     marginTop: 75
   }
 });

@@ -6,8 +6,6 @@ import { logOut } from "../store/actions/authActions";
 
 import { Header } from "../components/common";
 
-import Colors from "../constants/Colors";
-
 class ProfileScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -33,6 +31,7 @@ class ProfileScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 20,
     marginTop: 75
   }
 });
