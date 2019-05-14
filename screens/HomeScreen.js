@@ -7,6 +7,7 @@ import { MenuItem } from "../components/home";
 import { Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
+import ProductSans from "../constants/fonts/ProductSans";
 import { Permissions, Notifications } from "expo";
 
 class HomeScreen extends Component {
@@ -84,7 +85,7 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { navigation, logOut, authError, user } = this.props;
+    const { navigation, logOut, authError } = this.props;
     if (authError) Alert.alert(authError);
 
     return (
@@ -94,39 +95,39 @@ class HomeScreen extends Component {
         </Text>
         <View style={styles.menuItemContainer}>
           <Upcoming
-            img={require("../assets/images/icon/medicatie.png")}
+            img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+            onPress={() => navigation.navigate("Exercises")}
           />
           <MenuItem
             title="Medicijnen"
-            img={require("../assets/images/icon/medicatie.png")}
+            img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
           />
           <MenuItem
             title="Oefeningen"
-            img={require("../assets/images/icon/oefeningen.png")}
+            img={require("../assets/images/icon/home/oefeningen.png")}
             gradientColor={Gradients.green}
             onPress={() => navigation.navigate("Exercises")}
           />
           <MenuItem
             title="Activiteiten"
-            img={require("../assets/images/icon/activiteiten.png")}
+            img={require("../assets/images/icon/home/activiteiten.png")}
             gradientColor={Gradients.orange}
           />
           <MenuItem
             title="Community"
-            img={require("../assets/images/icon/community.png")}
+            img={require("../assets/images/icon/home/community.png")}
             gradientColor={Gradients.pink}
           />
           <MenuItem
             title="Tips & Tricks"
-            img={require("../assets/images/icon/tipsTricks.png")}
+            img={require("../assets/images/icon/home/tipsTricks.png")}
             gradientColor={Gradients.purple}
           />
           <MenuItem
             title="Schema"
-            img={require("../assets/images/icon/schema.png")}
+            img={require("../assets/images/icon/home/schema.png")}
             gradientColor={Gradients.yellow}
             onPress={() => navigation.navigate("Moments")}
           />
@@ -145,11 +146,11 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginLeft: 5,
     marginBottom: 30,
-    fontFamily: "product-sans-bold"
+    fontFamily: ProductSans.bold
   },
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: Colors.white,
     marginLeft: 20,
     marginRight: 20
   },

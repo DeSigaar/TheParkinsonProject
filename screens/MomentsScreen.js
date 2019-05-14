@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { LinearGradient } from "expo";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import moment from "moment";
 
 import Header from "../components/common/Header";
 import Moments from "../components/Moments";
 
 import Gradients from "../constants/Gradients";
+import Colors from "../constants/Colors";
+
 
 class MomentsScreen extends Component {
   static propTypes = {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    backgroundColor: "#ffffff"
+    backgroundColor: Colors.white
   },
   inner: {
     marginTop: 75
