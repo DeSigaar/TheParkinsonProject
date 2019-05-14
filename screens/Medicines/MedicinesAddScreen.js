@@ -11,10 +11,8 @@ class MedicinesAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      oefeningHeader: "Oefening",
-      periodeHeader: "Periode",
-      repetitieHeader: "Repetitie oefening",
       isDateTimePickerVisible: false,
+      inputName: "",
       startText: "Vandaag",
       endText: "N.v.t.",
       startOrEnd: ""
@@ -59,6 +57,7 @@ class MedicinesAdd extends Component {
 
     this.hideDateTimePicker();
   };
+
   static propTypes = {
     navigation: PropTypes.object
   };
@@ -81,13 +80,13 @@ class MedicinesAdd extends Component {
           locations={[0.3, 1]}
           style={styles.gradient}
         >
-          <Text style={styles.gradientText}>sad</Text>
+          <Text style={styles.gradientText}>Back</Text>
         </LinearGradient>
         </TouchableOpacity>
 
         {/* Naam */}
           <Text style={styles.inputHeader}>Naam van medicijn</Text>
-          <TextInput style={styles.textInput} placeholder="medicijn"></TextInput>
+          <TextInput style={styles.textInput} placeholder="medicijn" onChangeText={(inputName) => this.setState({inputName})}></TextInput>
          
 
         {/* Periode */}
@@ -131,7 +130,7 @@ class MedicinesAdd extends Component {
             locations={[0.3, 1]}
             style={styles.gradient}
           >
-            <Text style={styles.gradientText}>sad</Text>
+            <Text style={styles.gradientText}>Submit</Text>
             </LinearGradient>
           </TouchableOpacity>
         
@@ -233,7 +232,8 @@ const styles = StyleSheet.create({
   btnSubmit: {
     width: "100%",
     height: "5%",
-    color: "#fff"
+    color: "#fff",
+    marginTop: 24
   }
 });
 
