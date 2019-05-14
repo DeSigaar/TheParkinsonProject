@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Platform, StatusBar } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import * as firebase from "firebase";
 import { Provider } from "react-redux";
@@ -10,6 +10,8 @@ import ApiKeys from "./constants/ApiKeys";
 
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
+
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 export default class App extends Component {
   static propTypes = {
@@ -22,34 +24,71 @@ export default class App extends Component {
     this.state = {
       isLoadingComplete: false,
       isAuthenticationReady: false,
-      isAuthenticated: false
+      isAuthenticated: false,
+      user: {}
     };
 
     // Initialize Firebase only when it hasn't been initialized yet
     if (!firebase.apps.length) firebase.initializeApp(ApiKeys.FirebaseConfig);
+    firebase.auth().languageCode = "nl";
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
   }
 
   onAuthStateChanged = user => {
-    this.setState({ isAuthenticationReady: true });
-    this.setState({ isAuthenticated: !!user });
+    this.setState({
+      ...this.state,
+      isAuthenticationReady: true,
+      isAuthenticated: !!user,
+      user
+    });
   };
 
   _loadResourcesAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([require("./assets/images/icon/icon.png"), require("./assets/images/auth/background.jpg")]),
-      Font.loadAsync({
-        "product-sans": require("./assets/fonts/ProductSansRegular.ttf"),
-        "product-sans-bold": require("./assets/fonts/ProductSansBold.ttf"),
-        "product-sans-italic": require("./assets/fonts/ProductSansItalic.ttf"),
-        "product-sans-bold-italic": require("./assets/fonts/ProductSansBoldItalic.ttf")
-      })
+    cacheImages = images => {
+      return images.map(image => {
+        if (typeof image === "string") {
+          return Image.prefetch(image);
+        } else {
+          return Asset.fromModule(image).downloadAsync();
+        }
+      });
+    };
+    cacheFonts = fonts => {
+      return fonts.map(font => Font.loadAsync(font));
+    };
+
+    const imageAssets = cacheImages([
+      require("./assets/images/auth/background.jpg"),
+      require("./assets/images/icon/icon.png"),
+      require("./assets/images/icon/splash.png"),
+      require("./assets/images/icon/home/activiteiten.png"),
+      require("./assets/images/icon/home/community.png"),
+      require("./assets/images/icon/home/medicatie.png"),
+      require("./assets/images/icon/home/oefeningen.png"),
+      require("./assets/images/icon/home/schema.png"),
+      require("./assets/images/icon/home/tipsTricks.png"),
+      require("./assets/images/icon/moments/avondeten.png"),
+      require("./assets/images/icon/moments/lunch.png"),
+      require("./assets/images/icon/moments/ontbijt.png"),
+      require("./assets/images/icon/moments/opstaan.png"),
+      require("./assets/images/icon/moments/slapen.png"),
+      require("./assets/images/icon/moments/tussendoortje.png"),
+      require("./assets/images/icon/moments/tandenpoetsen.png")
     ]);
+
+    const fontAssets = cacheFonts([
+      AntDesign.font,
+      MaterialIcons.font,
+      { "product-sans": require("./assets/fonts/ProductSans/ProductSansRegular.ttf") },
+      { "product-sans-bold": require("./assets/fonts/ProductSans/ProductSansBold.ttf") },
+      { "product-sans-italic": require("./assets/fonts/ProductSans/ProductSansItalic.ttf") },
+      { "product-sans-bold-italic": require("./assets/fonts/ProductSans/ProductSansBoldItalic.ttf") }
+    ]);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
   };
 
   _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
     // eslint-disable-next-line no-console
     console.warn(error);
   };
@@ -59,7 +98,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { isLoadingComplete, isAuthenticationReady, isAuthenticated } = this.state;
+    const { isLoadingComplete, isAuthenticationReady, isAuthenticated, user } = this.state;
     const { skipLoadingScreen } = this.props;
 
     if ((!isLoadingComplete || !isAuthenticationReady) && !skipLoadingScreen) {
@@ -73,7 +112,10 @@ export default class App extends Component {
     } else {
       return (
         <Provider store={store}>
-          <View style={styles.container}>{isAuthenticated ? <AppNavigator /> : <AuthNavigator />}</View>
+          {Platform.OS === "ios" && (
+            <StatusBar animated={true} barStyle={isAuthenticated ? "default" : "light-content"} />
+          )}
+          <View style={styles.container}>{isAuthenticated ? <AppNavigator user={user} /> : <AuthNavigator />}</View>
         </Provider>
       );
     }

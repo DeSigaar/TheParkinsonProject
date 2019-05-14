@@ -4,24 +4,39 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-exports.createUserInFirestore = functions.auth.user().onCreate(user => {
+exports.createUserInFirestore = functions.auth.user().onCreate(async user => {
   // Adds document to users to stay up to date with auth
   const { uid, displayName, email, photoURL, phoneNumber } = user;
-
-  // TODO
-  // Create collections instead of objects
-  const docData = {
+  let docData = {
     uid,
     displayName,
     email,
     photoURL,
     phoneNumber,
-    activities: {},
-    exercises: {},
-    medication: {}
+    expoPushToken: null,
+    activities: [],
+    exercises: [],
+    medication: [],
+    moments: []
   };
 
-  return admin
+  await admin
+    .firestore()
+    .collection("moments")
+    .get()
+    .then(querySnapshot => {
+      let moments = [];
+      querySnapshot.forEach(doc => {
+        moments.push(doc.data());
+      });
+      docData = { ...docData, moments };
+      return console.log("Fetched latest default moments: " + docData.moments);
+    })
+    .catch(error => {
+      return console.log(error);
+    });
+
+  await admin
     .firestore()
     .collection("users")
     .doc(uid)

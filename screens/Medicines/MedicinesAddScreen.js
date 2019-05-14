@@ -72,22 +72,25 @@ class MedicinesAdd extends Component {
     return (
       <View style={styles.container}>
         {/* Back Button */}
-        <TouchableOpacity style={styles.btnBack} title="Go back" onPress={() => navigate("ExerciseHomeScreen")} >
+        <TouchableOpacity style={styles.btnBack} title="Go back" onPress={() => navigate("ExerciseHomeScreen")}>
           <LinearGradient
-          colors={Gradients.blue}
-          start={[0, 0]}
-          end={[1, 1]}
-          locations={[0.3, 1]}
-          style={styles.gradient}
-        >
-          <Text style={styles.gradientText}>Back</Text>
-        </LinearGradient>
+            colors={Gradients.blue}
+            start={[0, 0]}
+            end={[1, 1]}
+            locations={[0.3, 1]}
+            style={styles.gradient}
+          >
+            <Text style={styles.gradientText}>Back</Text>
+          </LinearGradient>
         </TouchableOpacity>
 
         {/* Naam */}
-          <Text style={styles.inputHeader}>Naam van medicijn</Text>
-          <TextInput style={styles.textInput} placeholder="medicijn" onChangeText={(inputName) => this.setState({inputName})}></TextInput>
-         
+        <Text style={styles.inputHeader}>Naam van medicijn</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="medicijn"
+          onChangeText={inputName => this.setState({ inputName })}
+        />
 
         {/* Periode */}
         <Text style={styles.inputHeader}>Periode</Text>
@@ -116,14 +119,13 @@ class MedicinesAdd extends Component {
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
-          >
-          </DateTimePicker>
+          />
         </View>
 
         {/* Submit button */}
-        
-          <TouchableOpacity style={styles.btnSubmit}>          
-            <LinearGradient
+
+        <TouchableOpacity style={styles.btnSubmit}>
+          <LinearGradient
             colors={Gradients.blue}
             start={[0, 0]}
             end={[1, 1]}
@@ -131,10 +133,9 @@ class MedicinesAdd extends Component {
             style={styles.gradient}
           >
             <Text style={styles.gradientText}>Submit</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        
-    </View>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -152,15 +153,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "5%",
     color: "#fff"
-
   },
   gradient: {
     height: "100%",
     borderRadius: 13,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
-    
+    alignItems: "center"
   },
   gradientText: {
     color: "#fff"
@@ -195,7 +194,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-
 
   //Datepickerstuff
   datePickerBox: {

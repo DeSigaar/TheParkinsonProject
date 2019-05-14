@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, TextInput, Platform } from "react-native";
 import PropTypes from "prop-types";
+
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Input extends Component {
   static propTypes = {
@@ -15,9 +18,11 @@ export default class Input extends Component {
 
   render() {
     const { value, onChangeText, placeholder, secureTextEntry, keyboardType, autoCapitalize, autoCorrect } = this.props;
+    const androidInputStyle = Platform.OS === "android" && styles.androidInput;
+
     return (
       <TextInput
-        style={styles.input}
+        style={[styles.input, androidInputStyle]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -33,16 +38,23 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
   input: {
-    fontFamily: "product-sans",
+    fontFamily: ProductSans.regular,
     width: "100%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.background,
     borderRadius: 5,
-    color: "#000000",
+    color: Colors.darkGray,
     fontSize: 20,
     paddingTop: 15,
     paddingRight: 25,
     paddingBottom: 15,
     paddingLeft: 25,
     marginBottom: 10
+  },
+  androidInput: {
+    fontSize: 16,
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingLeft: 20
   }
 });
