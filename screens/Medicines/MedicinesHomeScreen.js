@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import PropTypes from "prop-types";
-import { MenuItem } from "../../components";
+import { MenuItem } from "../../components/home";
 import Gradients from "../../constants/Gradients";
 
 class MedicinesHomeScreen extends Component {
@@ -20,13 +20,13 @@ class MedicinesHomeScreen extends Component {
     return (
       <View style={styles.container}>
         <Text>medicine</Text>
-        <Button title="Go back" onPress={() => navigate("First")} />
+        <Button title="Go back" onPress={() => navigate("HomeScreen")} />
         <View>
           <MenuItem
             title="Add"
             img="http://logodust.com/img/free/logo28.png"
             gradientColor={Gradients.green}
-            onPress={() => navigate("MedicinesAddScreen")}
+            onPress={() => navigation.navigate("MedicinesAddScreen")}
           />
         </View>
       </View>
