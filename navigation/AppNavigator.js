@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen";
 import SecondScreen from "../screens/SecondScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 import MomentsScreen from "../screens/MomentsScreen";
+import SchemaScreen from "../screens/SchemaScreen";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
@@ -15,7 +16,8 @@ const Navigation = createAppContainer(
       First: { screen: HomeScreen },
       Second: { screen: SecondScreen },
       ExerciseHomeScreen: { screen: ExerciseHomeScreen },
-      Moments: { screen: MomentsScreen }
+      Moments: { screen: MomentsScreen },
+      Schema: { screen: SchemaScreen }
     },
     {
       defaultNavigationOptions: {

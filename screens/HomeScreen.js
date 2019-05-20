@@ -128,7 +128,12 @@ class HomeScreen extends Component {
             img={require("../assets/images/icon/tipsTricks.png")}
             gradientColor={Gradients.purple}
           />
-          <MenuItem title="Schema" img={require("../assets/images/icon/schema.png")} gradientColor={Gradients.yellow} />
+          <MenuItem
+            title="Schema"
+            img={require("../assets/images/icon/schema.png")}
+            gradientColor={Gradients.yellow}
+            onPress={() => navigation.navigate("Schema")}
+          />
         </View>
 
         {/* <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} /> */}
