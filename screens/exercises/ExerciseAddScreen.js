@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button, Picker, TouchableOpacity, TextInput, TouchableHighlight } from "react-native";
 import PropTypes from "prop-types";
-import { connect} from "react-redux";
+import { connect } from "react-redux";
 import Input from "../../components/common/Input";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Colors from "../../constants/Colors";
@@ -10,11 +10,14 @@ import Gradients from "../../constants/Gradients";
 import Moments from "../../components/Moments";
 import { ScrollView } from "react-native-gesture-handler";
 
-class ExersizeAddScreen extends Component {
+import { addExercise } from "../../store/actions/exerciseActions";
+
+class ExerciseAddScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array.isRequired
+    moments: PropTypes.array.isRequired,
+    addExercise: PropTypes.func,
   };
   constructor(props) {
     super(props); 
@@ -40,10 +43,10 @@ class ExersizeAddScreen extends Component {
       momentsHeader: "Kies momenten",
       isDateTimePickerVisible: false,
       startText: "Vandaag",
-      
       endText: "N.v.t.",
       startOrEnd: "",
       textInputName: "",
+      days: ""
     };
   } 
   handlePressMoment = (position, type) => {
@@ -67,9 +70,12 @@ class ExersizeAddScreen extends Component {
     this.setState({ moments });
   };
   toggleDateButton = (buttonName) =>{
-    this.setState({[buttonName]: !this.state[buttonName]}, () => {
-      console.log(buttonName + ": " + this.state[buttonName]);
-    }) ;
+    this.setState({[buttonName]: !this.state[buttonName]});
+    this.setState({
+      days: {monday: this.state.buttonMonday, tuesday: this.state.buttonTuesday, wednesday: this.state.buttonWednesday, thursday: this.state.buttonThursday, friday: this.state.buttonFriday, saturday: this.state.buttonSaturday,   sunday: this.state.buttonSunday}
+    })
+    console.log(this.state.days);
+
   } 
   showDateTimePicker = endOrStart => {
     if(endOrStart == "start"){
@@ -84,6 +90,37 @@ class ExersizeAddScreen extends Component {
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
+  handleSubmit = () => {
+    const { addExercise, user } = this.props;
+    let { moments } = this.state;
+    const today = new Date().getDate();
+    if(this.state.startText == "Vandaag"){
+      this.setState({startText: today})
+    }
+
+
+    moments.forEach((moment, i) => {
+      if(moment.count !== 0){
+        moments[i] = {
+          ...moment,
+          exercises: [  
+            ...moment.exercises,
+            {
+              id: Math.floor(Math.random() * 11111111),
+              name: this.state.textInputName,
+              startDate: this.state.startText,
+              endDate: this.state.endText,
+              days: this.state.days
+            }
+          ]
+        };
+      }
+      delete moments[i].count;
+    });
+    addExercise(user.uid, moments)
+    console.log("Submit!");
+  }
+
   handleDatePicked = date => {
     console.log("A date has been picked: ", date);
     let dateShorted = "";
@@ -215,7 +252,7 @@ class ExersizeAddScreen extends Component {
         <Text style={styles.inputHeader}>{this.state.momentsHeader}</Text>
         <Moments moments={moments} colors={Gradients.green} handlePress={this.handlePressMoment} />
       </View>
-      <TouchableOpacity style={styles.btnSubmit}>
+      <TouchableOpacity style={styles.btnSubmit} onPress={() => this.handleSubmit()}>
           <LinearGradient
             colors={Gradients.green}
             start={[0, 0]}
@@ -323,8 +360,6 @@ const styles = StyleSheet.create({
    borderBottomColor: '#fff',
    color: '#fff',
    backgroundColor: '#A8E063',
-   
-
   },
   dropdown: {
     color: '#fff'
@@ -376,7 +411,7 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     width: "100%",
-    height: "5%",
+    height: 50,
     color: "#fff",
     marginTop: 24,
     marginBottom: 80
@@ -402,7 +437,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    ...ownProps
+    ...ownProps,      
+    addExercise: (id, moments) => {
+      dispatch(addExercise(id, moments));
+    }
   };
 };
 
@@ -410,4 +448,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExersizeAddScreen);
+)(ExerciseAddScreen);

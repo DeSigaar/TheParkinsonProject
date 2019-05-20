@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../store/actions/authActions";
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import ExerciseHomeScreen from "../screens/exersizes/ExerciseHomeScreen";
-import ExersizeAddScreen from "../screens/exersizes/ExersizeAddScreen";
+import ExerciseHomeScreen from "../screens/exercises/ExerciseHomeScreen";
+import ExerciseAddScreen from "../screens/exercises/ExerciseAddScreen";
 import HomeScreen from "../screens/HomeScreen";
 import MomentsScreen from "../screens/MomentsScreen";
 
@@ -13,7 +13,7 @@ const Navigation = createAppContainer(
   createStackNavigator(
     {
       ExerciseHomeScreen: { screen: ExerciseHomeScreen },
-      ExersizeAddScreen: { screen: ExersizeAddScreen },
+      ExerciseAddScreen: { screen: ExerciseAddScreen },
       Home: { screen: HomeScreen },
       Moments: { screen: MomentsScreen }
     },

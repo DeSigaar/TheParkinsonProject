@@ -20,7 +20,7 @@ export default class ExerciseHomeScreen extends Component {
       <View style={styles.container}>
         <Text>Second screen (Variable: {variable})</Text>
         <Text>Test</Text>
-        <Button title="Add exersize ofzo" onPress={() => navigation.navigate("ExersizeAddScreen")} />
+        <Button title="Add exercise ofzo" onPress={() => navigation.navigate("ExerciseAddScreen")} />
       </View>
     );
   }
