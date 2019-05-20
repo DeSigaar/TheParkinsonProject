@@ -3,6 +3,7 @@ export default {
   // Text colors
   greyTextColor: "#5D5D5D",
   whiteTextColor: "#fff",
+  lightGrey: "#B9B9B9",
 
   // Max's colors
   tabIconDefault: "#ccc",
