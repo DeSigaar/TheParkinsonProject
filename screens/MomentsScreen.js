@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { LinearGradient } from "expo";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import moment from "moment";
 
-import Header from "../components/common/Header";
-import Moments from "../components/Moments";
+import { Header } from "../components/common";
+import { Moments } from "../components";
 
 import Gradients from "../constants/Gradients";
 
@@ -14,55 +12,57 @@ class MomentsScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array
+    moments: PropTypes.array.isRequired
   };
 
-  renderMoments() {
-    const { moments } = this.props;
+  constructor(props) {
+    super(props);
 
-    const sortedMoments = moments.sort((a, b) => {
-      return a.time.seconds - b.time.seconds;
+    let { moments } = this.props;
+    moments.forEach((moment, i) => {
+      moments[i] = {
+        ...moment,
+        count: 0
+      };
     });
 
-    return sortedMoments.map(sortedMoment => {
-      return (
-        <View key={sortedMoment.id} style={{ height: 50, width: "100%", marginBottom: 10 }}>
-          <LinearGradient
-            style={{
-              height: 50,
-              width: "100%",
-              borderRadius: 13,
-              padding: 13,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}
-            colors={Gradients.blue}
-            start={[0, 0]}
-            end={[1, 1]}
-            locations={[0.3, 1]}
-          >
-            <Text style={{ color: "white", fontFamily: "product-sans" }}>{sortedMoment.name}</Text>
-            <Text style={{ color: "white", fontFamily: "product-sans" }}>
-              {moment(sortedMoment.time.seconds * 1000).format("HH:mm")}
-            </Text>
-          </LinearGradient>
-        </View>
-      );
-    });
+    this.state = {
+      moments
+    };
   }
 
+  handlePressMoment = (position, type) => {
+    let { moments } = this.state;
+    let count = moments[position].count;
+
+    switch (type) {
+      case "add":
+        count++;
+        break;
+      case "remove":
+        if (count !== 0) count--;
+        break;
+    }
+
+    moments[position] = {
+      ...moments[position],
+      count
+    };
+
+    this.setState({ moments });
+  };
+
   render() {
-    const { navigation, moments } = this.props;
+    const { navigation } = this.props;
+    const { moments } = this.state;
 
     return (
-      <View style={styles.container}>
+      <>
         <Header navigation={navigation} title="Momenten" />
-        <View style={styles.inner}>
-          {/* <View>{this.renderMoments()}</View> */}
-          <Moments moments={moments} colors={Gradients.blue} />
+        <View style={styles.container}>
+          <Moments moments={moments} colors={Gradients.blue} handlePress={this.handlePressMoment} />
         </View>
-      </View>
+      </>
     );
   }
 }
@@ -70,10 +70,6 @@ class MomentsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    flex: 1,
-    backgroundColor: "#ffffff"
-  },
-  inner: {
     marginTop: 75
   }
 });

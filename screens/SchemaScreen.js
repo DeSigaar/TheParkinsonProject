@@ -30,13 +30,13 @@ class SchemaScreen extends Component {
               <SchemaItem
                 title={"Neem uw medicijn"}
                 description={"Dopamine - 200mg"}
-                img={require("../assets/images/icon/medicatie.png")}
+                img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
               <SchemaItem
                 title={"Stretches"}
                 description={"Arm, been en rug stretches"}
-                img={require("../assets/images/icon/oefeningen.png")}
+                img={require("../assets/images/icon/home/oefeningen.png")}
                 gradientColor={Gradients.green}
               />
             </SchemaMomentIndicator>
@@ -45,7 +45,7 @@ class SchemaScreen extends Component {
               <SchemaItem
                 title={"Stretches"}
                 description={"Arm, been en rug stretches"}
-                img={require("../assets/images/icon/oefeningen.png")}
+                img={require("../assets/images/icon/home/oefeningen.png")}
                 gradientColor={Gradients.green}
               />
             </SchemaMomentIndicator>
@@ -53,13 +53,13 @@ class SchemaScreen extends Component {
               <SchemaItem
                 title={"Neem uw medicijn"}
                 description={"Dopamine - 200mg"}
-                img={require("../assets/images/icon/medicatie.png")}
+                img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
               <SchemaItem
                 title={"Stretches"}
                 description={"Arm, been en rug stretches"}
-                img={require("../assets/images/icon/oefeningen.png")}
+                img={require("../assets/images/icon/home/oefeningen.png")}
                 gradientColor={Gradients.green}
               />
             </SchemaMomentIndicator>
@@ -68,7 +68,7 @@ class SchemaScreen extends Component {
               <SchemaItem
                 title={"Stretches"}
                 description={"Arm, been en rug stretches"}
-                img={require("../assets/images/icon/oefeningen.png")}
+                img={require("../assets/images/icon/home/oefeningen.png")}
                 gradientColor={Gradients.green}
               />
             </SchemaMomentIndicator>
@@ -76,13 +76,13 @@ class SchemaScreen extends Component {
               <SchemaItem
                 title={"Neem uw medicijn"}
                 description={"Dopamine - 200mg"}
-                img={require("../assets/images/icon/medicatie.png")}
+                img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
               <SchemaItem
                 title={"Stretches"}
                 description={"Arm, been en rug stretches"}
-                img={require("../assets/images/icon/oefeningen.png")}
+                img={require("../assets/images/icon/home/oefeningen.png")}
                 gradientColor={Gradients.green}
               />
             </SchemaMomentIndicator>
@@ -91,7 +91,7 @@ class SchemaScreen extends Component {
               <SchemaItem
                 title={"Stretches"}
                 description={"Arm, been en rug stretches"}
-                img={require("../assets/images/icon/oefeningen.png")}
+                img={require("../assets/images/icon/home/oefeningen.png")}
                 gradientColor={Gradients.green}
               />
             </SchemaMomentIndicator>

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { StyleSheet, TextInput } from "react-native";
 import PropTypes from "prop-types";
 
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
+
 export default class Input extends Component {
   static propTypes = {
     value: PropTypes.string,
@@ -33,11 +36,11 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
   input: {
-    fontFamily: "product-sans",
+    fontFamily: ProductSans.regular,
     width: "100%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
     borderRadius: 5,
-    color: "#000000",
+    color: Colors.black,
     fontSize: 20,
     paddingTop: 15,
     paddingRight: 25,

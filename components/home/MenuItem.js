@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Text, View, Image, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo";
 import Colors from "../../constants/Colors";
 
@@ -11,8 +11,6 @@ export default class MenuItem extends Component {
     gradientColor: PropTypes.array,
     onPress: PropTypes.func
   };
-
-  // let img = this.props.img;
 
   render() {
     return (

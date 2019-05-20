@@ -12,7 +12,6 @@ import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
-import { Permissions, Notifications } from "expo";
 
 export default class App extends Component {
   static propTypes = {
@@ -62,12 +61,19 @@ export default class App extends Component {
       require("./assets/images/auth/background.jpg"),
       require("./assets/images/icon/icon.png"),
       require("./assets/images/icon/splash.png"),
-      require("./assets/images/icon/activiteiten.png"),
-      require("./assets/images/icon/community.png"),
-      require("./assets/images/icon/medicatie.png"),
-      require("./assets/images/icon/oefeningen.png"),
-      require("./assets/images/icon/schema.png"),
-      require("./assets/images/icon/tipsTricks.png")
+      require("./assets/images/icon/home/activiteiten.png"),
+      require("./assets/images/icon/home/community.png"),
+      require("./assets/images/icon/home/medicatie.png"),
+      require("./assets/images/icon/home/oefeningen.png"),
+      require("./assets/images/icon/home/schema.png"),
+      require("./assets/images/icon/home/tipsTricks.png"),
+      require("./assets/images/icon/moments/avondeten.png"),
+      require("./assets/images/icon/moments/lunch.png"),
+      require("./assets/images/icon/moments/ontbijt.png"),
+      require("./assets/images/icon/moments/opstaan.png"),
+      require("./assets/images/icon/moments/slapen.png"),
+      require("./assets/images/icon/moments/tussendoortje.png"),
+      require("./assets/images/icon/moments/tandenpoetsen.png")
     ]);
 
     const fontAssets = cacheFonts([

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, ScrollView, View, Alert, Button } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity } from "react-native";
+import { Permissions, Notifications } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logOut, setExpoPushToken } from "../store/actions/authActions";
-import { MenuItem } from "../components/home";
-import { Upcoming } from "../components/home";
+import { setExpoPushToken } from "../store/actions/authActions";
+import { MenuItem, Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
-import { Permissions, Notifications } from "expo";
+import ProductSans from "../constants/fonts/ProductSans";
 
 class HomeScreen extends Component {
   static propTypes = {
@@ -49,13 +49,9 @@ class HomeScreen extends Component {
     }
   };
 
-  getFirstName = () => {
-    const { displayName } = this.props.user;
-    if (displayName) {
-      return displayName.split(" ")[0];
-    } else {
-      return "";
-    }
+  getFirstName = displayName => {
+    // Get first name or leave blank
+    return displayName ? displayName.split(" ")[0] : "";
   };
 
   registerForPushNotifications = async () => {
@@ -86,58 +82,63 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { navigation, logOut, authError, user } = this.props;
-    if (authError) Alert.alert(authError);
+    const { navigation, user } = this.props;
 
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.intro}>
-          {/* {this.defineGreeting()} {user.displayName} */}
-          {/* {this.defineGreeting()} {this.getFirstName(user.displayName)} */}
-          {this.defineGreeting()} {this.getFirstName()}
+          {this.defineGreeting()} {this.getFirstName(user.displayName)}
         </Text>
+        <TouchableOpacity
+          style={styles.profileContainer}
+          activeOpacity={0.6}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          {user.photoURL ? (
+            <Image source={{ uri: user.photoURL }} style={styles.photoURL} />
+          ) : (
+            <Image source={require("../assets/images/home/no-profile.jpg")} style={styles.photoURL} />
+          )}
+        </TouchableOpacity>
         <View style={styles.menuItemContainer}>
           <Upcoming
-            img={require("../assets/images/icon/medicatie.png")}
+            img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+            onPress={() => navigation.navigate("Exercises")}
           />
           <MenuItem
             title="Medicijnen"
-            img={require("../assets/images/icon/medicatie.png")}
+            img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
           />
           <MenuItem
             title="Oefeningen"
-            img={require("../assets/images/icon/oefeningen.png")}
+            img={require("../assets/images/icon/home/oefeningen.png")}
             gradientColor={Gradients.green}
-            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+            onPress={() => navigation.navigate("Exercises")}
           />
           <MenuItem
             title="Activiteiten"
-            img={require("../assets/images/icon/activiteiten.png")}
+            img={require("../assets/images/icon/home/activiteiten.png")}
             gradientColor={Gradients.orange}
           />
           <MenuItem
             title="Community"
-            img={require("../assets/images/icon/community.png")}
+            img={require("../assets/images/icon/home/community.png")}
             gradientColor={Gradients.pink}
           />
           <MenuItem
             title="Tips & Tricks"
-            img={require("../assets/images/icon/tipsTricks.png")}
+            img={require("../assets/images/icon/home/tipsTricks.png")}
             gradientColor={Gradients.purple}
           />
           <MenuItem
             title="Schema"
-            img={require("../assets/images/icon/schema.png")}
+            img={require("../assets/images/icon/home/schema.png")}
             gradientColor={Gradients.yellow}
             onPress={() => navigation.navigate("Schema")}
           />
         </View>
-
-        {/* <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} /> */}
-        {/* <Button title="Uitloggen" onPress={logOut} /> */}
       </ScrollView>
     );
   }
@@ -150,16 +151,26 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginLeft: 5,
     marginBottom: 30,
-    fontFamily: "product-sans-bold"
+    fontFamily: ProductSans.bold
   },
   container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: Colors.white,
     marginLeft: 20,
     marginRight: 20
   },
+  profileContainer: {
+    position: "absolute",
+    top: 56,
+    right: 0,
+    width: 36,
+    height: 36
+  },
+  photoURL: {
+    width: 36,
+    height: 36,
+    borderRadius: 18
+  },
   menuItemContainer: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start",
@@ -170,7 +181,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    authError: state.auth.authError,
     user: state.firebase.profile
   };
 };
@@ -178,9 +188,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     ...ownProps,
-    logOut: () => {
-      dispatch(logOut());
-    },
     setExpoPushToken: (uid, token) => {
       dispatch(setExpoPushToken(uid, token));
     }
