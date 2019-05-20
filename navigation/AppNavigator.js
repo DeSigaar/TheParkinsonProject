@@ -14,14 +14,13 @@ import SchemaScreen from "../screens/SchemaScreen";
 const Navigation = createAppContainer(
   createStackNavigator(
     {
-      Home: { screen: HomeScreen },
-      Exercises: { screen: ExerciseHomeScreen },
-      Moments: { screen: MomentsScreen },
-      Profile: { screen: ProfileScreen },
-      Medication: { screen: MedicationHomeScreen },
       ExerciseHomeScreen: { screen: ExerciseHomeScreen },
       Moments: { screen: MomentsScreen },
-      Schema: { screen: SchemaScreen }
+      Schema: { screen: SchemaScreen },
+      Home: { screen: HomeScreen },
+      Exercises: { screen: ExerciseHomeScreen },
+      Profile: { screen: ProfileScreen },
+      Medication: { screen: MedicationHomeScreen }
     },
     {
       defaultNavigationOptions: {

@@ -135,7 +135,7 @@ class HomeScreen extends Component {
           />
           <MenuItem
             title="Schema"
-            img={require("../assets/images/icon/schema.png")}
+            img={require("../assets/images/icon/home/schema.png")}
             gradientColor={Gradients.yellow}
             onPress={() => navigation.navigate("Schema")}
           />
