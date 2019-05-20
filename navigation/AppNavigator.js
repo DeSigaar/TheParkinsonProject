@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 import MomentsScreen from "../screens/MomentsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import MedicationHomeScreen from "../screens/MedicationHomeScreen";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
@@ -15,13 +16,14 @@ const Navigation = createAppContainer(
       Home: { screen: HomeScreen },
       Exercises: { screen: ExerciseHomeScreen },
       Moments: { screen: MomentsScreen },
-      Profile: { screen: ProfileScreen }
+      Profile: { screen: ProfileScreen },
+      Medication: { screen: MedicationHomeScreen }
     },
     {
       defaultNavigationOptions: {
         header: null
       },
-      initialRouteName: "Home" // Change this if you want to directly go to a screen you are developing
+      initialRouteName: "Medication" // Change this if you want to directly go to a screen you are developing
     }
   )
 );

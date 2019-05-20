@@ -110,6 +110,7 @@ class HomeScreen extends Component {
             title="Medicijnen"
             img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
+            onPress={() => navigation.navigate("Medication")}
           />
           <MenuItem
             title="Oefeningen"
