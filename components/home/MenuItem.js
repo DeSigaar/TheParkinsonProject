@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo";
 import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class MenuItem extends Component {
   static propTypes = {
@@ -13,6 +14,7 @@ export default class MenuItem extends Component {
   };
 
   render() {
+    // TODO: iOS Add box shadow
     return (
       <TouchableOpacity activeOpacity={0.8} style={styles.item} onPress={this.props.onPress}>
         <LinearGradient
@@ -32,18 +34,16 @@ export default class MenuItem extends Component {
 
 const styles = StyleSheet.create({
   item: {
-    marginLeft: 7,
-    marginRight: 7,
-    marginTop: 7,
-    marginBottom: 7,
-    alignSelf: "baseline",
+    margin: 7,
+    borderRadius: 10,
     flexWrap: "wrap",
+    flexGrow: 1,
     flexBasis: "45%",
-    flexGrow: 1
+    elevation: 5
   },
   text: {
-    color: Colors.whiteTextColor,
-    fontWeight: "bold",
+    color: Colors.white,
+    fontFamily: ProductSans.bold,
     marginTop: 5
   },
   image: {
@@ -52,10 +52,12 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   gradient: {
-    elevation: 5,
-    padding: 25,
+    width: "100%",
+    borderRadius: 10,
+    flex: 1,
     alignItems: "center",
-    borderRadius: 10
+    justifyContent: "center",
+    padding: 25
     // shadowColor: "#000",
     // shadowOffset: { width: 20, height: 20 },
     // shadowOpacity: 1,

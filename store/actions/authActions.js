@@ -4,10 +4,7 @@ import { Google } from "expo";
 
 import ApiKeys from "../../constants/ApiKeys";
 
-export const setCurrentUser = user => {
-  return { type: "SET_CURRENT_USER", user };
-};
-
+// Log in with Firebase
 export const logInWithCreds = credentials => {
   return dispatch => {
     // Log the user in with credentials
@@ -23,12 +20,11 @@ export const logInWithCreds = credentials => {
   };
 };
 
+// Register with Firebase
 export const registerWithCreds = credentials => {
   return dispatch => {
     // Create a new user and log it in
-    if (credentials.password !== credentials.passwordConfirm) {
-      dispatch({ type: "LOGIN_ERROR", error: { message: "Wachtwoorden zijn niet hetzelfde!" } });
-    } else {
+    if (credentials.password === credentials.passwordConfirm) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(credentials.email, credentials.password)
@@ -40,10 +36,13 @@ export const registerWithCreds = credentials => {
         .catch(error => {
           dispatch({ type: "LOGIN_ERROR", error });
         });
+    } else {
+      dispatch({ type: "LOGIN_ERROR", error: { message: "Wachtwoorden zijn niet hetzelfde!" } });
     }
   };
 };
 
+// Log in with Firebase and Google
 export const logInWithGoogle = () => {
   // Google login only works within the Expo client app - standalone apps won't work
   return dispatch => {
@@ -74,6 +73,7 @@ export const logInWithGoogle = () => {
   };
 };
 
+// Log in as an anonymous user
 export const logInAsAnon = () => {
   return dispatch => {
     firebase
@@ -88,6 +88,7 @@ export const logInAsAnon = () => {
   };
 };
 
+// Handle the request to send a new password to an email
 export const sendPasswordResetEmail = email => {
   // Send password reset to email
   return dispatch => {
@@ -107,6 +108,7 @@ export const sendPasswordResetEmail = email => {
   };
 };
 
+// Log the user out
 export const logOut = () => {
   // Logs out the current user
   return dispatch => {
@@ -122,20 +124,12 @@ export const logOut = () => {
   };
 };
 
+// Clear any authentication errors
 export const clearError = () => {
   return { type: "AUTH_CLEAR" };
 };
 
+// Set authentication to be loading
 export const setAuthLoading = () => {
   return { type: "AUTH_LOADING" };
-};
-
-export const setExpoPushToken = (uid, token) => {
-  return () => {
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(uid)
-      .update({ expoPushToken: token });
-  };
 };

@@ -1,34 +1,36 @@
 import React, { Component } from "react";
+import { createAppContainer, createStackNavigator } from "react-navigation";
+import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
+import { Svg } from "expo";
+import SvgAnimatedLinearGradient from "react-native-svg-animated-linear-gradient";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setCurrentUser } from "../store/actions/authActions";
-import { View, Text } from "react-native";
-import { createAppContainer, createStackNavigator } from "react-navigation";
-import HomeScreen from "../screens/HomeScreen";
-import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
-import Medication from "../screens/Medicines/MedicinesHomeScreen";
-import MedicinesHomeScreen from "../screens/Medicines/MedicinesHomeScreen";
+
 import MedicinesAddScreen from "../screens/Medicines/MedicinesAddScreen";
-import MomentsScreen from "../screens/MomentsScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import MedicationHomeScreen from "../screens/Medicines/MedicationHomeScreen";
-import SchemaScreen from "../screens/SchemaScreen";
+
+import { MenuItem } from "../components/home";
+import {
+  HomeScreen,
+  ExerciseHomeScreen,
+  MedicationHomeScreen,
+  ProfileScreen,
+  SchemaScreen,
+  MomentsScreen
+} from "../screens/";
+import Colors from "../constants/Colors";
+import Gradients from "../constants/Gradients";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
   createStackNavigator(
     {
       Home: { screen: HomeScreen },
-      ExerciseHomeScreen: { screen: ExerciseHomeScreen },
-      Moments: { screen: MomentsScreen },
-      Schema: { screen: SchemaScreen },
       Exercises: { screen: ExerciseHomeScreen },
-      Moments: { screen: MomentsScreen },
       Medication: { screen: MedicinesHomeScreen },
-      MedicinesHomeScreen: { screen: MedicinesHomeScreen },
       MedicinesAddScreen: { screen: MedicinesAddScreen },
       Profile: { screen: ProfileScreen },
-      Medication: { screen: MedicationHomeScreen }
+      Schema: { screen: SchemaScreen },
+      Moments: { screen: MomentsScreen }
     },
     {
       defaultNavigationOptions: {
@@ -41,8 +43,7 @@ const Navigation = createAppContainer(
 
 class AppNavigator extends Component {
   static propTypes = {
-    user: PropTypes.object,
-    setCurrentUser: PropTypes.func
+    user: PropTypes.object
   };
 
   constructor(props) {
@@ -53,26 +54,136 @@ class AppNavigator extends Component {
     };
   }
 
-  componentDidUpdate = () => {
-    const { user, setCurrentUser } = this.props;
-    setCurrentUser(user);
-  };
-
   render() {
-    setTimeout(() => {
-      this.setState({ loaded: true });
-    }, 2500);
+    const { user } = this.props;
+    const { loaded } = this.state;
 
-    return this.state.loaded ? (
+    // Give Firebase a second or 3.5 to get everything ready
+    if (!loaded)
+      setTimeout(() => {
+        this.setState({ loaded: true });
+      }, 3500);
+    // Check if Firebase is ready, than just go for it
+    if (user.uid && !loaded)
+      setTimeout(() => {
+        this.setState({ loaded: true });
+      }, 500);
+
+    return loaded ? (
       <Navigation />
     ) : (
-      // Temporary loading element - Maybe create some sort of skeleton screen with animation here?
-      <View style={{ justifyContent: "center", alignItems: "center", width: "100%", height: 750 }}>
-        <Text>Laden...</Text>
-      </View>
+      // Still loading so show skeleton screen with routes to different parts of the app
+      <ScrollView>
+        <View style={styles.intro}>
+          <SvgAnimatedLinearGradient
+            height={35.8}
+            width={200}
+            x1="0"
+            y1="0"
+            x2="400"
+            y2="400"
+            primaryColor={Colors.skeletonPrimary}
+            secondaryColor={Colors.skeletonSecondary}
+          >
+            <Svg.Rect x="0" y="0" width="200" height="35.8" ry="10" rx="10" />
+          </SvgAnimatedLinearGradient>
+        </View>
+        <TouchableOpacity style={styles.profileContainer} activeOpacity={0.6}>
+          <SvgAnimatedLinearGradient
+            height={36}
+            width={36}
+            x1="0"
+            y1="0"
+            x2="400"
+            y2="400"
+            primaryColor={Colors.skeletonPrimary}
+            secondaryColor={Colors.skeletonSecondary}
+          >
+            <Svg.Circle cx="18" cy="18" r="18" />
+          </SvgAnimatedLinearGradient>
+        </TouchableOpacity>
+        <View style={styles.menuItemContainer}>
+          <View style={styles.loadingUpcoming}>
+            <SvgAnimatedLinearGradient
+              height={129.9}
+              width={380}
+              x1="0"
+              y1="0"
+              x2="400"
+              y2="400"
+              primaryColor={Colors.skeletonPrimary}
+              secondaryColor={Colors.skeletonSecondary}
+            >
+              <Svg.Rect x="0" y="0" height="129.9" width="100%" ry="10" rx="10" />
+            </SvgAnimatedLinearGradient>
+          </View>
+          <MenuItem
+            title="Medicijnen"
+            img={require("../assets/images/icon/home/medicatie.png")}
+            gradientColor={Gradients.blue}
+          />
+          <MenuItem
+            title="Oefeningen"
+            img={require("../assets/images/icon/home/oefeningen.png")}
+            gradientColor={Gradients.green}
+          />
+          <MenuItem
+            title="Activiteiten"
+            img={require("../assets/images/icon/home/activiteiten.png")}
+            gradientColor={Gradients.orange}
+          />
+          <MenuItem
+            title="Community"
+            img={require("../assets/images/icon/home/community.png")}
+            gradientColor={Gradients.pink}
+          />
+          <MenuItem
+            title="Tips & Tricks"
+            img={require("../assets/images/icon/home/tipsTricks.png")}
+            gradientColor={Gradients.purple}
+          />
+          <MenuItem
+            title="Schema"
+            img={require("../assets/images/icon/home/schema.png")}
+            gradientColor={Gradients.yellow}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  intro: {
+    marginTop: 60,
+    marginBottom: 30,
+    marginLeft: 20,
+    marginRight: 20
+  },
+  profileContainer: {
+    position: "absolute",
+    top: 59.5,
+    right: 15,
+    width: 36,
+    height: 36
+  },
+  photoURL: {
+    width: 36,
+    height: 36,
+    borderRadius: 18
+  },
+  loadingUpcoming: {
+    margin: 7,
+    width: "100%",
+    height: 129.9
+  },
+  menuItemContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    alignItems: "stretch"
+  }
+});
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -83,10 +194,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    ...ownProps,
-    setCurrentUser: user => {
-      dispatch(setCurrentUser(user));
-    }
+    ...ownProps
   };
 };
 

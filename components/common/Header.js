@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     zIndex: 5,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.white
   },
   ios: {
     paddingTop: 52,

@@ -90,9 +90,7 @@ class LoginScreen extends Component {
     const { email, password } = this.state;
     const { authLoading, authError } = this.props;
 
-    if (authLoading) {
-      return <ActivityIndicator style={styles.load} size="large" />;
-    } else {
+    if (!authLoading) {
       return (
         <View style={styles.form}>
           <Upper top="Welkom bij" underTop="The Parkinson Project" bottom="Log hier in met je account" />
@@ -125,6 +123,8 @@ class LoginScreen extends Component {
           <Chevron onPress={this.handlePressNavigateForgotPassword} direction="left" value="Wachtwoord vergeten" />
         </View>
       );
+    } else {
+      return <ActivityIndicator style={styles.load} size="large" />;
     }
   }
 
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontFamily: ProductSans.regular,
-    color: Colors.errorText
+    color: Colors.red
   }
 });
 

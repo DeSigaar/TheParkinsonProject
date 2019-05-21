@@ -35,12 +35,12 @@ export default class SchemaItem extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    color: Colors.whiteTextColor,
+    color: Colors.white,
     marginTop: 5,
     fontFamily: "product-sans"
   },
   textBig: {
-    color: Colors.whiteTextColor,
+    color: Colors.white,
     marginTop: 3,
     fontSize: 22,
     fontFamily: "product-sans"
