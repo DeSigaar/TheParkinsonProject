@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Platform, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { SchemaItem, SchemaMomentIndicator } from "../components/schema";
-import Gradients from "../constants/Gradients";
-import Colors from "../constants/Colors";
+import { SchemaItem, SchemaMomentIndicator } from "../../components/schema";
+import Gradients from "../../constants/Gradients";
+import Colors from "../../constants/Colors";
 
-import { Header } from "../components/common";
+import { Header } from "../../components/common";
 
 class MedicationHomeScreen extends Component {
   static propTypes = {
@@ -52,7 +52,7 @@ class MedicationHomeScreen extends Component {
           actionType1="add"
           actionType2="delete"
           actionType3="arrow-left"
-          // actionPress1={() => navigation.navigate("Exercise")}
+          actionPress1={() => navigation.navigate("MedicinesAddScreen")}
         />
         <ScrollView>
           <View style={[styles.container, Platform.OS === "ios" && styles.ios]}>
@@ -60,27 +60,19 @@ class MedicationHomeScreen extends Component {
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
-                gradientColor={Gradients.blue}
-              />
-            </SchemaMomentIndicator>
-            <SchemaMomentIndicator moment="N">
-              <SchemaItem
-                title={"Naproxen"}
-                description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
             </SchemaMomentIndicator>
@@ -88,19 +80,7 @@ class MedicationHomeScreen extends Component {
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
-                gradientColor={Gradients.blue}
-              />
-              <SchemaItem
-                title={"Naproxen"}
-                description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
-                gradientColor={Gradients.blue}
-              />
-              <SchemaItem
-                title={"Naproxen"}
-                description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
             </SchemaMomentIndicator>
@@ -108,7 +88,19 @@ class MedicationHomeScreen extends Component {
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
+                gradientColor={Gradients.blue}
+              />
+              <SchemaItem
+                title={"Naproxen"}
+                description={"Naproxen 250mg"}
+                // img={require("../assets/images/icon/home/medicatie.png")}
+                gradientColor={Gradients.blue}
+              />
+              <SchemaItem
+                title={"Naproxen"}
+                description={"Naproxen 250mg"}
+                // img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
             </SchemaMomentIndicator>
@@ -116,19 +108,7 @@ class MedicationHomeScreen extends Component {
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
-                gradientColor={Gradients.blue}
-              />
-              <SchemaItem
-                title={"Naproxen"}
-                description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
-                gradientColor={Gradients.blue}
-              />
-              <SchemaItem
-                title={"Naproxen"}
-                description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
             </SchemaMomentIndicator>
@@ -136,7 +116,27 @@ class MedicationHomeScreen extends Component {
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
-                img={require("../assets/images/icon/home/medicatie.png")}
+                // img={require("../assets/images/icon/home/medicatie.png")}
+                gradientColor={Gradients.blue}
+              />
+              <SchemaItem
+                title={"Naproxen"}
+                description={"Naproxen 250mg"}
+                // img={require("../assets/images/icon/home/medicatie.png")}
+                gradientColor={Gradients.blue}
+              />
+              <SchemaItem
+                title={"Naproxen"}
+                description={"Naproxen 250mg"}
+                // img={require("../assets/images/icon/home/medicatie.png")}
+                gradientColor={Gradients.blue}
+              />
+            </SchemaMomentIndicator>
+            <SchemaMomentIndicator moment="N">
+              <SchemaItem
+                title={"Naproxen"}
+                description={"Naproxen 250mg"}
+                // img={require("../assets/images/icon/home/medicatie.png")}as
                 gradientColor={Gradients.blue}
               />
             </SchemaMomentIndicator>

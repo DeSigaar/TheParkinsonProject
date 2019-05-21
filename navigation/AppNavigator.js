@@ -5,11 +5,12 @@ import { setCurrentUser } from "../store/actions/authActions";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
+import Medication from "../screens/Medicines/MedicinesHomeScreen";
 import MedicinesHomeScreen from "../screens/Medicines/MedicinesHomeScreen";
 import MedicinesAddScreen from "../screens/Medicines/MedicinesAddScreen";
 import MomentsScreen from "../screens/MomentsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import MedicationHomeScreen from "../screens/MedicationHomeScreen";
+import MedicationHomeScreen from "../screens/Medicines/MedicationHomeScreen";
 import SchemaScreen from "../screens/SchemaScreen";
 
 // Create the App stack with options
@@ -22,6 +23,7 @@ const Navigation = createAppContainer(
       Home: { screen: HomeScreen },
       Exercises: { screen: ExerciseHomeScreen },
       Moments: { screen: MomentsScreen },
+      Medication: { screen: MedicinesHomeScreen },
       MedicinesHomeScreen: { screen: MedicinesHomeScreen },
       MedicinesAddScreen: { screen: MedicinesAddScreen },
       Profile: { screen: ProfileScreen },

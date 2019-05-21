@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, TextInput, Picker, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Button, TextInput, Picker, TouchableOpacity, Alert } from "react-native";
 
 import DateTimePicker from "react-native-modal-datetime-picker";
 import PropTypes from "prop-types";
@@ -21,7 +21,8 @@ class MedicinesAdd extends Component {
     navigation: PropTypes.object,
     user: PropTypes.object,
     moments: PropTypes.array.isRequired,
-    addMedicines: PropTypes.func
+    addMedicines: PropTypes.func,
+    inputName: PropTypes.string
   };
 
   static navigationOptions = {
@@ -69,6 +70,10 @@ class MedicinesAdd extends Component {
     this.setState({ moments });
   };
 
+  showAlert = () => {
+    Alert.alert("Vul alle nodige velden in");
+  };
+
   handleSubmit = () => {
     const { navigation } = this.props;
     const { navigate } = navigation;
@@ -97,7 +102,7 @@ class MedicinesAdd extends Component {
     });
 
     addMedicines(user.uid, moments);
-    // navigate("MedicinesHomeScreen");
+    navigate("Medication");
   };
 
   render() {
@@ -122,8 +127,7 @@ class MedicinesAdd extends Component {
             placeholder="Enter medicine name"
             value={inputName}
           /> */}
-
-          Periode
+          {/* Periode */}
           <Text style={styles.inputHeader}>Periode</Text>
           <View style={styles.datePickerBox}>
             <TouchableOpacity
@@ -152,9 +156,7 @@ class MedicinesAdd extends Component {
               onCancel={this.hideDateTimePicker}
             />
           </View>
-
           {/* <PickerBox /> */}
-
           {/* Moments */}
           <View style={styles.momentsContainer}>
             <View>
@@ -237,39 +239,38 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-    //Datepickerstuff
-    datePickerBox: {
-      height: 75,
-      justifyContent: "center",
-      flexDirection: "row"
-    },
-    datePickerBoxHeaderText: {
-      color: "#B1B1B1",
-      fontSize: 19
-    },
-    datePickerBoxText: {
-      fontSize: 19
-    },
-    datePickerButtonLeft: {
-      width: "50%",
-      borderTopLeftRadius: 10,
-      borderBottomLeftRadius: 10,
-      borderLeftColor: "#000",
-      borderLeftWidth: 1.5,
-      borderTopColor: "#000",
-      borderTopWidth: 1.5,
-      borderBottomColor: "#000",
-      borderBottomWidth: 1.5,
-      marginRight: -1
-    },
-    datePickerButtonRight: {
-      width: "50%",
-      borderWidth: 1.5,
-      textAlign: "center",
-      borderTopEndRadius: 10,
-      borderBottomRightRadius: 10
-    }
-
+  //Datepickerstuff
+  datePickerBox: {
+    height: 75,
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  datePickerBoxHeaderText: {
+    color: "#B1B1B1",
+    fontSize: 19
+  },
+  datePickerBoxText: {
+    fontSize: 19
+  },
+  datePickerButtonLeft: {
+    width: "50%",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderLeftColor: "#000",
+    borderLeftWidth: 1.5,
+    borderTopColor: "#000",
+    borderTopWidth: 1.5,
+    borderBottomColor: "#000",
+    borderBottomWidth: 1.5,
+    marginRight: -1
+  },
+  datePickerButtonRight: {
+    width: "50%",
+    borderWidth: 1.5,
+    textAlign: "center",
+    borderTopEndRadius: 10,
+    borderBottomRightRadius: 10
+  },
   btnSubmit: {
     flex: 1,
     height: 50,
