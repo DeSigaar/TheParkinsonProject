@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../store/actions/authActions";
+import { View, Text } from "react-native";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
@@ -14,10 +15,10 @@ import SchemaScreen from "../screens/SchemaScreen";
 const Navigation = createAppContainer(
   createStackNavigator(
     {
+      Home: { screen: HomeScreen },
       ExerciseHomeScreen: { screen: ExerciseHomeScreen },
       Moments: { screen: MomentsScreen },
       Schema: { screen: SchemaScreen },
-      Home: { screen: HomeScreen },
       Exercises: { screen: ExerciseHomeScreen },
       Profile: { screen: ProfileScreen },
       Medication: { screen: MedicationHomeScreen }
@@ -37,19 +38,39 @@ class AppNavigator extends Component {
     setCurrentUser: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loaded: false
+    };
+  }
+
   componentDidUpdate = () => {
     const { user, setCurrentUser } = this.props;
     setCurrentUser(user);
   };
 
   render() {
-    return <Navigation />;
+    setTimeout(() => {
+      this.setState({ loaded: true });
+    }, 2500);
+
+    return this.state.loaded ? (
+      <Navigation />
+    ) : (
+      // Temporary loading element - Maybe create some sort of skeleton screen with animation here?
+      <View style={{ justifyContent: "center", alignItems: "center", width: "100%", height: 750 }}>
+        <Text>Laden...</Text>
+      </View>
+    );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    ...ownProps
+    ...ownProps,
+    user: state.firebase.profile
   };
 };
 

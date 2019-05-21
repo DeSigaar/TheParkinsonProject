@@ -15,7 +15,7 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const { navigation, logOut, authError } = this.props;
+    const { navigation, logOut, authError, user } = this.props;
     if (authError) Alert.alert(authError);
 
     return (

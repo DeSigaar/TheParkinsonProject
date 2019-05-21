@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
   intro: {
     fontSize: 28,
     color: Colors.greyTextColor,
+    fontFamily: ProductSans.bold,
     marginTop: 60,
     marginLeft: 5,
     marginBottom: 30,

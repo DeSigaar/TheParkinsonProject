@@ -8,20 +8,26 @@ import "firebase/firestore";
 import rootReducer from "./reducers";
 import ApiKeys from "../constants/ApiKeys";
 
+// Check if Firebase is already initialized otherwise initialize
 if (!firebase.apps.length) firebase.initializeApp(ApiKeys.FirebaseConfig);
 
+// Create middleware
 const middleware = [thunk.withExtraArgument({ getFirebase, getFirestore })];
 
+// Create store with Firebase to stay up to date
 const createStoreWithFirebase = compose(
   applyMiddleware(...middleware),
   reduxFirestore(ApiKeys.FirebaseConfig),
   reactReduxFirebase(firebase, {
     useFirestoreForProfile: true,
     userProfile: "users",
-    logErrors: false
+    logErrors: false,
+    updateProfileOnLogin: true,
+    resetBeforeLogin: false
   })
 )(createStore);
 
+// Create store with the root reducer
 const store = createStoreWithFirebase(rootReducer);
 
 export default store;
