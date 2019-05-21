@@ -23,6 +23,7 @@ class ForgotPasswordScreen extends Component {
   constructor(props) {
     super(props);
 
+    // Check if the stack just got initialized, if so, go to Login
     if (props.navigation.state.params.init) {
       props.navigation.navigate("Login");
     }
@@ -55,9 +56,7 @@ class ForgotPasswordScreen extends Component {
     const { email } = this.state;
     const { authLoading, authMessage, authError } = this.props;
 
-    if (authLoading) {
-      return <ActivityIndicator style={styles.load} size="large" />;
-    } else {
+    if (!authLoading) {
       return (
         <View style={styles.form}>
           <Upper top="Wachtwoord vergeten?" bottom="Herstel hier je wachtwoord" />
@@ -81,6 +80,8 @@ class ForgotPasswordScreen extends Component {
           <Chevron onPress={this.handlePressNavigateLogin} direction="right" value="Inloggen" />
         </View>
       );
+    } else {
+      return <ActivityIndicator style={styles.load} size="large" />;
     }
   };
 
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 2,
     fontFamily: ProductSans.regular,
-    color: Colors.errorText
+    color: Colors.red
   },
   success: {
     backgroundColor: Colors.darkGray,
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 2,
     fontFamily: ProductSans.regular,
-    color: Colors.successText
+    color: Colors.green
   }
 });
 

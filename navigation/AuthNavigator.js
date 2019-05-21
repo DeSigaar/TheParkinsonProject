@@ -1,7 +1,5 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
-import LoginScreen from "../screens/auth/LoginScreen";
-import SignupScreen from "../screens/auth/SignupScreen";
+import { ForgotPasswordScreen, LoginScreen, SignupScreen } from "../screens/auth";
 import AppNavigator from "./AppNavigator";
 
 // Create the Auth stack with options
