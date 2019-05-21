@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { LinearGradient } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logOut } from "../store/actions/authActions";
 import { SchemaItem } from "../components/schema";
 import { SchemaMomentIndicator } from "../components/schema";
 import Gradients from "../constants/Gradients";
-import Colors from "../constants/Colors";
 import Header from "../components/common/Header";
 
 class SchemaScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    logOut: PropTypes.func,
-    authError: PropTypes.string,
     user: PropTypes.object,
     moments: PropTypes.array
   };
