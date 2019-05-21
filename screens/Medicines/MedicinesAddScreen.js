@@ -13,8 +13,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { addMedicines } from "../../store/actions/medicineActions";
 
 import Header from "../../components/common/Header";
-
-// import uniqid from "uniqid";
+import PickerBox from "../../components/common/PickerBox";
+// import Input from "../../components/auth";
 
 class MedicinesAdd extends Component {
   static propTypes = {
@@ -39,7 +39,7 @@ class MedicinesAdd extends Component {
     });
     this.state = {
       isDateTimePickerVisible: false,
-      inputName: "",
+      inputName: " ",
       startText: "Vandaag",
       endText: "N.v.t.",
       startOrEnd: "",
@@ -47,44 +47,6 @@ class MedicinesAdd extends Component {
       moments
     };
   }
-
-  showDateTimePicker = endOrStart => {
-    if (endOrStart == "start") {
-      this.setState({ startOrEnd: endOrStart });
-    } else if (endOrStart == "end") {
-      this.setState({ startOrEnd: endOrStart });
-    }
-
-    this.setState({ isDateTimePickerVisible: true });
-  };
-
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
-  };
-
-  handleDatePicked = date => {
-    let dateShorted = "";
-    const timestamp = new Date(date).toString();
-    var string = timestamp;
-    for (let i = 4; i < 15; i++) {
-      let letter = string.charAt(i);
-      dateShorted += letter;
-    }
-
-    if (this.state.startOrEnd == "start") {
-      this.setState({ startText: dateShorted });
-    } else if (this.state.startOrEnd == "end") {
-      this.setState({ endText: dateShorted });
-    }
-    if (Date.parse(this.state.startText) > Date.parse(this.state.endText)) {
-      this.setState({ endText: this.state.startText });
-    }
-    if (Date.parse(this.state.endText) < Date.parse(this.state.startText)) {
-      this.setState({ startText: this.state.endText });
-    }
-
-    this.hideDateTimePicker();
-  };
 
   handlePressMoment = (position, type) => {
     let { moments } = this.state;
@@ -140,14 +102,13 @@ class MedicinesAdd extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { navigate } = navigation;
     const { moments } = this.state;
+    const { inputName } = this.state;
     return (
       <React.Fragment>
         <Header navigation={navigation} title="Medicijn toevoegen" style={styles.header} />
 
         <ScrollView style={styles.container}>
-
           {/* Naam */}
           <Text style={styles.inputHeader}>Naam van medicijn</Text>
           <TextInput
@@ -155,8 +116,14 @@ class MedicinesAdd extends Component {
             placeholder="medicijn"
             onChangeText={inputName => this.setState({ inputName })}
           />
+          {/*
+          <Input
+            onChangeText={inputName => this.setState({ inputName })}
+            placeholder="Enter medicine name"
+            value={inputName}
+          /> */}
 
-          {/* Periode */}
+          Periode
           <Text style={styles.inputHeader}>Periode</Text>
           <View style={styles.datePickerBox}>
             <TouchableOpacity
@@ -185,6 +152,8 @@ class MedicinesAdd extends Component {
               onCancel={this.hideDateTimePicker}
             />
           </View>
+
+          {/* <PickerBox /> */}
 
           {/* Moments */}
           <View style={styles.momentsContainer}>
@@ -268,39 +237,39 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+    //Datepickerstuff
+    datePickerBox: {
+      height: 75,
+      justifyContent: "center",
+      flexDirection: "row"
+    },
+    datePickerBoxHeaderText: {
+      color: "#B1B1B1",
+      fontSize: 19
+    },
+    datePickerBoxText: {
+      fontSize: 19
+    },
+    datePickerButtonLeft: {
+      width: "50%",
+      borderTopLeftRadius: 10,
+      borderBottomLeftRadius: 10,
+      borderLeftColor: "#000",
+      borderLeftWidth: 1.5,
+      borderTopColor: "#000",
+      borderTopWidth: 1.5,
+      borderBottomColor: "#000",
+      borderBottomWidth: 1.5,
+      marginRight: -1
+    },
+    datePickerButtonRight: {
+      width: "50%",
+      borderWidth: 1.5,
+      textAlign: "center",
+      borderTopEndRadius: 10,
+      borderBottomRightRadius: 10
+    }
 
-  //Datepickerstuff
-  datePickerBox: {
-    height: 75,
-    justifyContent: "center",
-    flexDirection: "row"
-  },
-  datePickerBoxHeaderText: {
-    color: "#B1B1B1",
-    fontSize: 19
-  },
-  datePickerBoxText: {
-    fontSize: 19
-  },
-  datePickerButtonLeft: {
-    width: "50%",
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderLeftColor: "#000",
-    borderLeftWidth: 1.5,
-    borderTopColor: "#000",
-    borderTopWidth: 1.5,
-    borderBottomColor: "#000",
-    borderBottomWidth: 1.5,
-    marginRight: -1
-  },
-  datePickerButtonRight: {
-    width: "50%",
-    borderWidth: 1.5,
-    textAlign: "center",
-    borderTopEndRadius: 10,
-    borderBottomRightRadius: 10
-  },
   btnSubmit: {
     flex: 1,
     height: 50,

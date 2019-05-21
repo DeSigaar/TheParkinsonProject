@@ -7,17 +7,36 @@ import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Input extends Component {
   static propTypes = {
-    value: PropTypes.string,
-    onChangeText: PropTypes.func,
+    value: PropTypes.string.isRequired,
+    onChangeText: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     secureTextEntry: PropTypes.bool,
     keyboardType: PropTypes.string,
     autoCapitalize: PropTypes.string,
-    autoCorrect: PropTypes.bool
+    autoCorrect: PropTypes.bool,
+    placeholderTextColor: PropTypes.string
+  };
+
+  static defaultProps = {
+    placeholder: "",
+    secureTextEntry: false,
+    keyboardType: "default",
+    autoCapitalize: false,
+    autoCorrect: false,
+    placeholderTextColor: "rgba(0,0,0,0.4)"
   };
 
   render() {
-    const { value, onChangeText, placeholder, secureTextEntry, keyboardType, autoCapitalize, autoCorrect } = this.props;
+    const {
+      value,
+      onChangeText,
+      placeholder,
+      secureTextEntry,
+      keyboardType,
+      autoCapitalize,
+      autoCorrect,
+      placeholderTextColor
+    } = this.props;
     const androidInputStyle = Platform.OS === "android" && styles.androidInput;
 
     return (
@@ -26,7 +45,7 @@ export default class Input extends Component {
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={"rgba(0,0,0,0.4)"}
+        placeholderTextColor={placeholderTextColor}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
