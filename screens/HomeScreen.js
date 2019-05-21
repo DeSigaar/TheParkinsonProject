@@ -110,6 +110,7 @@ class HomeScreen extends Component {
             title="Medicijnen"
             img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
+            onPress={() => navigation.navigate("Medication")}
           />
           <MenuItem
             title="Oefeningen"
@@ -151,17 +152,13 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginLeft: 5,
     marginBottom: 30,
-    fontFamily: ProductSans.bold
-  },
-  container: {
-    backgroundColor: Colors.white,
     marginLeft: 20,
     marginRight: 20
   },
   profileContainer: {
     position: "absolute",
     top: 56,
-    right: 0,
+    right: 15,
     width: 36,
     height: 36
   },
