@@ -152,17 +152,13 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginLeft: 5,
     marginBottom: 30,
-    fontFamily: ProductSans.bold
-  },
-  container: {
-    backgroundColor: Colors.white,
     marginLeft: 20,
     marginRight: 20
   },
   profileContainer: {
     position: "absolute",
     top: 56,
-    right: 0,
+    right: 15,
     width: 36,
     height: 36
   },

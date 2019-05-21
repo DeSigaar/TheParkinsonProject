@@ -26,7 +26,7 @@ const Navigation = createAppContainer(
       defaultNavigationOptions: {
         header: null
       },
-      initialRouteName: "Medication" // Change this if you want to directly go to a screen you are developing
+      initialRouteName: "Home" // Change this if you want to directly go to a screen you are developing
     }
   )
 );
