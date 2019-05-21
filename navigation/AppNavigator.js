@@ -5,6 +5,9 @@ import { Svg } from "expo";
 import SvgAnimatedLinearGradient from "react-native-svg-animated-linear-gradient";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import MedicinesAddScreen from "../screens/Medicines/MedicinesAddScreen";
+
 import { MenuItem } from "../components/home";
 import {
   HomeScreen,
@@ -23,7 +26,8 @@ const Navigation = createAppContainer(
     {
       Home: { screen: HomeScreen },
       Exercises: { screen: ExerciseHomeScreen },
-      Medication: { screen: MedicationHomeScreen },
+      Medication: { screen: MedicinesHomeScreen },
+      MedicinesAddScreen: { screen: MedicinesAddScreen },
       Profile: { screen: ProfileScreen },
       Schema: { screen: SchemaScreen },
       Moments: { screen: MomentsScreen }

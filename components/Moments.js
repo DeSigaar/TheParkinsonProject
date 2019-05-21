@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.white,
-    fontSize: 22,
+    fontSize: 17,
     fontFamily: ProductSans.regular
   },
   time: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   counterText: {
-    fontSize: 26
+    fontSize: 22
   },
   icon: {
     color: Colors.white,
