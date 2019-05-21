@@ -20,6 +20,7 @@
     "**/.editorconfig": true,
     "**/.eslintrc.json": true,
     "**/.expo": true,
+    "**/.expo-shared": true,
     "**/.firebaserc": true,
     "**/.git": true,
     "**/.gitignore": true,
@@ -29,7 +30,8 @@
     "**/.watchmanconfig": true,
     "**/CVS": true,
     "**/babel.config.js": true,
-    "**/node_modules/**": true
+    "**/node_modules/**": true,
+    "**/firebase.json": true,
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
