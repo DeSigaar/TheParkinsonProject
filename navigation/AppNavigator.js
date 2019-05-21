@@ -8,16 +8,24 @@ import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 import MedicinesHomeScreen from "../screens/Medicines/MedicinesHomeScreen";
 import MedicinesAddScreen from "../screens/Medicines/MedicinesAddScreen";
 import MomentsScreen from "../screens/MomentsScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import MedicationHomeScreen from "../screens/MedicationHomeScreen";
+import SchemaScreen from "../screens/SchemaScreen";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
   createStackNavigator(
     {
+      ExerciseHomeScreen: { screen: ExerciseHomeScreen },
+      Moments: { screen: MomentsScreen },
+      Schema: { screen: SchemaScreen },
       Home: { screen: HomeScreen },
       Exercises: { screen: ExerciseHomeScreen },
       Moments: { screen: MomentsScreen },
       MedicinesHomeScreen: { screen: MedicinesHomeScreen },
-      MedicinesAddScreen: { screen: MedicinesAddScreen }
+      MedicinesAddScreen: { screen: MedicinesAddScreen },
+      Profile: { screen: ProfileScreen },
+      Medication: { screen: MedicationHomeScreen }
     },
     {
       defaultNavigationOptions: {
