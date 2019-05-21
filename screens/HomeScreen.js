@@ -136,7 +136,7 @@ class HomeScreen extends Component {
             title="Schema"
             img={require("../assets/images/icon/home/schema.png")}
             gradientColor={Gradients.yellow}
-            onPress={() => navigation.navigate("Moments")}
+            onPress={() => navigation.navigate("Schema")}
           />
         </View>
       </ScrollView>

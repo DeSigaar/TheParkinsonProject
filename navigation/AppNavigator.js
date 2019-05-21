@@ -6,15 +6,18 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import ExerciseHomeScreen from "../screens/ExerciseHomeScreen";
 import MomentsScreen from "../screens/MomentsScreen";
+import SchemaScreen from "../screens/SchemaScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
   createStackNavigator(
     {
+      ExerciseHomeScreen: { screen: ExerciseHomeScreen },
+      Moments: { screen: MomentsScreen },
+      Schema: { screen: SchemaScreen },
       Home: { screen: HomeScreen },
       Exercises: { screen: ExerciseHomeScreen },
-      Moments: { screen: MomentsScreen },
       Profile: { screen: ProfileScreen }
     },
     {
