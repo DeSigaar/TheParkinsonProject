@@ -10,7 +10,8 @@ import Gradients from "../../constants/Gradients";
 import Moments from "../../components/Moments";
 import { ScrollView } from "react-native-gesture-handler";
 import { addExercise } from "../../store/actions/exerciseActions";
-import TextInputBox from "../../components/common/TextInput";
+import TextInputBox from "../../components/common/TextInputBox";
+import RepeatPicker from "../../components/exercises/RepeatPicker";
 
 class ExerciseAddScreen extends Component {
   static propTypes = {
@@ -159,15 +160,15 @@ class ExerciseAddScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} />
-
-        <TextInputBox
-          header={this.state.oefeningHeader}
-          onChangeText={textInputName => this.setState({ textInputName })}
-          placeholder="Test1"
-        >
-          {this.state.textInputName}
-        </TextInputBox>
-      
+        <View>
+          <TextInputBox
+            header={this.state.oefeningHeader}
+            onChangeText={textInputName => this.setState({ textInputName })}
+            placeholder="Test1"
+          >
+            {this.state.textInputName}
+          </TextInputBox>
+        </View>
         <View>
           <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
         </View>
@@ -198,90 +199,18 @@ class ExerciseAddScreen extends Component {
             onCancel={this.hideDateTimePicker}
           />
         </View>
-        {/*--------------------------------  NEEDS TO BE A COMPONENT----------------------------------------------- */}
         <View>
-          <Text style={styles.inputHeader}>{this.state.repetitieHeader}</Text>
-          <View style={styles.periodeBoxView}>
-            <Text style={styles.periodeElke}>Elke</Text>
-            <TextInput
-              placeholderTextColor="#fff"
-              style={styles.periodeBoxInputBox}
-              keyboardType="number-pad"
-              placeholder="10"
-            />
-
-            <View style={styles.periodeBoxPickerBox}>
-              <Picker
-                selectedValue={this.state.indication}
-                style={styles.dropdown}
-                onValueChange={(itemValue, itemIndex) => this.setState({ indication: itemValue })}
-              >
-                <Picker.Item label="Dag" value="day" />
-                <Picker.Item label="Week" value="week" />
-                <Picker.Item label="Maand" value="month" />
-              </Picker>
-            </View>
-          </View>
-          <View style={styles.periodeBoxButtons}>
-            <TouchableHighlight
-              activeOpacity={0.4}
-              style={this.state.buttonMonday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonMonday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Ma</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={this.state.buttonTuesday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonTuesday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Di</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={this.state.buttonWednesday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonWednesday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Wo</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={this.state.buttonThursday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonThursday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Do</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={this.state.buttonFriday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonFriday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Vr</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={this.state.buttonSaturday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonSaturday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Za</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={this.state.buttonSunday ? styles.weekButtonsBoxActive : styles.weekButtonsBoxInActive}
-              onPress={() => this.toggleDateButton("buttonSunday")}
-            >
-              <View style={styles.weekButton}>
-                <Text style={styles.weekButtonText}>Zo</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
+          <RepeatPicker
+            header={this.state.repetitieHeader}
+            inputPlaceholder="10"
+            inputplaceholderTextColor="#fff"
+            pickerSelectedValue={this.state.indication}
+            state={this.state}
+            toggleButton={this.toggleDateButton}
+            onValueChange={(itemValue, itemIndex) => this.setState({ indication: itemValue })}
+          />
         </View>
+
         <View style={styles.momentenDoos}>
           <Text style={styles.inputHeader}>{this.state.momentsHeader}</Text>
           <Moments moments={moments} colors={Gradients.green} handlePress={this.handlePressMoment} />
@@ -356,76 +285,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 13
   },
   //End Datepickerstuff
-  //Start periodeBox
-  periodeBoxView: {
-    display: "flex",
-    padding: 16,
-    backgroundColor: "#A8E063",
-    borderTopEndRadius: 13,
-    borderTopLeftRadius: 13,
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    flexDirection: "row"
-  },
-  periodeBoxPickerBox: {
-    width: "40%",
-    borderBottomWidth: 1,
-    borderBottomColor: "#fff",
-    marginLeft: 16
-  },
-  periodeBoxInputBox: {
-    width: "15%",
-    textAlign: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#fff",
-    color: "#fff",
-    backgroundColor: "#A8E063"
-  },
-  dropdown: {
-    color: "#fff"
-  },
-  periodeElke: {
-    width: "100%",
-    color: "#fff",
-    fontSize: 19
-  },
-  //End periodeBox
-  //Weekbuttons start
-  periodeBoxButtons: {
-    display: "flex",
-    justifyContent: "space-around",
-    flexDirection: "row",
-    backgroundColor: "#56AB2F",
-    borderBottomLeftRadius: 13,
-    borderBottomRightRadius: 13
-  },
-  weekButton: {
-    textAlign: "center"
-  },
-  weekButtonText: {
-    color: "white",
-    textAlign: "center"
-  },
-  weekButtonsBoxActive: {
-    width: 40,
-    marginTop: 10,
-    marginBottom: 10,
-    justifyContent: "center",
-    height: 40,
-    borderRadius: 20000,
-    backgroundColor: "green"
-  },
-  weekButtonsBoxInActive: {
-    width: 40,
-    marginTop: 10,
-    opacity: 0.4,
-    marginBottom: 10,
-    justifyContent: "center",
-    height: 40,
-    borderRadius: 20000,
-    backgroundColor: "#489428"
-  },
-  //Weekbuttons end
+
   momentenDoos: {
     marginTop: 15
   },
