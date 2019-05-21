@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: ProductSans.regular,
     width: "100%",
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     borderRadius: 5,
     color: Colors.darkGray,
     fontSize: 20,
