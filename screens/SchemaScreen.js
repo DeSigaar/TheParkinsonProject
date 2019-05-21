@@ -57,7 +57,8 @@ class SchemaScreen extends Component {
         default:
         case "medicines":
           title = "Neem uw medicijn";
-          description = item.name;
+          const amountString = item.amount > 1 ? "stuks" : "stuk";
+          description = item.name + " - " + item.amount + " " + amountString;
           img = require("../assets/images/icon/home/medicatie.png");
           gradient = Gradients.blue;
           break;
