@@ -9,13 +9,19 @@ import { LinearGradient } from "expo";
 import { Moments } from "../../components";
 import { connect } from "react-redux";
 import { ScrollView } from "react-native-gesture-handler";
+
+import { addMedicines } from "../../store/actions/medicineActions";
+
 import Header from "../../components/common/Header";
+
+// import uniqid from "uniqid";
 
 class MedicinesAdd extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array.isRequired
+    moments: PropTypes.array.isRequired,
+    addMedicines: PropTypes.func
   };
 
   static navigationOptions = {
@@ -25,7 +31,6 @@ class MedicinesAdd extends Component {
   constructor(props) {
     super(props);
     let { moments } = this.props;
-    console.log(moments);
     moments.forEach((moment, i) => {
       moments[i] = {
         ...moment,
@@ -38,6 +43,7 @@ class MedicinesAdd extends Component {
       startText: "Vandaag",
       endText: "N.v.t.",
       startOrEnd: "",
+      uniqid: "",
       moments
     };
   }
@@ -57,7 +63,6 @@ class MedicinesAdd extends Component {
   };
 
   handleDatePicked = date => {
-    console.log("A date has been picked: ", date);
     let dateShorted = "";
     const timestamp = new Date(date).toString();
     var string = timestamp;
@@ -102,6 +107,37 @@ class MedicinesAdd extends Component {
     this.setState({ moments });
   };
 
+  handleSubmit = () => {
+    const { navigation } = this.props;
+    const { navigate } = navigation;
+    const { addMedicines, user } = this.props;
+    let { moments } = this.state;
+
+    const uuidv4 = require("uuid/v4");
+
+    moments.forEach((moment, i) => {
+      if (moment.count !== 0) {
+        moments[i] = {
+          ...moment,
+          medicines: [
+            ...moment.medicines,
+            {
+              id: uuidv4(),
+              name: this.state.inputName,
+              startTime: this.state.startText,
+              endTime: this.state.endText,
+              amount: moment.count
+            }
+          ]
+        };
+      }
+      delete moments[i].count;
+    });
+
+    addMedicines(user.uid, moments);
+    // navigate("MedicinesHomeScreen");
+  };
+
   render() {
     const { navigation } = this.props;
     const { navigate } = navigation;
@@ -111,18 +147,6 @@ class MedicinesAdd extends Component {
         <Header navigation={navigation} title="Medicijn toevoegen" style={styles.header} />
 
         <ScrollView style={styles.container}>
-          {/* Back Button */}
-          {/* <TouchableOpacity style={styles.btnBack} title="Go back" onPress={() => navigate("MedicinesHomeScreen")}>
-          <LinearGradient
-            colors={Gradients.blue}
-            start={[0, 0]}
-            end={[1, 1]}
-            locations={[0.3, 1]}
-            style={styles.gradient}
-          >
-            <Text style={styles.gradientText}>Back</Text>
-          </LinearGradient>
-        </TouchableOpacity> */}
 
           {/* Naam */}
           <Text style={styles.inputHeader}>Naam van medicijn</Text>
@@ -169,7 +193,7 @@ class MedicinesAdd extends Component {
             </View>
           </View>
           {/* Submit button */}
-          <TouchableOpacity style={styles.btnSubmit}>
+          <TouchableOpacity style={styles.btnSubmit} onPress={() => this.handleSubmit()}>
             <LinearGradient
               colors={Gradients.blue}
               start={[0, 0]}
@@ -185,20 +209,6 @@ class MedicinesAdd extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.firebase.profile,
-    moments: state.firebase.profile.moments
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    ...ownProps
-  };
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -233,7 +243,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    height: "5%",
+    height: 50,
     borderColor: "grey",
     borderWidth: 1,
     paddingLeft: 5,
@@ -304,6 +314,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.firebase.profile,
+    moments: state.firebase.profile.moments
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    ...ownProps,
+    addMedicines: (id, moments) => {
+      dispatch(addMedicines(id, moments));
+    }
+  };
+};
 
 export default connect(
   mapStateToProps,

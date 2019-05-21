@@ -14,9 +14,6 @@ exports.createUserInFirestore = functions.auth.user().onCreate(async user => {
     photoURL,
     phoneNumber,
     expoPushToken: null,
-    activities: [],
-    exercises: [],
-    medication: [],
     moments: []
   };
 
