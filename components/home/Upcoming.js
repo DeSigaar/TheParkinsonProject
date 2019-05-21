@@ -38,10 +38,7 @@ export default class Upcoming extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 7,
-    marginRight: 7,
-    marginTop: 7,
-    marginBottom: 7,
+    margin: 7,
     alignSelf: "baseline",
     flexWrap: "wrap",
     flexBasis: "90%",

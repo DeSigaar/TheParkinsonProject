@@ -24,8 +24,7 @@ export default class App extends Component {
     this.state = {
       isLoadingComplete: false,
       isAuthenticationReady: false,
-      isAuthenticated: false,
-      user: {}
+      isAuthenticated: false
     };
 
     // Initialize Firebase only when it hasn't been initialized yet
@@ -38,12 +37,12 @@ export default class App extends Component {
     this.setState({
       ...this.state,
       isAuthenticationReady: true,
-      isAuthenticated: !!user,
-      user
+      isAuthenticated: !!user
     });
   };
 
   _loadResourcesAsync = async () => {
+    // Load any resources needed within the application here
     cacheImages = images => {
       return images.map(image => {
         if (typeof image === "string") {
@@ -75,7 +74,6 @@ export default class App extends Component {
       require("./assets/images/icon/moments/tussendoortje.png"),
       require("./assets/images/icon/moments/tandenpoetsen.png")
     ]);
-
     const fontAssets = cacheFonts([
       AntDesign.font,
       MaterialIcons.font,
@@ -98,7 +96,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { isLoadingComplete, isAuthenticationReady, isAuthenticated, user } = this.state;
+    const { isLoadingComplete, isAuthenticationReady, isAuthenticated } = this.state;
     const { skipLoadingScreen } = this.props;
 
     if ((!isLoadingComplete || !isAuthenticationReady) && !skipLoadingScreen) {
@@ -115,7 +113,7 @@ export default class App extends Component {
           {Platform.OS === "ios" && (
             <StatusBar animated={true} barStyle={isAuthenticated ? "default" : "light-content"} />
           )}
-          <View style={styles.container}>{isAuthenticated ? <AppNavigator user={user} /> : <AuthNavigator />}</View>
+          <View style={styles.container}>{isAuthenticated ? <AppNavigator /> : <AuthNavigator />}</View>
         </Provider>
       );
     }

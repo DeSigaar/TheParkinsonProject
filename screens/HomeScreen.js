@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity } from "react-native";
-import { Permissions, Notifications } from "expo";
+import { Permissions, Notifications, LinearGradient } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setExpoPushToken } from "../store/actions/authActions";
+import { setExpoPushToken } from "../store/actions/notifiActions";
 import { MenuItem, Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
@@ -27,32 +27,7 @@ class HomeScreen extends Component {
         this.registerForPushNotifications();
       }
     }
-
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
   }
-
-  _handleNotification = notification => {
-    this.setState({ notification: notification });
-  };
-
-  defineGreeting = () => {
-    const hours = new Date().getHours();
-    switch (true) {
-      case hours >= 18:
-        return "Goedenavond";
-      case hours >= 12:
-        return "Goedemiddag";
-      case hours >= 6:
-        return "Goedemorgen";
-      default:
-        return "Goededag";
-    }
-  };
-
-  getFirstName = displayName => {
-    // Get first name or leave blank
-    return displayName ? displayName.split(" ")[0] : "";
-  };
 
   registerForPushNotifications = async () => {
     //Check for excisting permissions
@@ -81,13 +56,32 @@ class HomeScreen extends Component {
     }
   };
 
+  defineGreeting = hours => {
+    // Get correct greeting defined by current hour
+    switch (true) {
+      case hours >= 18:
+        return "Goedenavond";
+      case hours >= 12:
+        return "Goedemiddag";
+      case hours >= 6:
+        return "Goedemorgen";
+      default:
+        return "Goededag";
+    }
+  };
+
+  getFirstName = displayName => {
+    // Get first name or leave blank
+    return displayName ? displayName.split(" ")[0] : "";
+  };
+
   render() {
     const { navigation, user } = this.props;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <Text style={styles.intro}>
-          {this.defineGreeting()} {this.getFirstName(user.displayName)}
+          {this.defineGreeting(new Date().getHours())} {this.getFirstName(user.displayName)}
         </Text>
         <TouchableOpacity
           style={styles.profileContainer}
@@ -146,19 +140,41 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  item: {
+    margin: 7,
+    alignSelf: "baseline",
+    flexWrap: "wrap",
+    flexBasis: "45%",
+    flexGrow: 1
+  },
+  text: {
+    color: Colors.white,
+    fontFamily: ProductSans.bold,
+    marginTop: 5
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginBottom: 10
+  },
+  gradient: {
+    elevation: 5,
+    padding: 25,
+    alignItems: "center",
+    borderRadius: 10
+  },
   intro: {
     fontSize: 28,
     color: Colors.greyTextColor,
     fontFamily: ProductSans.bold,
     marginTop: 60,
-    marginLeft: 5,
     marginBottom: 30,
     marginLeft: 20,
     marginRight: 20
   },
   profileContainer: {
     position: "absolute",
-    top: 56,
+    top: 59.5,
     right: 15,
     width: 36,
     height: 36
