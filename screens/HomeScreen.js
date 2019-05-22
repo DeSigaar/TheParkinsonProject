@@ -186,7 +186,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start",
-    alignItems: "stretch"
+    alignItems: "stretch",
+    paddingLeft: 10,
+    paddingRight: 10
   }
 });
 
