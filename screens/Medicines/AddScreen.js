@@ -45,6 +45,20 @@ class MedicinesAdd extends Component {
     };
   }
 
+  showDateTimePicker = endOrStart => {
+    if (endOrStart == "start") {
+      this.setState({ startOrEnd: endOrStart });
+    } else if (endOrStart == "end") {
+      this.setState({ startOrEnd: endOrStart });
+    }
+
+    this.setState({ isDateTimePickerVisible: true });
+  };
+
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+
   handlePressMoment = (position, type) => {
     let { moments } = this.state;
     let count = moments[position].count;
@@ -137,13 +151,11 @@ class MedicinesAdd extends Component {
                 <Text style={styles.datePickerBoxText}>{endText}</Text>
               </View>
             </TouchableOpacity>
-            {/* TODO: !NOT WORKING! */}
             <DateTimePicker
               isVisible={isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
               onCancel={this.hideDateTimePicker}
             />
-            {/* TODO: !NOT WORKING! */}
           </View>
           {/* <PickerBox /> */}
           {/* Moments */}
