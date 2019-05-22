@@ -14,18 +14,26 @@ export default class Button extends Component {
 
   render() {
     const { onPress, value, type } = this.props;
-    const styleBackground = type === "dark" ? styles.darkBackground : styles.lightBackground;
-    const styleText = type === "dark" ? styles.lightText : styles.darkText;
-    const androidButtonStyle = Platform.OS === "android" && styles.androidButton;
-    const androidTextStyle = Platform.OS === "android" && styles.androidText;
 
     return (
       <TouchableOpacity
-        style={[styles.button, styleBackground, androidButtonStyle]}
+        style={[
+          styles.button,
+          type === "dark" ? styles.darkBackground : styles.lightBackground,
+          Platform.OS === "android" && styles.androidButton
+        ]}
         onPress={onPress}
         activeOpacity={0.8}
       >
-        <Text style={[styles.text, styleText, androidTextStyle]}>{value}</Text>
+        <Text
+          style={[
+            styles.text,
+            type === "dark" ? styles.lightText : styles.darkText,
+            Platform.OS === "android" && styles.androidText
+          ]}
+        >
+          {value}
+        </Text>
       </TouchableOpacity>
     );
   }

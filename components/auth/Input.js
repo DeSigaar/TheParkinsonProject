@@ -21,7 +21,7 @@ export default class Input extends Component {
     placeholder: "",
     secureTextEntry: false,
     keyboardType: "default",
-    autoCapitalize: false,
+    autoCapitalize: "none",
     autoCorrect: false,
     placeholderTextColor: "rgba(0,0,0,0.4)"
   };
@@ -37,11 +37,10 @@ export default class Input extends Component {
       autoCorrect,
       placeholderTextColor
     } = this.props;
-    const androidInputStyle = Platform.OS === "android" && styles.androidInput;
 
     return (
       <TextInput
-        style={[styles.input, androidInputStyle]}
+        style={[styles.input, Platform.OS === "android" && styles.androidInput]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}

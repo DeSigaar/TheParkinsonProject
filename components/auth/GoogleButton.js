@@ -13,20 +13,21 @@ export default class GoogleButton extends Component {
 
   render() {
     const { onPress, value } = this.props;
-    const androidButtonStyle = Platform.OS === "android" && styles.androidButton;
-    const androidTextStyle = Platform.OS === "android" && styles.androidText;
-    const androidImageStyle = Platform.OS === "android" && styles.androidImage;
 
     return (
-      <TouchableOpacity style={[styles.button, androidButtonStyle]} onPress={onPress} activeOpacity={0.8}>
+      <TouchableOpacity
+        style={[styles.button, Platform.OS === "android" && styles.androidButton]}
+        onPress={onPress}
+        activeOpacity={0.8}
+      >
         <View style={styles.innerButton}>
           <Image
-            style={[styles.image, androidImageStyle]}
+            style={[styles.image, Platform.OS === "android" && styles.androidImage]}
             source={{
               uri: "https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-512.png"
             }}
           />
-          <Text style={[styles.text, androidTextStyle]}>{value}</Text>
+          <Text style={[styles.text, Platform.OS === "android" && styles.androidText]}>{value}</Text>
         </View>
       </TouchableOpacity>
     );
