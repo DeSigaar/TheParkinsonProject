@@ -6,17 +6,10 @@ import SvgAnimatedLinearGradient from "react-native-svg-animated-linear-gradient
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import MedicinesAddScreen from "../screens/Medicines/MedicinesAddScreen";
-
 import { MenuItem } from "../components/home";
-import {
-  HomeScreen,
-  ExerciseHomeScreen,
-  MedicationHomeScreen,
-  ProfileScreen,
-  SchemaScreen,
-  MomentsScreen
-} from "../screens/";
+import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
+import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/Medicines";
+import { HomeScreen as ExercisesScreen } from "../screens/Exercises";
 import Colors from "../constants/Colors";
 import Gradients from "../constants/Gradients";
 
@@ -25,12 +18,12 @@ const Navigation = createAppContainer(
   createStackNavigator(
     {
       Home: { screen: HomeScreen },
-      Exercises: { screen: ExerciseHomeScreen },
-      Medication: { screen: MedicinesHomeScreen },
-      MedicinesAddScreen: { screen: MedicinesAddScreen },
       Profile: { screen: ProfileScreen },
       Schema: { screen: SchemaScreen },
-      Moments: { screen: MomentsScreen }
+      Moments: { screen: MomentsScreen },
+      Exercises: { screen: ExercisesScreen },
+      Medicines: { screen: MedicinesScreen },
+      MedicinesAdd: { screen: MedicinesAddScreen }
     },
     {
       defaultNavigationOptions: {
