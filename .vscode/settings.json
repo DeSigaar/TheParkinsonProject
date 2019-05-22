@@ -1,12 +1,16 @@
 {
   "editor.folding": true,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
+<<<<<<< HEAD
+  "eslint.autoFixOnSave": false,
+=======
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
+>>>>>>> 59436618dcc01b56edf8859485846a092af25307
   "explorer.sortOrder": "default",
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
@@ -16,6 +20,7 @@
     "**/.editorconfig": true,
     "**/.eslintrc.json": true,
     "**/.expo": true,
+    "**/.expo-shared": true,
     "**/.firebaserc": true,
     "**/.git": true,
     "**/.gitignore": true,
@@ -25,7 +30,8 @@
     "**/.watchmanconfig": true,
     "**/CVS": true,
     "**/babel.config.js": true,
-    "**/node_modules/**": true
+    "**/node_modules/**": true,
+    "**/firebase.json": true,
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,

@@ -3,7 +3,7 @@ import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity } from "rea
 import { Permissions, Notifications } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setExpoPushToken } from "../store/actions/authActions";
+import { setExpoPushToken } from "../store/actions/notifiActions";
 import { MenuItem, Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
@@ -18,8 +18,9 @@ class HomeScreen extends Component {
     user: PropTypes.object
   };
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { user } = this.props;
+
     if (!user.isEmpty) {
       // User is present
       if (!user.expoPushToken) {
@@ -27,16 +28,34 @@ class HomeScreen extends Component {
         this.registerForPushNotifications();
       }
     }
-
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
   }
 
-  _handleNotification = notification => {
-    this.setState({ notification: notification });
+  registerForPushNotifications = async () => {
+    const { user } = this.props;
+
+    //Check for excisting permissions
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = status;
+
+    //If no excisting permission, ask for permission
+    if (status !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    //If no permission, exit the function
+    if (finalStatus !== "granted") return;
+
+    //Get push notification token
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    if (user.uid && token) {
+      this.props.setExpoPushToken(user.uid, token);
+    }
   };
 
-  defineGreeting = () => {
-    const hours = new Date().getHours();
+  defineGreeting = hours => {
+    // Get correct greeting defined by current hour
     switch (true) {
       case hours >= 18:
         return "Goedenavond";
@@ -54,40 +73,13 @@ class HomeScreen extends Component {
     return displayName ? displayName.split(" ")[0] : "";
   };
 
-  registerForPushNotifications = async () => {
-    //Check for excisting permissions
-    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = status;
-
-    //If no excisting permission, ask for permission
-    if (status !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    //If no permission, exit the function
-    if (finalStatus !== "granted") {
-      return;
-    }
-
-    //Get push notification token
-    let token = await Notifications.getExpoPushTokenAsync();
-
-    //add token to firebase
-    let uid = this.props.user.uid;
-
-    if (uid && token) {
-      this.props.setExpoPushToken(uid, token);
-    }
-  };
-
   render() {
     const { navigation, user } = this.props;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <Text style={styles.intro}>
-          {this.defineGreeting()} {this.getFirstName(user.displayName)}
+          {this.defineGreeting(new Date().getHours())} {this.getFirstName(user.displayName)}
         </Text>
         <TouchableOpacity
           style={styles.profileContainer}
@@ -104,12 +96,13 @@ class HomeScreen extends Component {
           <Upcoming
             img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("Exercises")}
+            onPress={() => navigation.navigate("Medicines")}
           />
           <MenuItem
             title="Medicijnen"
             img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
+            onPress={() => navigation.navigate("Medicines")}
           />
           <MenuItem
             title="Oefeningen"
@@ -145,23 +138,42 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  item: {
+    margin: 7,
+    alignSelf: "baseline",
+    flexWrap: "wrap",
+    flexBasis: "45%",
+    flexGrow: 1
+  },
+  text: {
+    color: Colors.white,
+    fontFamily: ProductSans.bold,
+    marginTop: 5
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginBottom: 10
+  },
+  gradient: {
+    elevation: 5,
+    padding: 25,
+    alignItems: "center",
+    borderRadius: 10
+  },
   intro: {
     fontSize: 28,
     color: Colors.greyTextColor,
+    fontFamily: ProductSans.bold,
     marginTop: 60,
-    marginLeft: 5,
     marginBottom: 30,
-    fontFamily: ProductSans.bold
-  },
-  container: {
-    backgroundColor: Colors.white,
     marginLeft: 20,
     marginRight: 20
   },
   profileContainer: {
     position: "absolute",
-    top: 56,
-    right: 0,
+    top: 59.5,
+    right: 15,
     width: 36,
     height: 36
   },

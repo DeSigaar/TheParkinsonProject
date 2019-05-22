@@ -83,9 +83,7 @@ class SignupScreen extends Component {
     const { email, password, passwordConfirm } = this.state;
     const { authLoading, authError } = this.props;
 
-    if (authLoading) {
-      return <ActivityIndicator style={styles.load} size="large" />;
-    } else {
+    if (!authLoading) {
       return (
         <View style={styles.form}>
           <Upper top="Nieuw hier?" bottom="Maak hier je account aan" />
@@ -123,6 +121,8 @@ class SignupScreen extends Component {
           <Chevron onPress={this.handlePressNavigateLogin} direction="left" value="Inloggen" />
         </View>
       );
+    } else {
+      return <ActivityIndicator style={styles.load} size="large" />;
     }
   };
 
@@ -180,11 +180,11 @@ const styles = StyleSheet.create({
   },
   error: {
     fontFamily: ProductSans.regular,
-    color: Colors.errorText
+    color: Colors.red
   },
   success: {
     fontFamily: ProductSans.regular,
-    color: Colors.successText
+    color: Colors.green
   }
 });
 

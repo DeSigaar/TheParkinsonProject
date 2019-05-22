@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Header } from "../components/common";
-import { Moments } from "../components";
+import { Header, Container, Moments } from "../components/common";
 
 import Gradients from "../constants/Gradients";
 
 class MomentsScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    user: PropTypes.object,
     moments: PropTypes.array.isRequired
   };
 
@@ -59,25 +56,17 @@ class MomentsScreen extends Component {
     return (
       <>
         <Header navigation={navigation} title="Momenten" />
-        <View style={styles.container}>
+        <Container>
           <Moments moments={moments} colors={Gradients.blue} handlePress={this.handlePressMoment} />
-        </View>
+        </Container>
       </>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    marginTop: 75
-  }
-});
-
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    user: state.firebase.profile,
     moments: state.firebase.profile.moments
   };
 };

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
 import PropTypes from "prop-types";
 
-import { Header } from "../components/common";
+import { Header, Container } from "../../components/common";
 
-export default class ExerciseHomeScreen extends Component {
+export default class HomeScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object
   };
@@ -16,17 +16,10 @@ export default class ExerciseHomeScreen extends Component {
     return (
       <>
         <Header navigation={navigation} title="Oefeningen" />
-        <View style={styles.container}>
+        <Container>
           <Text>Screen with variable {variable}</Text>
-        </View>
+        </Container>
       </>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 75,
-    padding: 20
-  }
-});
