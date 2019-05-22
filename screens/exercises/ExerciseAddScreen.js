@@ -94,6 +94,10 @@ class ExerciseAddScreen extends Component {
     this.setState({ isDateTimePickerVisible: true });
   };
 
+  finishScreen = () => {
+    this.props.navigation.navigate("ExerciseHomeScreen");
+  };
+
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
@@ -161,13 +165,14 @@ class ExerciseAddScreen extends Component {
       <ScrollView style={styles.container}>
         <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} />
         <View>
-          <TextInputBox
-            header={this.state.oefeningHeader}
+          <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
+          <TextInput
+            style={styles.textInput}
             onChangeText={textInputName => this.setState({ textInputName })}
-            placeholder="Test1"
+            placeholder="Oefening naam"
           >
             {this.state.textInputName}
-          </TextInputBox>
+          </TextInput>
         </View>
         <View>
           <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
@@ -305,6 +310,20 @@ const styles = StyleSheet.create({
   },
   gradientText: {
     color: "#fff"
+  },
+  inputHeader: {
+    fontSize: 20,
+    paddingTop: 16,
+    color: "#5A5A5A"
+  },
+  textInput: {
+    width: "100%",
+    height: 36,
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 13,
+    paddingLeft: 5,
+    paddingLeft: 5
   }
 });
 const mapStateToProps = (state, ownProps) => {
