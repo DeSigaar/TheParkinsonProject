@@ -1,3 +1,5 @@
+import * as firebase from "firebase";
+
 // Set new ExpoPushToken for the user
 export const setExpoPushToken = (uid, token) => {
   return () => {
