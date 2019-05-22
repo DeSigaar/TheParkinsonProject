@@ -1,13 +1,12 @@
 import * as firebase from "firebase";
 
-export const addMedicines = (id, moments) => {
-  return dispatch => {
+export const addMedicines = (uid, moments) => {
+  return () => {
     // Add new moments to firebase
     firebase
       .firestore()
       .collection("users")
-      .doc(id)
+      .doc(uid)
       .update({ moments });
-    // firebase call to add
   };
 };
