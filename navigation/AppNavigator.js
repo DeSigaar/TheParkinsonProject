@@ -1,21 +1,29 @@
 import React, { Component } from "react";
+import { createAppContainer, createStackNavigator } from "react-navigation";
+import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
+import { Svg } from "expo";
+import SvgAnimatedLinearGradient from "react-native-svg-animated-linear-gradient";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setCurrentUser } from "../store/actions/authActions";
-import { createAppContainer, createStackNavigator } from "react-navigation";
-import ExerciseHomeScreen from "../screens/exercises/ExerciseHomeScreen";
-import ExerciseAddScreen from "../screens/exercises/ExerciseAddScreen";
-import HomeScreen from "../screens/HomeScreen";
-import MomentsScreen from "../screens/MomentsScreen";
+
+import { MenuItem } from "../components/home";
+import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
+import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/Medicines";
+import { HomeScreen as ExercisesScreen } from "../screens/Exercises";
+import Colors from "../constants/Colors";
+import Gradients from "../constants/Gradients";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
   createStackNavigator(
     {
-      ExerciseHomeScreen: { screen: ExerciseHomeScreen },
-      ExerciseAddScreen: { screen: ExerciseAddScreen },
       Home: { screen: HomeScreen },
-      Moments: { screen: MomentsScreen }
+      Profile: { screen: ProfileScreen },
+      Schema: { screen: SchemaScreen },
+      Moments: { screen: MomentsScreen },
+      Exercises: { screen: ExercisesScreen },
+      Medicines: { screen: MedicinesScreen },
+      MedicinesAdd: { screen: MedicinesAddScreen }
     },
     {
       defaultNavigationOptions: {
