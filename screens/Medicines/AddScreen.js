@@ -14,7 +14,7 @@ import { addMedicines } from "../../store/actions/medicineActions";
 
 import { Header, Container, Moments } from "../../components/common";
 
-class MedicinesAdd extends Component {
+class AddScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
@@ -288,4 +288,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MedicinesAdd);
+)(AddScreen);

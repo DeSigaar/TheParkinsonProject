@@ -6,7 +6,7 @@ import { SchemaItem, SchemaMomentIndicator } from "../../components/schema";
 import Gradients from "../../constants/Gradients";
 import Colors from "../../constants/Colors";
 
-import { Header } from "../../components/common";
+import { Header, Container } from "../../components/common";
 
 class HomeScreen extends Component {
   static propTypes = {
