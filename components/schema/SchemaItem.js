@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo";
 import Colors from "../../constants/Colors";
-import Gradients from "../../constants/Gradients";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class SchemaItem extends Component {
   static propTypes = {
@@ -15,18 +15,14 @@ export default class SchemaItem extends Component {
   };
 
   render() {
+    const { title, description, img, gradientColor } = this.props;
+
     return (
-      <LinearGradient
-        style={styles.gradient}
-        colors={this.props.gradientColor}
-        start={[0, 0]}
-        end={[1, 1]}
-        locations={[0.3, 1]}
-      >
-        <Image style={styles.image} source={this.props.img} resizeMode="contain" />
+      <LinearGradient style={styles.gradient} colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]}>
+        <Image style={styles.image} source={img} resizeMode="contain" />
         <View style={styles.textContainer}>
-          <Text style={styles.textBig}>{this.props.title}</Text>
-          <Text style={styles.text}>{this.props.description}</Text>
+          <Text style={styles.textBig}>{title}</Text>
+          <Text style={styles.text}>{description}</Text>
         </View>
       </LinearGradient>
     );
@@ -37,13 +33,13 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.white,
     marginTop: 5,
-    fontFamily: "product-sans"
+    fontFamily: ProductSans.regular
   },
   textBig: {
     color: Colors.white,
     marginTop: 3,
     fontSize: 22,
-    fontFamily: "product-sans"
+    fontFamily: ProductSans.regular
   },
   textContainer: {
     justifyContent: "flex-start",

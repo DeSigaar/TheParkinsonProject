@@ -15,17 +15,13 @@ export default class MenuItem extends Component {
 
   render() {
     // TODO: iOS Add box shadow
+    const { title, img, gradientColor, onPress } = this.props;
+
     return (
-      <TouchableOpacity activeOpacity={0.8} style={styles.item} onPress={this.props.onPress}>
-        <LinearGradient
-          colors={this.props.gradientColor}
-          start={[0, 0]}
-          end={[1, 1]}
-          locations={[0.3, 1]}
-          style={styles.gradient}
-        >
-          <Image style={styles.image} source={this.props.img} resizeMode="contain" />
-          <Text style={styles.text}>{this.props.title}</Text>
+      <TouchableOpacity activeOpacity={0.7} style={styles.item} onPress={onPress}>
+        <LinearGradient colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]} style={styles.gradient}>
+          <Image style={styles.image} source={img} resizeMode="contain" />
+          <Text style={styles.text}>{title}</Text>
         </LinearGradient>
       </TouchableOpacity>
     );

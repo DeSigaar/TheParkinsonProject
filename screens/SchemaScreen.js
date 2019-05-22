@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { Text } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { SchemaItem } from "../components/schema";
-import { SchemaMomentIndicator } from "../components/schema";
+import { SchemaItem, SchemaMomentIndicator } from "../components/schema";
+import { Header, Container } from "../components/common";
 import Gradients from "../constants/Gradients";
-import Header from "../components/common/Header";
 
 class SchemaScreen extends Component {
   static propTypes = {
@@ -84,20 +83,11 @@ class SchemaScreen extends Component {
     return (
       <>
         <Header navigation={navigation} title="Schema" />
-        <ScrollView>
-          <View style={styles.container}>{this.getMoments()}</View>
-        </ScrollView>
+        <Container type="ScrollView">{this.getMoments()}</Container>
       </>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 75,
-    padding: 20
-  }
-});
 
 const mapStateToProps = (state, ownProps) => {
   return {

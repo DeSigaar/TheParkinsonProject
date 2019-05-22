@@ -6,8 +6,8 @@ import moment from "moment";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-import Colors from "../constants/Colors";
-import ProductSans from "../constants/fonts/ProductSans";
+import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Moments extends Component {
   static propTypes = {
@@ -28,25 +28,25 @@ export default class Moments extends Component {
       if (sortedMoment.icon) {
         switch (sortedMoment.icon) {
           case "tandenpoetsen.png":
-            icon = require("../assets/images/icon/moments/tandenpoetsen.png");
+            icon = require("../../assets/images/icon/moments/tandenpoetsen.png");
             break;
           case "opstaan.png":
-            icon = require("../assets/images/icon/moments/opstaan.png");
+            icon = require("../../assets/images/icon/moments/opstaan.png");
             break;
           case "ontbijt.png":
-            icon = require("../assets/images/icon/moments/ontbijt.png");
+            icon = require("../../assets/images/icon/moments/ontbijt.png");
             break;
           case "lunch.png":
-            icon = require("../assets/images/icon/moments/lunch.png");
+            icon = require("../../assets/images/icon/moments/lunch.png");
             break;
           case "tussendoortje.png":
-            icon = require("../assets/images/icon/moments/tussendoortje.png");
+            icon = require("../../assets/images/icon/moments/tussendoortje.png");
             break;
           case "avondeten.png":
-            icon = require("../assets/images/icon/moments/avondeten.png");
+            icon = require("../../assets/images/icon/moments/avondeten.png");
             break;
           case "slapen.png":
-            icon = require("../assets/images/icon/moments/slapen.png");
+            icon = require("../../assets/images/icon/moments/slapen.png");
             break;
           default:
             break;

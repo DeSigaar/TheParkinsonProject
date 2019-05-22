@@ -14,16 +14,11 @@ export default class Upcoming extends Component {
   };
 
   render() {
+    const { img, gradientColor, onPress } = this.props;
     return (
       <TouchableOpacity activeOpacity={0.8} style={styles.container}>
-        <LinearGradient
-          colors={this.props.gradientColor}
-          start={[0, 0]}
-          end={[1, 1]}
-          locations={[0.3, 1]}
-          style={styles.gradient}
-        >
-          <Image style={styles.image} source={this.props.img} resizeMode="contain" />
+        <LinearGradient colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]} style={styles.gradient}>
+          <Image style={styles.image} source={img} resizeMode="contain" />
         </LinearGradient>
         <View style={styles.textContainer}>
           <View style={styles.text}>

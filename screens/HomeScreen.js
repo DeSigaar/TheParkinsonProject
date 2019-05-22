@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity } from "react-native";
-import { Permissions, Notifications, LinearGradient } from "expo";
+import { Permissions, Notifications } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setExpoPushToken } from "../store/actions/notifiActions";
@@ -18,8 +18,9 @@ class HomeScreen extends Component {
     user: PropTypes.object
   };
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { user } = this.props;
+
     if (!user.isEmpty) {
       // User is present
       if (!user.expoPushToken) {
@@ -30,6 +31,8 @@ class HomeScreen extends Component {
   }
 
   registerForPushNotifications = async () => {
+    const { user } = this.props;
+
     //Check for excisting permissions
     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = status;
@@ -41,18 +44,13 @@ class HomeScreen extends Component {
     }
 
     //If no permission, exit the function
-    if (finalStatus !== "granted") {
-      return;
-    }
+    if (finalStatus !== "granted") return;
 
     //Get push notification token
     let token = await Notifications.getExpoPushTokenAsync();
 
-    //add token to firebase
-    let uid = this.props.user.uid;
-
-    if (uid && token) {
-      this.props.setExpoPushToken(uid, token);
+    if (user.uid && token) {
+      this.props.setExpoPushToken(user.uid, token);
     }
   };
 
@@ -98,13 +96,13 @@ class HomeScreen extends Component {
           <Upcoming
             img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("Exercises")}
+            onPress={() => navigation.navigate("Medicines")}
           />
           <MenuItem
             title="Medicijnen"
             img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("MedicinesAddScreen")}
+            onPress={() => navigation.navigate("Medicines")}
           />
           <MenuItem
             title="Oefeningen"

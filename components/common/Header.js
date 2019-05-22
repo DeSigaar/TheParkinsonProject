@@ -17,31 +17,86 @@ export default class Header extends Component {
     actionType2: PropTypes.string,
     actionPress2: PropTypes.func,
     actionType3: PropTypes.string,
-    actionPress3: PropTypes.func
+    actionPress3: PropTypes.func,
+    amountActions: PropTypes.number
   };
 
   static defaultProps = {
-    backButton: true
+    backButton: true,
+    amountActions: 0
   };
 
-  render() {
+  renderActionButtons = () => {
     const {
-      title,
-      navigation,
-      backButton,
       actionType1,
       actionPress1,
       actionType2,
       actionPress2,
       actionType3,
-      actionPress3
+      actionPress3,
+      amountActions
     } = this.props;
+
+    switch (amountActions) {
+      case 3:
+        return (
+          <View style={styles.superSide}>
+            {actionType1 && (
+              <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => actionPress1()}>
+                <MaterialIcons style={styles.icon} name={actionType1} />
+              </TouchableOpacity>
+            )}
+            {actionType2 && (
+              <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => actionPress2()}>
+                <MaterialIcons style={styles.icon} name={actionType2} />
+              </TouchableOpacity>
+            )}
+            {actionType3 && (
+              <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => actionPress3()}>
+                <MaterialIcons style={styles.icon} name={actionType3} />
+              </TouchableOpacity>
+            )}
+          </View>
+        );
+      case 2:
+        return (
+          <View style={styles.lessSuperSide}>
+            {actionType1 && (
+              <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => actionPress1()}>
+                <MaterialIcons style={styles.icon} name={actionType1} />
+              </TouchableOpacity>
+            )}
+            {actionType2 && (
+              <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => actionPress2()}>
+                <MaterialIcons style={styles.icon} name={actionType2} />
+              </TouchableOpacity>
+            )}
+          </View>
+        );
+      case 1:
+        return (
+          <View style={styles.side}>
+            {actionType1 && (
+              <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => actionPress1()}>
+                <MaterialIcons style={styles.icon} name={actionType1} />
+              </TouchableOpacity>
+            )}
+          </View>
+        );
+      default:
+      case 0:
+        return <View style={styles.side} />;
+    }
+  };
+
+  render() {
+    const { title, navigation, backButton } = this.props;
 
     return (
       <View style={[styles.container, Platform.OS === "ios" && styles.ios]}>
         <View style={styles.side}>
           {backButton && (
-            <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={() => navigation.goBack()}>
               <MaterialIcons style={styles.icon} name="arrow-back" />
             </TouchableOpacity>
           )}
@@ -49,23 +104,7 @@ export default class Header extends Component {
         <View style={styles.center}>
           <Text style={styles.title}>{title}</Text>
         </View>
-        <View style={styles.superSide}>
-          {actionType1 && (
-            <TouchableOpacity activeOpacity={0.6} onPress={() => actionPress1()}>
-              <MaterialIcons style={styles.icon} name={actionType1} />
-            </TouchableOpacity>
-          )}
-          {actionType2 && (
-            <TouchableOpacity activeOpacity={0.6} onPress={() => actionPress2()}>
-              <MaterialIcons style={styles.icon} name={actionType2} />
-            </TouchableOpacity>
-          )}
-          {actionType3 && (
-            <TouchableOpacity activeOpacity={0.6} onPress={() => actionPress3()}>
-              <MaterialIcons style={styles.icon} name={actionType3} />
-            </TouchableOpacity>
-          )}
-        </View>
+        {this.renderActionButtons()}
       </View>
     );
   }
@@ -77,8 +116,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 80,
-    paddingTop: 32,
+    height: 84,
+    paddingTop: 36,
     paddingBottom: 5,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -98,10 +137,24 @@ const styles = StyleSheet.create({
   },
   superSide: {
     height: 56,
-    width: 140,
-    paddingRight: 15,
+    width: 158,
+    paddingRight: 10,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center"
+  },
+  lessSuperSide: {
+    height: 56,
+    width: 104,
+    paddingRight: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  button: {
+    height: 50,
+    width: 50,
+    justifyContent: "center",
     alignItems: "center"
   },
   center: {

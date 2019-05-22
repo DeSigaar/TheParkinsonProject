@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { StyleSheet, Text, View, TouchableOpacity, DateTimePicker } from "react-native";
 
 class PickerBox extends Component {
-  static propTypes = {
-    prop: PropTypes
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -35,32 +30,35 @@ class PickerBox extends Component {
   };
 
   handleDatePicked = date => {
+    const { startOrEnd, startText, endText } = this.state;
+
     let dateShorted = "";
-    const timestamp = new Date(date).toString();
-    var string = timestamp;
+    var timestamp = new Date(date).toString();
     for (let i = 4; i < 15; i++) {
-      let letter = string.charAt(i);
+      let letter = timestamp.charAt(i);
       dateShorted += letter;
     }
 
-    if (this.state.startOrEnd == "start") {
+    if (startOrEnd == "start") {
       this.setState({ startText: dateShorted });
-    } else if (this.state.startOrEnd == "end") {
+    } else if (startOrEnd == "end") {
       this.setState({ endText: dateShorted });
     }
-    if (Date.parse(this.state.startText) > Date.parse(this.state.endText)) {
-      this.setState({ endText: this.state.startText });
+    if (Date.parse(startText) > Date.parse(endText)) {
+      this.setState({ endText: startText });
     }
-    if (Date.parse(this.state.endText) < Date.parse(this.state.startText)) {
-      this.setState({ startText: this.state.endText });
+    if (Date.parse(endText) < Date.parse(startText)) {
+      this.setState({ startText: endText });
     }
 
     this.hideDateTimePicker();
   };
 
   render() {
+    const { startText, endText, isDateTimePickerVisible } = this.state;
+
     return (
-      <React.Fragment>
+      <>
         <Text style={styles.inputHeader}>Periode</Text>
         <View style={styles.datePickerBox}>
           <TouchableOpacity
@@ -70,7 +68,7 @@ class PickerBox extends Component {
           >
             <View style={styles.textCenterHorizontalVertical}>
               <Text style={styles.datePickerBoxHeaderText}>Stardatum</Text>
-              <Text style={styles.datePickerBoxText}>{this.state.startText}</Text>
+              <Text style={styles.datePickerBoxText}>{startText}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -80,16 +78,16 @@ class PickerBox extends Component {
           >
             <View style={styles.textCenterHorizontalVertical}>
               <Text style={styles.datePickerBoxHeaderText}>Einddatum</Text>
-              <Text style={styles.datePickerBoxText}>{this.state.endText}</Text>
+              <Text style={styles.datePickerBoxText}>{endText}</Text>
             </View>
           </TouchableOpacity>
           <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
+            isVisible={isDateTimePickerVisible}
             onConfirm={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
           />
         </View>
-      </React.Fragment>
+      </>
     );
   }
 }
