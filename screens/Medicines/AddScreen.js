@@ -7,11 +7,8 @@ import Gradients from "../../constants/Gradients";
 import Colors from "../../constants/Colors";
 import ProductSans from "../../constants/fonts/ProductSans";
 import { LinearGradient } from "expo";
-
 import { connect } from "react-redux";
-
 import { addMedicines } from "../../store/actions/medicineActions";
-
 import { Header, Container, Moments } from "../../components/common";
 
 class MedicinesAdd extends Component {

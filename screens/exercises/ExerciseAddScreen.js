@@ -7,11 +7,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import Colors from "../../constants/Colors";
 import { LinearGradient } from "expo";
 import Gradients from "../../constants/Gradients";
-import Moments from "../../components/Moments";
+import Moments from "../../components/common/Moments";
 import { ScrollView } from "react-native-gesture-handler";
 import { addExercise } from "../../store/actions/exerciseActions";
 import TextInputBox from "../../components/common/TextInputBox";
 import RepeatPicker from "../../components/exercises/RepeatPicker";
+import { Header, Container } from "../../components/common";
 
 class ExerciseAddScreen extends Component {
   static propTypes = {
@@ -154,95 +155,87 @@ class ExerciseAddScreen extends Component {
     this.hideDateTimePicker();
   };
 
-  static navigationOptions = {
-    title: "Second"
-  };
-
   render() {
     const { moments } = this.state;
-    const { navigate } = this.props.navigation;
+    const { navigation } = this.props;
     return (
-      <ScrollView style={styles.container}>
-        <Button title="Go back" onPress={() => navigate("ExerciseHomeScreen")} />
-        <View>
-          <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={textInputName => this.setState({ textInputName })}
-            placeholder="Oefening naam"
-          >
-            {this.state.textInputName}
-          </TextInput>
-        </View>
-        <View>
-          <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
-        </View>
-        <View style={styles.datePickerBox}>
-          <TouchableOpacity
-            style={styles.datePickerButtonLeft}
-            onPress={() => this.showDateTimePicker("start")}
-            activeOpacity={0.8}
-          >
-            <View style={styles.textCenterHorizontalVertical}>
-              <Text style={styles.datePickerBoxHeaderText}>Stardatum</Text>
-              <Text style={styles.datePickerBoxText}>{this.state.startText}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.datePickerButtonRight}
-            onPress={() => this.showDateTimePicker("end")}
-            activeOpacity={0.8}
-          >
-            <View style={styles.textCenterHorizontalVertical}>
-              <Text style={styles.datePickerBoxHeaderText}>Einddatum</Text>
-              <Text style={styles.datePickerBoxText}>{this.state.endText}</Text>
-            </View>
-          </TouchableOpacity>
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this.handleDatePicked}
-            onCancel={this.hideDateTimePicker}
-          />
-        </View>
-        <View>
-          <RepeatPicker
-            header={this.state.repetitieHeader}
-            inputPlaceholder="10"
-            inputplaceholderTextColor="#fff"
-            pickerSelectedValue={this.state.indication}
-            state={this.state}
-            toggleButton={this.toggleDateButton}
-            onValueChange={(itemValue, itemIndex) => this.setState({ indication: itemValue })}
-          />
-        </View>
+      <>
+        <Header navigation={navigation} title="Oefening toevoegen" style={styles.header} />
+        <Container type="ScrollView">
+          <View>
+            <Text style={styles.inputHeader}>{this.state.oefeningHeader}</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={textInputName => this.setState({ textInputName })}
+              placeholder="Oefening naam"
+            >
+              {this.state.textInputName}
+            </TextInput>
+          </View>
+          <View>
+            <Text style={styles.inputHeader}>{this.state.periodeHeader}</Text>
+          </View>
+          <View style={styles.datePickerBox}>
+            <TouchableOpacity
+              style={styles.datePickerButtonLeft}
+              onPress={() => this.showDateTimePicker("start")}
+              activeOpacity={0.8}
+            >
+              <View style={styles.textCenterHorizontalVertical}>
+                <Text style={styles.datePickerBoxHeaderText}>Stardatum</Text>
+                <Text style={styles.datePickerBoxText}>{this.state.startText}</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.datePickerButtonRight}
+              onPress={() => this.showDateTimePicker("end")}
+              activeOpacity={0.8}
+            >
+              <View style={styles.textCenterHorizontalVertical}>
+                <Text style={styles.datePickerBoxHeaderText}>Einddatum</Text>
+                <Text style={styles.datePickerBoxText}>{this.state.endText}</Text>
+              </View>
+            </TouchableOpacity>
+            <DateTimePicker
+              isVisible={this.state.isDateTimePickerVisible}
+              onConfirm={this.handleDatePicked}
+              onCancel={this.hideDateTimePicker}
+            />
+          </View>
+          <View>
+            <RepeatPicker
+              header={this.state.repetitieHeader}
+              inputPlaceholder="10"
+              inputplaceholderTextColor="#fff"
+              pickerSelectedValue={this.state.indication}
+              state={this.state}
+              toggleButton={this.toggleDateButton}
+              onValueChange={(itemValue, itemIndex) => this.setState({ indication: itemValue })}
+            />
+          </View>
 
-        <View style={styles.momentenDoos}>
-          <Text style={styles.inputHeader}>{this.state.momentsHeader}</Text>
-          <Moments moments={moments} colors={Gradients.green} handlePress={this.handlePressMoment} />
-        </View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={() => this.handleSubmit()}>
-          <LinearGradient
-            colors={Gradients.green}
-            start={[0, 0]}
-            end={[1, 1]}
-            locations={[0.3, 1]}
-            style={styles.gradient}
-          >
-            <Text style={styles.gradientText}>Oefening Toevoegen</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </ScrollView>
+          <View style={styles.momentenDoos}>
+            <Text style={styles.inputHeader}>{this.state.momentsHeader}</Text>
+            <Moments moments={moments} colors={Gradients.green} handlePress={this.handlePressMoment} />
+          </View>
+          <TouchableOpacity style={styles.btnSubmit} onPress={() => this.handleSubmit()}>
+            <LinearGradient
+              colors={Gradients.green}
+              start={[0, 0]}
+              end={[1, 1]}
+              locations={[0.3, 1]}
+              style={styles.gradient}
+            >
+              <Text style={styles.gradientText}>Oefening Toevoegen</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </Container>
+      </>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    padding: 20
-  },
-
   dayButton: {
     height: 50
   },

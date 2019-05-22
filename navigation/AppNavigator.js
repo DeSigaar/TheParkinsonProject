@@ -10,6 +10,7 @@ import { MenuItem } from "../components/home";
 import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
 import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/Medicines";
 import { HomeScreen as ExercisesScreen } from "../screens/Exercises";
+import ExerciseAddScreen from "../screens/Exercises/ExerciseAddScreen";
 import Colors from "../constants/Colors";
 import Gradients from "../constants/Gradients";
 
@@ -22,6 +23,7 @@ const Navigation = createAppContainer(
       Schema: { screen: SchemaScreen },
       Moments: { screen: MomentsScreen },
       Exercises: { screen: ExercisesScreen },
+      ExerciseAddScreen: { screen: ExerciseAddScreen },
       Medicines: { screen: MedicinesScreen },
       MedicinesAdd: { screen: MedicinesAddScreen }
     },

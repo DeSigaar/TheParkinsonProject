@@ -110,7 +110,7 @@ class MedicinesAdd extends Component {
     const { moments } = this.state;
     const { inputName } = this.state;
     return (
-      <React.Fragment>
+      <>
         <Header navigation={navigation} title="Medicijn toevoegen" style={styles.header} />
 
         <ScrollView style={styles.container}>
@@ -176,7 +176,7 @@ class MedicinesAdd extends Component {
             </LinearGradient>
           </TouchableOpacity>
         </ScrollView>
-      </React.Fragment>
+      </>
     );
   }
 }
