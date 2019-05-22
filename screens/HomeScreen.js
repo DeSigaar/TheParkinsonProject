@@ -108,7 +108,7 @@ class HomeScreen extends Component {
             title="Oefeningen"
             img={require("../assets/images/icon/home/oefeningen.png")}
             gradientColor={Gradients.green}
-            onPress={() => navigation.navigate("Exercises")}
+            onPress={() => navigation.navigate("ExerciseHomeScreen")}
           />
           <MenuItem
             title="Activiteiten"
