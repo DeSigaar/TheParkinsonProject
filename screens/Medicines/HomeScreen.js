@@ -69,8 +69,11 @@ class HomeScreen extends Component {
           title="Medicatie"
           actionType1="add"
           actionType2="delete"
-          actionType3="arrow-left"
-          // actionPress1={() => navigation.navigate("Exercise")}
+          actionType3="error"
+          actionPress1={() => navigation.navigate("MedicinesAdd")}
+          actionPress2={() => Alert.alert("Action2 is empty!")}
+          actionPress3={() => Alert.alert("Action3 is empty!")}
+          amountActions={3}
         />
         <ScrollView>
           <View style={[styles.container, Platform.OS === "ios" && styles.ios]}>{this.showMedicinesContainer()}</View>
