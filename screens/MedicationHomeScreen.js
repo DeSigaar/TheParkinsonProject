@@ -16,34 +16,53 @@ class MedicationHomeScreen extends Component {
     medicines: PropTypes.array
   };
 
-  // constructor(props) {
-  //   super(props);
+  //new
+  getUniqueMedicines = () => {
+    const { moments } = this.props;
+    let uniqueMedicine = new Array();
 
-  //   let { moments } = this.props;
-  //   moments.forEach((moment, i) => {
-  //     moments[i] = {
-  //       ...moment,
-  //       count: 0
-  //     };
-  //   });
+    if (moments) {
+      moments.forEach(moment => {
+        moment.medicines.forEach(medicine => {
+          if (uniqueMedicine.filter(m => m.name === medicine.name).length === 0) {
+            uniqueMedicine.push(medicine);
+          }
+        });
+      });
 
-  //   this.state = {0
-  //     moments
-  //   };
-  // }
+      return uniqueMedicine;
+    }
+  };
+
+  showMedicinesContainer = () => {
+    const medicines = this.getUniqueMedicines();
+    if (medicines) {
+      return <SchemaMomentIndicator moment="A">{this.loopMedicines(medicines)}</SchemaMomentIndicator>;
+    } else {
+      //image (medicine not found, see adobeXD)
+      return <Text>Geen medicijnen ingesteld</Text>;
+    }
+  };
+
+  loopMedicines = array => {
+    return array.map(item => {
+      // return <SchemaItem title={title} description={description} img={img} gradientColor={gradient} key={item.id} />;
+      return (
+        <SchemaItem
+          key={item.id}
+          title={item.name}
+          description={"description"}
+          img={require("../assets/images/icon/home/medicatie.png")}
+          gradientColor={Gradients.blue}
+        />
+      );
+    });
+  };
 
   render() {
     const { navigation, user, moments } = this.props;
     const { getParam } = navigation;
 
-    if (moments) {
-      moments.forEach((moment, i) => {
-        console.log(moment.exercises);
-      });
-    }
-
-    // console.log(moments);
-    //(body)
     return (
       <>
         <Header
@@ -56,7 +75,9 @@ class MedicationHomeScreen extends Component {
         />
         <ScrollView>
           <View style={[styles.container, Platform.OS === "ios" && styles.ios]}>
-            <SchemaMomentIndicator moment="N">
+            {this.showMedicinesContainer()}
+
+            {/* <SchemaMomentIndicator moment="N">
               <SchemaItem
                 title={"Naproxen"}
                 description={"Naproxen 250mg"}
@@ -139,7 +160,7 @@ class MedicationHomeScreen extends Component {
                 img={require("../assets/images/icon/home/medicatie.png")}
                 gradientColor={Gradients.blue}
               />
-            </SchemaMomentIndicator>
+            </SchemaMomentIndicator> */}
           </View>
         </ScrollView>
       </>
