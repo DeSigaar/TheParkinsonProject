@@ -8,8 +8,8 @@ import { connect } from "react-redux";
 
 import { MenuItem } from "../components/home";
 import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
-import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/medicijnen";
-import { HomeScreen as ExercisesScreen, AddScreen as ExercisesAddScreen } from "../screens/oefeningen";
+import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/medicines";
+import { HomeScreen as ExercisesScreen, AddScreen as ExercisesAddScreen } from "../screens/exercises";
 import Colors from "../constants/Colors";
 import Gradients from "../constants/Gradients";
 
