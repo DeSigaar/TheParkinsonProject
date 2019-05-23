@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Platform, ScrollView } from "react-native";
+import { Text } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { SchemaItem, SchemaMomentIndicator } from "../../components/schema";
 import Gradients from "../../constants/Gradients";
-import Colors from "../../constants/Colors";
 
 import { Header, Container } from "../../components/common";
 
@@ -12,86 +11,72 @@ class HomeScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.object,
-    medicines: PropTypes.array
+    moments: PropTypes.array,
+    exercises: PropTypes.array
   };
 
-  //new
-  getUniqueMedicines = () => {
+  getUniqueExercises = () => {
     const { moments } = this.props;
-    let uniqueMedicine = new Array();
+    let uniqueExercises = new Array();
 
     if (moments) {
       moments.forEach(moment => {
-        moment.medicines.forEach(medicine => {
-          if (uniqueMedicine.filter(m => m.name === medicine.name).length === 0) {
-            uniqueMedicine.push(medicine);
+        moment.exercises.forEach(exercise => {
+          if (uniqueExercises.filter(e => e.name === exercise.name).length === 0) {
+            uniqueExercises.push(exercise);
           }
         });
       });
 
-      return uniqueMedicine;
+      return uniqueExercises;
     }
   };
 
-  showMedicinesContainer = () => {
-    const medicines = this.getUniqueMedicines();
-    if (medicines) {
-      return <SchemaMomentIndicator moment="A">{this.loopMedicines(medicines)}</SchemaMomentIndicator>;
+  showExercisesContainer = () => {
+    const exercises = this.getUniqueExercises();
+    if (exercises) {
+      return <SchemaMomentIndicator moment="A">{this.loopExercises(exercises)}</SchemaMomentIndicator>;
     } else {
       //image (medicine not found, see adobeXD)
-      return <Text>Geen medicijnen ingesteld</Text>;
+      return <Text>Geen oefeningen ingesteld</Text>;
     }
   };
 
-  loopMedicines = array => {
+  loopExercises = array => {
     return array.map(item => {
       return (
         <SchemaItem
           key={item.id}
           title={item.name}
           description={"description"}
-          img={require("../../assets/images/icon/home/medicatie.png")}
-          gradientColor={Gradients.blue}
+          img={require("../../assets/images/icon/home/oefeningen.png")}
+          gradientColor={Gradients.green}
         />
       );
     });
   };
 
   render() {
-    const { navigation, user, moments } = this.props;
-    const { getParam } = navigation;
+    const { navigation } = this.props;
 
     return (
       <>
         <Header
           navigation={navigation}
-          title="Medicatie"
+          title="Oefeningen"
           actionType1="add"
           actionType2="delete"
           actionType3="error"
-          actionPress1={() => navigation.navigate("MedicinesAdd")}
+          actionPress1={() => navigation.navigate("ExercisesAdd")}
           actionPress2={() => Alert.alert("Action2 is empty!")}
           actionPress3={() => Alert.alert("Action3 is empty!")}
           amountActions={3}
         />
-        <ScrollView>
-          <View style={[styles.container, Platform.OS === "ios" && styles.ios]}>{this.showMedicinesContainer()}</View>
-        </ScrollView>
+        <Container type="ScrollView">{this.showExercisesContainer()}</Container>
       </>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 75,
-    padding: 20
-  },
-  ios: {
-    marginTop: 100
-  }
-});
 
 const mapStateToProps = (state, ownProps) => {
   return {

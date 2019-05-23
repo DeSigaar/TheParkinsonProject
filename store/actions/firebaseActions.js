@@ -1,8 +1,9 @@
 import * as firebase from "firebase";
 
-export const addMedicines = (uid, moments) => {
+export const updateMoments = (uid, moments) => {
   return () => {
-    // Add new moments to firebase
+    // Add new exercises to the moment in firebase
+    // firebase call to add
     firebase
       .firestore()
       .collection("users")

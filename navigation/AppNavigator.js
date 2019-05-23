@@ -8,9 +8,8 @@ import { connect } from "react-redux";
 
 import { MenuItem } from "../components/home";
 import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
-import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/Medicines";
-import { HomeScreen as ExercisesScreen } from "../screens/Exercises";
-import ExerciseAddScreen from "../screens/Exercises/ExerciseAddScreen";
+import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/medicijnen";
+import { HomeScreen as ExercisesScreen, AddScreen as ExercisesAddScreen } from "../screens/oefeningen";
 import Colors from "../constants/Colors";
 import Gradients from "../constants/Gradients";
 
@@ -22,10 +21,10 @@ const Navigation = createAppContainer(
       Profile: { screen: ProfileScreen },
       Schema: { screen: SchemaScreen },
       Moments: { screen: MomentsScreen },
-      Exercises: { screen: ExercisesScreen },
-      ExerciseAddScreen: { screen: ExerciseAddScreen },
       Medicines: { screen: MedicinesScreen },
-      MedicinesAdd: { screen: MedicinesAddScreen }
+      MedicinesAdd: { screen: MedicinesAddScreen },
+      Exercises: { screen: ExercisesScreen },
+      ExercisesAdd: { screen: ExercisesAddScreen }
     },
     {
       defaultNavigationOptions: {
@@ -67,7 +66,7 @@ class AppNavigator extends Component {
     return loaded ? (
       <Navigation />
     ) : (
-      // Still loading so show skeleton screen with routes to different parts of the app
+      // Still loading so show skeleton screen
       <ScrollView>
         <View style={styles.intro}>
           <SvgAnimatedLinearGradient
