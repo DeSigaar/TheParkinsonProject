@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
+import { Dimensions } from "react-native";
 import { Svg } from "expo";
-import SvgAnimatedLinearGradient from "react-native-svg-animated-linear-gradient";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { MenuItem } from "../components/home";
+import { Skeleton } from "../components/common";
 import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
 import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/medicines";
 import { HomeScreen as ExercisesScreen, AddScreen as ExercisesAddScreen } from "../screens/exercises";
-import Colors from "../constants/Colors";
-import Gradients from "../constants/Gradients";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
@@ -51,6 +48,7 @@ class AppNavigator extends Component {
   render() {
     const { user } = this.props;
     const { loaded } = this.state;
+    const { width, height } = Dimensions.get("window");
 
     // Give Firebase a second or 3.5 to get everything ready
     if (!loaded)
@@ -67,119 +65,20 @@ class AppNavigator extends Component {
       <Navigation />
     ) : (
       // Still loading so show skeleton screen
-      <ScrollView>
-        <View style={styles.intro}>
-          <SvgAnimatedLinearGradient
-            height={35.8}
-            width={200}
-            x1="0"
-            y1="0"
-            x2="400"
-            y2="400"
-            primaryColor={Colors.skeletonPrimary}
-            secondaryColor={Colors.skeletonSecondary}
-          >
-            <Svg.Rect x="0" y="0" width="200" height="35.8" ry="10" rx="10" />
-          </SvgAnimatedLinearGradient>
-        </View>
-        <TouchableOpacity style={styles.profileContainer} activeOpacity={0.6}>
-          <SvgAnimatedLinearGradient
-            height={36}
-            width={36}
-            x1="0"
-            y1="0"
-            x2="400"
-            y2="400"
-            primaryColor={Colors.skeletonPrimary}
-            secondaryColor={Colors.skeletonSecondary}
-          >
-            <Svg.Circle cx="18" cy="18" r="18" />
-          </SvgAnimatedLinearGradient>
-        </TouchableOpacity>
-        <View style={styles.menuItemContainer}>
-          <View style={styles.loadingUpcoming}>
-            <SvgAnimatedLinearGradient
-              height={129.9}
-              width={380}
-              x1="0"
-              y1="0"
-              x2="400"
-              y2="400"
-              primaryColor={Colors.skeletonPrimary}
-              secondaryColor={Colors.skeletonSecondary}
-            >
-              <Svg.Rect x="0" y="0" height="129.9" width="100%" ry="10" rx="10" />
-            </SvgAnimatedLinearGradient>
-          </View>
-          <MenuItem
-            title="Medicijnen"
-            img={require("../assets/images/icon/home/medicatie.png")}
-            gradientColor={Gradients.blue}
-          />
-          <MenuItem
-            title="Oefeningen"
-            img={require("../assets/images/icon/home/oefeningen.png")}
-            gradientColor={Gradients.green}
-          />
-          <MenuItem
-            title="Activiteiten"
-            img={require("../assets/images/icon/home/activiteiten.png")}
-            gradientColor={Gradients.orange}
-          />
-          <MenuItem
-            title="Community"
-            img={require("../assets/images/icon/home/community.png")}
-            gradientColor={Gradients.pink}
-          />
-          <MenuItem
-            title="Tips & Tricks"
-            img={require("../assets/images/icon/home/tipsTricks.png")}
-            gradientColor={Gradients.purple}
-          />
-          <MenuItem
-            title="Schema"
-            img={require("../assets/images/icon/home/schema.png")}
-            gradientColor={Gradients.yellow}
-          />
-        </View>
-      </ScrollView>
+      <Skeleton width={width} height={height} x2={width + 200}>
+        <Svg.Rect x="17" y="60" width={width / 1.75} height="36" ry="13" rx="13" />
+        <Svg.Circle cx={width - 33} cy="78" r="18" />
+        <Svg.Rect x="17" y="135" width={width - 34} height="130" ry="13" rx="13" />
+        <Svg.Rect x="17" y="276" width={(width - 34) / 2 - 7} height="133" ry="13" rx="13" />
+        <Svg.Rect x={(width - 34) / 2 + 24} y="276" width={(width - 34) / 2 - 7} height="133" ry="13" rx="13" />
+        <Svg.Rect x="17" y="423" width={(width - 34) / 2 - 7} height="133" ry="13" rx="13" />
+        <Svg.Rect x={(width - 34) / 2 + 24} y="423" width={(width - 34) / 2 - 7} height="133" ry="13" rx="13" />
+        <Svg.Rect x="17" y="570" width={(width - 34) / 2 - 7} height="133" ry="13" rx="13" />
+        <Svg.Rect x={(width - 34) / 2 + 24} y="570" width={(width - 34) / 2 - 7} height="133" ry="13" rx="13" />
+      </Skeleton>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  intro: {
-    marginTop: 60,
-    marginBottom: 30,
-    marginLeft: 20,
-    marginRight: 20
-  },
-  profileContainer: {
-    position: "absolute",
-    top: 59.5,
-    right: 15,
-    width: 36,
-    height: 36
-  },
-  photoURL: {
-    width: 36,
-    height: 36,
-    borderRadius: 18
-  },
-  loadingUpcoming: {
-    margin: 7,
-    width: "100%",
-    height: 129.9
-  },
-  menuItemContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-    paddingLeft: 10,
-    paddingRight: 10
-  }
-});
 
 const mapStateToProps = (state, ownProps) => {
   return {
