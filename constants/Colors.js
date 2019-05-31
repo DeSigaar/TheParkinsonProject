@@ -9,7 +9,5 @@ export default {
   tabIconDefault: "#CCCCCC",
   tabBar: "#FEFEFE",
   warningBackground: "#EAEB5E",
-  warningText: "#666804",
-  skeletonPrimary: "#EEEEEE",
-  skeletonSecondary: "#DDDDDD"
+  warningText: "#666804"
 };

@@ -18,11 +18,11 @@
 This project was made by some students from the [Fontys Hogeschool ICT](https://fontys.nl/hbo-ict/) to assist Parkinson patients in their daily lives.
 A live preview can be found on our [Expo page](https://expo.io/@maxaltena/TheParkinsonProject).
 
-##  Prerequisites
+## Prerequisites
 
 - [Node.js](https://nodejs.org/)
-- [Yarn](https://yarnpkg.com/)
 - [Expo Client](https://expo.io/tools#client) on smartphone or emulator
+- [Yarn](https://yarnpkg.com/) (optional)
 
 ## Installation
 
@@ -40,6 +40,7 @@ $ cd TheParkinsonProject
 ### Setup
 
 First, globally install the latest expo-cli package
+
 ```
 $ npm install --global expo-cli@latest
 or
@@ -47,15 +48,17 @@ $ yarn global add expo-cli@latest
 ```
 
 Next up, install all needed dependencies within the folder
+
 ```
 $ npm install
 or
 $ yarn install
-````
+```
 
 ### Running
 
 Finally, you can start running the application
+
 ```
 $ npm start
 or

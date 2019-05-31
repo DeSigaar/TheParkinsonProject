@@ -85,11 +85,11 @@ export default class Moments extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 65,
+    height: 55,
     marginBottom: 5
   },
   gradient: {
-    height: 65,
+    height: 55,
     borderRadius: 10,
     padding: 10
   },

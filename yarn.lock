@@ -2058,9 +2058,9 @@ camelcase@^4.1.0:
   integrity sha1-1UVjW+HjPFQmScaRc+Xeas+uNN0=
 
 caniuse-lite@^1.0.30000967:
-  version "1.0.30000969"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000969.tgz#7664f571f2072657bde70b00a1fc1ba41f1942a9"
-  integrity sha512-Kus0yxkoAJgVc0bax7S4gLSlFifCa7MnSZL9p9VuS/HIKEL4seaqh28KIQAAO50cD/rJ5CiJkJFapkdDAlhFxQ==
+  version "1.0.30000971"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000971.tgz#d1000e4546486a6977756547352bc96a4cfd2b13"
+  integrity sha512-TQFYFhRS0O5rdsmSbF1Wn+16latXYsQJat66f7S7lizXW1PVpWJeZw9wqqVLIjuxDRz7s7xRUj13QCfd8hKn6g==
 
 capture-exit@^1.2.0:
   version "1.2.0"
@@ -2289,18 +2289,18 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.1.1.tgz#a1ae7edd5b791066d6eaa969c1b62986b844fd42"
-  integrity sha512-RH3kv8NFovFRMdeTEUgu8nMquEWKEVttOY3JFi8mN75sg72zygPqWbpWNTUw4JYEU43562tlzhdWsWqXmdFAnQ==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.1.2.tgz#c29ab9722517094b98622175e2218c3b7398176d"
+  integrity sha512-X0Ch5f6itrHxhg5HSJucX6nNLNAGr+jq+biBh6nPGc3YAWz2a8p/ZIZY8cUkDzSRNG54omAuu3hoEF8qZbu/6Q==
   dependencies:
     browserslist "^4.6.0"
-    core-js-pure "3.1.1"
+    core-js-pure "3.1.2"
     semver "^6.0.0"
 
-core-js-pure@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.1.1.tgz#92494ab7bae22f156ae93973a5e2738814efa7f8"
-  integrity sha512-jH3ZJ0CJ0wwDvWY0olbOComLo6tbWg4kE2x0j4+wlqYnofwF9mYm98YvADuENUzGw69IddmWFCF1FQ2S0jP96A==
+core-js-pure@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.1.2.tgz#62fc435f35b7374b9b782013cdcb2f97e9f6dffa"
+  integrity sha512-5ckIdBF26B3ldK9PM177y2ZcATP2oweam9RskHSoqfZCrJ2As6wVg8zJ1zTriFsZf6clj/N1ThDFRGaomMsh9w==
 
 core-js@3.0.1:
   version "3.0.1"
@@ -2313,14 +2313,14 @@ core-js@^1.0.0:
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
 core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.7.tgz#c2b19af9b50ec49c356ee087d6155632a889e968"
-  integrity sha512-ydmsQxDVH7lDpYoirXft8S83ddKKfdsrsmWhtyj7xafXVLbLhKOyfD7kAi2ueFfeP7m9rNavjW59O3hLLzzC5A==
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.8.tgz#dc3a1e633a04267944e0cb850d3880f340248139"
+  integrity sha512-RWlREFU74TEkdXzyl1bka66O3kYp8jeTXrvJZDzVVMH8AiHUSOFpL1yfhQJ+wHocAm1m+4971W1PPzfLuCv1vg==
 
 core-js@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.1.tgz#502ba6e7c15300de20a372b390f9fc9039db76f2"
-  integrity sha512-OddJJmAMN6czmPEtp1ScHFWq4RXzH1iWJFGL8CZ6UcopeBzCMjo4Slv0UoLW2hhny1/wsDowm6xCmBCWQ1azkA==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.2.tgz#2549a2cfb3ca1a5d851c9f7838e8b282cef2f3ba"
+  integrity sha512-3poRGjbu56leCtZCZCzCgQ7GcKOflDFnjWIepaPFUsM0IXUBrne10sl3aa2Bkcz3+FjRdIxBe9dAMhIJmEnQNA==
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -2371,7 +2371,7 @@ d3-color@1:
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.2.3.tgz#6c67bb2af6df3cc8d79efcc4d3a3e83e28c8048f"
   integrity sha512-x37qq3ChOTLd26hnps36lexMRhNXEtVxZ4B25rL0DVdDsGQIJGB18S7y9XDwlDD6MD/ZBzITCf4JjGMM10TZkw==
 
-d3-interpolate@^1.1.5:
+d3-interpolate@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/d3-interpolate/-/d3-interpolate-1.3.2.tgz#417d3ebdeb4bc4efcc8fd4361c55e4040211fd68"
   integrity sha512-NlNKGopqaz9qM1PXh9gBF1KSCVh+jSFErrSlD/4hybwoNX/gt1d8CDbDW+3i+5UOHhjC6s6nMvRxcuoMVNgL2w==
@@ -2491,9 +2491,9 @@ detect-newline@^2.1.0:
   integrity sha1-9B8cEL5LAOh7XxPaaAdZ8sW/0+I=
 
 dlv@^1.1.0:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.2.tgz#270f6737b30d25b6657a7e962c784403f85137e5"
-  integrity sha512-xxD4VSH67GbRvSGUrckvha94RD7hjgOH7rqGxiytLpkaeMvixOHFZTGFK6EkIm3T761OVHT8ABHmGkq9gXgu6Q==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
+  integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
 doctrine@^2.1.0:
   version "2.1.0"
@@ -2525,9 +2525,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.133:
-  version "1.3.135"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.135.tgz#f5799b95f2bcd8de17cde47d63392d83a4477041"
-  integrity sha512-xXLNstRdVsisPF3pL3H9TVZo2XkMILfqtD6RiWIUmDK2sFX1Bjwqmd8LBp0Kuo2FgKO63JXPoEVGm8WyYdwP0Q==
+  version "1.3.136"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.136.tgz#758a156109077536780cfa8207b1aeaa99843e33"
+  integrity sha512-xHkYkbEi4kI+2w5v6yBGCQTRXL7N0PWscygTFZu/1bArnPSo2WR9xjdw4m06RR4J5PncrWJcuOVv+MAG2mK5JQ==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -5064,9 +5064,9 @@ node-pre-gyp@^0.12.0:
     tar "^4"
 
 node-releases@^1.1.19:
-  version "1.1.19"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.19.tgz#c492d1e381fea0350b338b646c27867e88e91b3d"
-  integrity sha512-SH/B4WwovHbulIALsQllAVwqZZD1kPmKCqrhGfR29dXjLAVZMHvBjD3S6nL9D/J9QkmZ1R92/0wCMDKXUUvyyA==
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.21.tgz#46c86f9adaceae4d63c75d3c2f2e6eee618e55f3"
+  integrity sha512-TwnURTCjc8a+ElJUjmDqU6+12jhli1Q61xOQmdZ7ECZVBZuQpN/1UnembiIHDM1wCcfLvh5wrWXUF5H6ufX64Q==
   dependencies:
     semver "^5.3.0"
 
@@ -5708,7 +5708,7 @@ react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
-"react-native-maps@github:expo/react-native-maps#v0.22.1-exp.0":
+react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
 
@@ -5751,13 +5751,6 @@ react-native-screens@1.0.0-alpha.22, "react-native-screens@^1.0.0 || ^1.0.0-alph
   version "1.0.0-alpha.22"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.22.tgz#7a120377b52aa9bbb94d0b8541a014026be9289b"
   integrity sha512-kSyAt0AeVU6N7ZonfV6dP6iZF8B7Bce+tk3eujXhzBGsLg0VSLnU7uE9VqJF0xdQrHR91ZjGgVMieo/8df9KTA==
-
-react-native-svg-animated-linear-gradient@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/react-native-svg-animated-linear-gradient/-/react-native-svg-animated-linear-gradient-0.1.9.tgz#69de9bdf94fada2a211071e9e9eed0b1adf7247c"
-  integrity sha512-Tl1R5mQdA3p6fVwhGgBwK+TGwguV+VUElQ1+i7N7eTAmtegoeVwH52qPXgBlHRUyi5AsmVbna3ppOSXo7++pow==
-  dependencies:
-    d3-interpolate "^1.1.5"
 
 react-native-svg@8.0.10:
   version "8.0.10"
@@ -6286,9 +6279,9 @@ semver@5.5.0:
   integrity sha512-4SJ3dm0WAwWy/NVeioZh5AntkdJoWKxHxcmyP622fOkgHa4z3R0TdBJICINyaSDE6uNwVc8gZr+ZinwZAH4xIA==
 
 semver@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-6.0.0.tgz#05e359ee571e5ad7ed641a6eec1e547ba52dea65"
-  integrity sha512-0UewU+9rFapKFnlbirLi3byoOuhrSsli/z/ihNnvM24vgF+8sNBiI1LZPBSH9wJKUwaUbw+s3hToDLCXkrghrQ==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-6.1.0.tgz#e95dc415d45ecf03f2f9f83b264a6b11f49c0cca"
+  integrity sha512-kCqEOOHoBcFs/2Ccuk4Xarm/KiWRSLEX9CAZF8xkJ6ZPlIoTZ8V5f7J16vYLJqDbR7KrxTJpR2lqjIEm2Qx9cQ==
 
 send@0.17.1:
   version "0.17.1"
