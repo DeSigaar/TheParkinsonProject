@@ -85,7 +85,7 @@ class HomeScreen extends Component {
           key={item.id}
           title={item.name}
           description={"description"}
-          img={require("../../assets/images/icon/home/medicatie.png")}
+          img={require("../../assets/images/icon/home/oefeningen.png")}
           gradientColor={Gradients.green}
           onPress={() => navigation.navigate("ExercisesEdit", item.id)}
         />
