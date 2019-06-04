@@ -11,7 +11,7 @@ class AddScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array.isRequired,
+    moments: PropTypes.array,
     updateMoments: PropTypes.func
   };
 

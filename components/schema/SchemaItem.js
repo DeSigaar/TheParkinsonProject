@@ -1,30 +1,34 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo";
 import Colors from "../../constants/Colors";
 import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class SchemaItem extends Component {
   static propTypes = {
+    navigation: PropTypes.object,
     title: PropTypes.string,
     description: PropTypes.string,
     img: PropTypes.any,
-    gradientColor: PropTypes.array
-    // onPress: PropTypes.func
+    gradientColor: PropTypes.array,
+    key: PropTypes.string,
+    onPress: PropTypes.func
   };
 
   render() {
-    const { title, description, img, gradientColor } = this.props;
+    const { title, description, img, gradientColor, onPress } = this.props;
 
     return (
-      <LinearGradient style={styles.gradient} colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]}>
-        <Image style={styles.image} source={img} resizeMode="contain" />
-        <View style={styles.textContainer}>
-          <Text style={styles.textBig}>{title}</Text>
-          <Text style={styles.text}>{description}</Text>
-        </View>
-      </LinearGradient>
+      <TouchableOpacity onPress={() => onPress()}>
+        <LinearGradient style={styles.gradient} colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]}>
+          <Image style={styles.image} source={img} resizeMode="contain" />
+          <View style={styles.textContainer}>
+            <Text style={styles.textBig}>{title}</Text>
+            <Text style={styles.text}>{description}</Text>
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
     );
   }
 }

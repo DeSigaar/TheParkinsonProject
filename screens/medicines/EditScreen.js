@@ -6,11 +6,11 @@ import { Header, Container } from "../../components/common";
 import { TextInputWithHeader, MomentsWithHeader, PeriodPickerWithHeader, SubmitButton } from "../../components/forms";
 import Gradients from "../../constants/Gradients";
 
-class AddScreen extends Component {
+class EditScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array,
+    moments: PropTypes.array.isRequired,
     updateMoments: PropTypes.func
   };
 
@@ -25,6 +25,18 @@ class AddScreen extends Component {
       };
     });
 
+    const medID = this.props.navigation.getParam("id", "0");
+
+    moments.forEach((moment, i) => {
+      moment.medicines.forEach((medicine, i) => {
+        if (medicine.id === medID) {
+          console.log("yay");
+        }
+      });
+    });
+
+    console.log(this.props.navigation.getParam("id", "0"));
+
     this.state = {
       moments,
       name: " ",
@@ -35,6 +47,13 @@ class AddScreen extends Component {
       days: ""
     };
   }
+
+  // filldata = () => {
+  //   let { moments } = this.props;
+  //   moments.map((moments, i) => {
+  //     console.log(moments.medicines);
+  //   });
+  // };
 
   showDateTimePicker = endOrStart => {
     if (endOrStart == "start") {
@@ -109,8 +128,6 @@ class AddScreen extends Component {
       this.setState({ startText: today });
     }
 
-    const id = uuidv4();
-
     moments.forEach((moment, i) => {
       if (moment.count !== 0) {
         moments[i] = {
@@ -118,7 +135,7 @@ class AddScreen extends Component {
           medicines: [
             ...moment.medicines,
             {
-              id: id,
+              id: uuidv4(),
               name,
               startTime: startText,
               endTime: endText,
@@ -141,7 +158,7 @@ class AddScreen extends Component {
 
     return (
       <>
-        <Header navigation={navigation} title="Medicijn toevoegen" />
+        <Header navigation={navigation} title="Medicijn aanpassen" />
         <Container type="ScrollView">
           <TextInputWithHeader
             header="Naam van medicijn"
@@ -195,4 +212,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddScreen);
+)(EditScreen);
