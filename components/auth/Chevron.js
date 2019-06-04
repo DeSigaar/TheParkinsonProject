@@ -15,15 +15,17 @@ export default class Chevron extends Component {
 
   render() {
     const { onPress, value, direction } = this.props;
-    const directionStyle = direction === "left" ? styles.left : styles.right;
-    const androidTextStyle = Platform.OS === "android" ? styles.androidText : null;
 
     return (
-      <TouchableOpacity style={[styles.chevron, directionStyle]} onPress={onPress} activeOpacity={0.5}>
+      <TouchableOpacity
+        style={[styles.chevron, direction === "left" ? styles.left : styles.right]}
+        onPress={onPress}
+        activeOpacity={0.5}
+      >
         <View style={styles.container}>
-          {direction === "left" ? <AntDesign style={[styles.icon, styles.iconLeft]} name="left" /> : null}
-          <Text style={[styles.text, androidTextStyle]}>{value}</Text>
-          {direction === "right" ? <AntDesign style={[styles.icon, styles.iconRight]} name="right" /> : null}
+          {direction === "left" && <AntDesign style={[styles.icon, styles.iconLeft]} name="left" />}
+          <Text style={[styles.text, Platform.OS === "android" && styles.androidText]}>{value}</Text>
+          {direction === "right" && <AntDesign style={[styles.icon, styles.iconRight]} name="right" />}
         </View>
       </TouchableOpacity>
     );

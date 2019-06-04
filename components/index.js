@@ -1,2 +1,3 @@
-import MenuItem from "./MenuItem";
-export { MenuItem };
+import Moments from "../components/common/Moments";
+
+export { Moments };

@@ -7,8 +7,8 @@
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly",
-    "require": true,
-    "module": true
+    "require": "writable",
+    "module": "writable"
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -22,7 +22,7 @@
   "rules": {
     "camelcase": "warn",
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "arrowParens": "avoid",
         "bracketSpacing": true,
@@ -35,8 +35,8 @@
         "useTabs": false
       }
     ],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "double"],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "double"],
     "no-console": "warn"
   }
 }

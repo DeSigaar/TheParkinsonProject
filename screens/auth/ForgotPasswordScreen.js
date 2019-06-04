@@ -23,6 +23,7 @@ class ForgotPasswordScreen extends Component {
   constructor(props) {
     super(props);
 
+    // Check if the stack just got initialized, if so, go to Login
     if (props.navigation.state.params.init) {
       props.navigation.navigate("Login");
     }
@@ -55,9 +56,7 @@ class ForgotPasswordScreen extends Component {
     const { email } = this.state;
     const { authLoading, authMessage, authError } = this.props;
 
-    if (authLoading) {
-      return <ActivityIndicator style={styles.load} size="large" />;
-    } else {
+    if (!authLoading) {
       return (
         <View style={styles.form}>
           <Upper top="Wachtwoord vergeten?" bottom="Herstel hier je wachtwoord" />
@@ -73,40 +72,33 @@ class ForgotPasswordScreen extends Component {
             />
             <Button onPress={this.handlePressForgotPassword} type="dark" value="Stuur een email" />
             <View style={styles.errors}>
-              {authError ? <Text style={styles.error}>{authError}</Text> : null}
-              {authMessage ? <Text style={styles.success}>{authMessage}</Text> : null}
+              {authError && <Text style={styles.error}>{authError}</Text>}
+              {authMessage && <Text style={styles.success}>{authMessage}</Text>}
             </View>
           </View>
 
           <Chevron onPress={this.handlePressNavigateLogin} direction="right" value="Inloggen" />
         </View>
       );
+    } else {
+      return <ActivityIndicator style={styles.load} size="large" />;
     }
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../../assets/images/auth/background.jpg")}
-          imageStyle={styles.backgroundImage}
-          style={styles.background}
-        >
-          <View style={styles.innerContainer}>{this.renderCurrentState()}</View>
-        </ImageBackground>
-      </View>
+      <ImageBackground
+        source={require("../../assets/images/auth/background.jpg")}
+        imageStyle={styles.backgroundImage}
+        style={styles.background}
+      >
+        <View style={styles.container}>{this.renderCurrentState()}</View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row"
-  },
   background: {
     position: "absolute",
     left: 0,
@@ -115,12 +107,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: null,
     height: null,
-    flex: 1
+    padding: 20
   },
   backgroundImage: {
     resizeMode: "cover"
   },
-  innerContainer: {
+  container: {
     flex: 1,
     padding: 32,
     paddingTop: 64,
@@ -132,7 +124,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   innerForm: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     width: "100%"
@@ -151,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 2,
     fontFamily: ProductSans.regular,
-    color: Colors.errorText
+    color: Colors.red
   },
   success: {
     backgroundColor: Colors.darkGray,
@@ -159,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 2,
     fontFamily: ProductSans.regular,
-    color: Colors.successText
+    color: Colors.green
   }
 });
 

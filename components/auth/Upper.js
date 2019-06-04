@@ -14,22 +14,20 @@ export default class Upper extends Component {
 
   render() {
     const { top, underTop, bottom } = this.props;
-    const androidH1Style = Platform.OS === "android" ? styles.androidH1 : null;
-    const androidH2Style = Platform.OS === "android" ? styles.androidH2 : null;
 
     return (
       <View style={styles.container}>
-        {top || underTop ? (
+        {(top || underTop) && (
           <View>
-            {top ? <Text style={[styles.h1, androidH1Style]}>{top}</Text> : null}
-            {underTop ? <Text style={[styles.h1, androidH1Style]}>{underTop}</Text> : null}
+            {top && <Text style={[styles.h1, Platform.OS === "android" && styles.androidH1]}>{top}</Text>}
+            {underTop && <Text style={[styles.h1, Platform.OS === "android" && styles.androidH1]}>{underTop}</Text>}
           </View>
-        ) : null}
-        {bottom ? (
+        )}
+        {bottom && (
           <View style={styles.upperBottom}>
-            <Text style={[styles.h2, androidH2Style]}>{bottom}</Text>
+            <Text style={[styles.h2, Platform.OS === "android" && styles.androidH2]}>{bottom}</Text>
           </View>
-        ) : null}
+        )}
       </View>
     );
   }

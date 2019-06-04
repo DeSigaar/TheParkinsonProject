@@ -83,9 +83,7 @@ class SignupScreen extends Component {
     const { email, password, passwordConfirm } = this.state;
     const { authLoading, authError } = this.props;
 
-    if (authLoading) {
-      return <ActivityIndicator style={styles.load} size="large" />;
-    } else {
+    if (!authLoading) {
       return (
         <View style={styles.form}>
           <Upper top="Nieuw hier?" bottom="Maak hier je account aan" />
@@ -112,7 +110,7 @@ class SignupScreen extends Component {
               secureTextEntry
             />
             <Button onPress={this.handlePressSignup} type="dark" value="Registreer" />
-            <View style={styles.errors}>{authError ? <Text style={styles.error}>{authError}</Text> : null}</View>
+            <View style={styles.errors}>{authError && <Text style={styles.error}>{authError}</Text>}</View>
 
             <Divider />
 
@@ -123,32 +121,25 @@ class SignupScreen extends Component {
           <Chevron onPress={this.handlePressNavigateLogin} direction="left" value="Inloggen" />
         </View>
       );
+    } else {
+      return <ActivityIndicator style={styles.load} size="large" />;
     }
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../../assets/images/auth/background.jpg")}
-          imageStyle={styles.backgroundImage}
-          style={styles.background}
-        >
-          <View style={styles.innerContainer}>{this.renderCurrentState()}</View>
-        </ImageBackground>
-      </View>
+      <ImageBackground
+        source={require("../../assets/images/auth/background.jpg")}
+        imageStyle={styles.backgroundImage}
+        style={styles.background}
+      >
+        <View style={styles.container}>{this.renderCurrentState()}</View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row"
-  },
   background: {
     position: "absolute",
     left: 0,
@@ -157,12 +148,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: null,
     height: null,
-    flex: 1
+    padding: 20
   },
   backgroundImage: {
     resizeMode: "cover"
   },
-  innerContainer: {
+  container: {
     flex: 1,
     padding: 32,
     paddingTop: 64,
@@ -174,7 +165,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   innerForm: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
@@ -190,11 +180,11 @@ const styles = StyleSheet.create({
   },
   error: {
     fontFamily: ProductSans.regular,
-    color: Colors.errorText
+    color: Colors.red
   },
   success: {
     fontFamily: ProductSans.regular,
-    color: Colors.successText
+    color: Colors.green
   }
 });
 

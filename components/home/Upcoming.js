@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Text, Image, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo";
+
 import Colors from "../../constants/Colors";
+import ProductSans from "../../constants/fonts/ProductSans";
 
 export default class Upcoming extends Component {
   static propTypes = {
@@ -11,19 +13,12 @@ export default class Upcoming extends Component {
     onPress: PropTypes.func
   };
 
-  // let img = this.props.img;
-
   render() {
+    const { img, gradientColor, onPress } = this.props;
     return (
       <TouchableOpacity activeOpacity={0.8} style={styles.container}>
-        <LinearGradient
-          colors={this.props.gradientColor}
-          start={[0, 0]}
-          end={[1, 1]}
-          locations={[0.3, 1]}
-          style={styles.gradient}
-        >
-          <Image style={styles.image} source={this.props.img} resizeMode="contain" />
+        <LinearGradient colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]} style={styles.gradient}>
+          <Image style={styles.image} source={img} resizeMode="contain" />
         </LinearGradient>
         <View style={styles.textContainer}>
           <View style={styles.text}>
@@ -38,10 +33,7 @@ export default class Upcoming extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 7,
-    marginRight: 7,
-    marginTop: 7,
-    marginBottom: 7,
+    margin: 7,
     alignSelf: "baseline",
     flexWrap: "wrap",
     flexBasis: "90%",
@@ -49,7 +41,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     elevation: 4,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
     borderRadius: 10
   },
   textContainer: {
@@ -60,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   smallText: {
-    fontFamily: "product-sans",
+    fontFamily: ProductSans.regular,
     color: Colors.greyTextColor,
     marginBottom: 3,
     marginTop: 3
@@ -68,7 +60,7 @@ const styles = StyleSheet.create({
   bigText: {
     color: Colors.greyTextColor,
     fontSize: 40,
-    fontFamily: "product-sans-bold"
+    fontFamily: ProductSans.bold
   },
   image: {
     width: 50,

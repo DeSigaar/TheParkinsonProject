@@ -4,28 +4,43 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-exports.createUserInFirestore = functions.auth.user().onCreate(user => {
+// Function that fires when auth adds a user
+exports.createUserInFirestore = functions.auth.user().onCreate(async user => {
   // Adds document to users to stay up to date with auth
   const { uid, displayName, email, photoURL, phoneNumber } = user;
-
-  // TODO
-  // Create collections instead of objects
-  const docData = {
+  let doc = {
     uid,
     displayName,
     email,
     photoURL,
     phoneNumber,
-    activities: {},
-    exercises: {},
-    medication: {}
+    expoPushToken: null,
+    moments: []
   };
 
-  return admin
+  // Get the latest default moments from firestore
+  await admin
+    .firestore()
+    .collection("moments")
+    .get()
+    .then(querySnapshot => {
+      let moments = [];
+      querySnapshot.forEach(document => {
+        moments.push(document.data());
+      });
+      doc = { ...doc, moments };
+      return console.log("Fetched latest default moments: " + doc.moments);
+    })
+    .catch(error => {
+      return console.log(error);
+    });
+
+  // Create new user with the data retrieved and latest moments
+  await admin
     .firestore()
     .collection("users")
     .doc(uid)
-    .set(docData)
+    .set(doc)
     .then(() => {
       return console.log("User document created for " + uid + "!");
     })
@@ -34,10 +49,12 @@ exports.createUserInFirestore = functions.auth.user().onCreate(user => {
     });
 });
 
+// Function that fires when auth removes a user
 exports.deleteUserInFirestore = functions.auth.user().onDelete(user => {
   // Removes document from users to stay up to date with auth
   const { uid } = user;
 
+  // Remove the document selected by user ID
   return admin
     .firestore()
     .collection("users")

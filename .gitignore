@@ -1,12 +1,12 @@
-<<<<<<< HEAD
 node_modules/**/*
 .expo/*
+.expo-shared/*
 npm-debug.*
 *.jks
 *.p12
 *.key
 *.mobileprovision
-=======
+
 ### macOS ###
 # General
 .DS_Store
@@ -316,4 +316,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
->>>>>>> 95c2e305864e44a4cf93497e2e0f910c7c37b0ef

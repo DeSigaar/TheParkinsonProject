@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, ScrollView, View, Alert, Button } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity } from "react-native";
+import { Permissions, Notifications } from "expo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logOut, setExpoPushToken } from "../store/actions/authActions";
-import { MenuItem } from "../components/home";
-import { Upcoming } from "../components/home";
+import { setExpoPushToken } from "../store/actions/notifiActions";
+import { MenuItem, Upcoming } from "../components/home";
 import Gradients from "../constants/Gradients";
 import Colors from "../constants/Colors";
-import { Permissions, Notifications } from "expo";
+import ProductSans from "../constants/fonts/ProductSans";
 
 class HomeScreen extends Component {
   static propTypes = {
@@ -18,8 +18,9 @@ class HomeScreen extends Component {
     user: PropTypes.object
   };
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { user } = this.props;
+
     if (!user.isEmpty) {
       // User is present
       if (!user.expoPushToken) {
@@ -27,16 +28,34 @@ class HomeScreen extends Component {
         this.registerForPushNotifications();
       }
     }
-
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
   }
 
-  _handleNotification = notification => {
-    this.setState({ notification: notification });
+  registerForPushNotifications = async () => {
+    const { user } = this.props;
+
+    //Check for excisting permissions
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = status;
+
+    //If no excisting permission, ask for permission
+    if (status !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    //If no permission, exit the function
+    if (finalStatus !== "granted") return;
+
+    //Get push notification token
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    if (user.uid && token) {
+      this.props.setExpoPushToken(user.uid, token);
+    }
   };
 
-  defineGreeting = () => {
-    const hours = new Date().getHours();
+  defineGreeting = hours => {
+    // Get correct greeting defined by current hour
     switch (true) {
       case hours >= 18:
         return "Goedenavond";
@@ -49,123 +68,133 @@ class HomeScreen extends Component {
     }
   };
 
-  getFirstName = () => {
-    const { displayName } = this.props.user;
-    if (displayName) {
-      return displayName.split(" ")[0];
-    } else {
-      return "";
-    }
-  };
-
-  registerForPushNotifications = async () => {
-    //Check for excisting permissions
-    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = status;
-
-    //If no excisting permission, ask for permission
-    if (status !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    //If no permission, exit the function
-    if (finalStatus !== "granted") {
-      return;
-    }
-
-    //Get push notification token
-    let token = await Notifications.getExpoPushTokenAsync();
-
-    //add token to firebase
-    let uid = this.props.user.uid;
-
-    if (uid && token) {
-      this.props.setExpoPushToken(uid, token);
-    }
+  getFirstName = displayName => {
+    // Get first name or leave blank
+    return displayName ? displayName.split(" ")[0] : "";
   };
 
   render() {
-    const { navigation, logOut, authError, user } = this.props;
-    if (authError) Alert.alert(authError);
+    const { navigation, user } = this.props;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <Text style={styles.intro}>
-          {/* {this.defineGreeting()} {user.displayName} */}
-          {/* {this.defineGreeting()} {this.getFirstName(user.displayName)} */}
-          {this.defineGreeting()} {this.getFirstName()}
+          {this.defineGreeting(new Date().getHours())} {this.getFirstName(user.displayName)}
         </Text>
+        <TouchableOpacity
+          style={styles.profileContainer}
+          activeOpacity={0.6}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          {user.photoURL ? (
+            <Image source={{ uri: user.photoURL }} style={styles.photoURL} />
+          ) : (
+            <Image source={require("../assets/images/home/no-profile.jpg")} style={styles.photoURL} />
+          )}
+        </TouchableOpacity>
         <View style={styles.menuItemContainer}>
           <Upcoming
-            img={require("../assets/images/icon/medicatie.png")}
+            img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+            onPress={() => navigation.navigate("Medicines")}
           />
           <MenuItem
             title="Medicijnen"
-            img={require("../assets/images/icon/medicatie.png")}
+            img={require("../assets/images/icon/home/medicatie.png")}
             gradientColor={Gradients.blue}
+            onPress={() => navigation.navigate("Medicines")}
           />
           <MenuItem
             title="Oefeningen"
-            img={require("../assets/images/icon/oefeningen.png")}
+            img={require("../assets/images/icon/home/oefeningen.png")}
             gradientColor={Gradients.green}
-            onPress={() => navigation.navigate("ExerciseHomeScreen")}
+            onPress={() => navigation.navigate("Exercises")}
           />
           <MenuItem
             title="Activiteiten"
-            img={require("../assets/images/icon/activiteiten.png")}
+            img={require("../assets/images/icon/home/activiteiten.png")}
             gradientColor={Gradients.orange}
           />
           <MenuItem
             title="Community"
-            img={require("../assets/images/icon/community.png")}
+            img={require("../assets/images/icon/home/community.png")}
             gradientColor={Gradients.pink}
           />
           <MenuItem
             title="Tips & Tricks"
-            img={require("../assets/images/icon/tipsTricks.png")}
+            img={require("../assets/images/icon/home/tipsTricks.png")}
             gradientColor={Gradients.purple}
           />
-          <MenuItem title="Schema" img={require("../assets/images/icon/schema.png")} gradientColor={Gradients.yellow} />
+          <MenuItem
+            title="Schema"
+            img={require("../assets/images/icon/home/schema.png")}
+            gradientColor={Gradients.yellow}
+            onPress={() => navigation.navigate("Schema")}
+          />
         </View>
-
-        {/* <Button title="2e scherm test" onPress={() => navigation.navigate("Second", { variable: 2 })} /> */}
-        {/* <Button title="Uitloggen" onPress={logOut} /> */}
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  item: {
+    margin: 7,
+    alignSelf: "baseline",
+    flexWrap: "wrap",
+    flexBasis: "45%",
+    flexGrow: 1
+  },
+  text: {
+    color: Colors.white,
+    fontFamily: ProductSans.bold,
+    marginTop: 5
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginBottom: 10
+  },
+  gradient: {
+    elevation: 5,
+    padding: 25,
+    alignItems: "center",
+    borderRadius: 10
+  },
   intro: {
     fontSize: 28,
     color: Colors.greyTextColor,
+    fontFamily: ProductSans.bold,
     marginTop: 60,
-    marginLeft: 5,
     marginBottom: 30,
-    fontFamily: "product-sans-bold"
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
     marginLeft: 20,
     marginRight: 20
   },
+  profileContainer: {
+    position: "absolute",
+    top: 59.5,
+    right: 15,
+    width: 36,
+    height: 36
+  },
+  photoURL: {
+    width: 36,
+    height: 36,
+    borderRadius: 18
+  },
   menuItemContainer: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start",
-    alignItems: "stretch"
+    alignItems: "stretch",
+    paddingLeft: 10,
+    paddingRight: 10
   }
 });
 
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    authError: state.auth.authError,
     user: state.firebase.profile
   };
 };
@@ -173,9 +202,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     ...ownProps,
-    logOut: () => {
-      dispatch(logOut());
-    },
     setExpoPushToken: (uid, token) => {
       dispatch(setExpoPushToken(uid, token));
     }
