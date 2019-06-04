@@ -15,7 +15,8 @@ class HomeScreen extends Component {
     logOut: PropTypes.func,
     setExpoPushToken: PropTypes.func,
     authError: PropTypes.string,
-    user: PropTypes.object
+    user: PropTypes.object,
+    moments: PropTypes.array
   };
 
   componentDidMount() {
@@ -73,6 +74,62 @@ class HomeScreen extends Component {
     return displayName ? displayName.split(" ")[0] : "";
   };
 
+  getUpcomingEvent = () => {
+    const { moments, navigation } = this.props;
+    const now = new Date();
+    let nextMoment = null;
+
+    moments.forEach((moment, key) => {
+      const date = new Date(moment.time.seconds * 1000);
+      const hours = date.getHours();
+
+      if (nextMoment == null) {
+        if (hours >= now.getHours()) {
+          if (moment.exercises.length > 0 || moment.medicines.length > 0) {
+            nextMoment = moment;
+          }
+        }
+      }
+    });
+
+    if (nextMoment != null) {
+      const date = new Date(nextMoment.time.seconds * 1000);
+      let timeDifference = date.getHours() - now.getHours();
+      let timeString;
+
+      if (timeDifference == 0 || (timeDifference == 0 && date.getMinutes() <= 30)) {
+        timeString = "Nu";
+      } else {
+        timeString = timeDifference + "uur";
+      }
+
+      if (nextMoment.medicines.length > 0) {
+        var topText = timeString == "Nu" ? "Neem uw medicatie" : "Neem uw medicatie over";
+
+        return (
+          <Upcoming
+            img={require("../assets/images/icon/home/medicatie.png")}
+            gradientColor={Gradients.blue}
+            topText={topText}
+            time={timeString}
+            onPress={() => navigation.navigate("Schema")}
+          />
+        );
+      } else if (nextMoment.exercises.length > 0) {
+        var topText = timeString == "Nu" ? "Doe uw oefeningen" : "Doe uw oefeningen over";
+        return (
+          <Upcoming
+            img={require("../assets/images/icon/home/oefeningen.png")}
+            gradientColor={Gradients.green}
+            topText={topText}
+            time={timeString}
+            onPress={() => navigation.navigate("Schema")}
+          />
+        );
+      }
+    }
+  };
+
   render() {
     const { navigation, user } = this.props;
 
@@ -93,11 +150,8 @@ class HomeScreen extends Component {
           )}
         </TouchableOpacity>
         <View style={styles.menuItemContainer}>
-          <Upcoming
-            img={require("../assets/images/icon/home/medicatie.png")}
-            gradientColor={Gradients.blue}
-            onPress={() => navigation.navigate("Medicines")}
-          />
+          {this.getUpcomingEvent()}
+
           <MenuItem
             title="Medicijnen"
             img={require("../assets/images/icon/home/medicatie.png")}
@@ -195,7 +249,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    user: state.firebase.profile
+    user: state.firebase.profile,
+    moments: state.firebase.profile.moments
   };
 };
 
