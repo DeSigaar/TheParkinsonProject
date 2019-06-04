@@ -102,12 +102,10 @@ class HomeScreen extends Component {
           navigation={navigation}
           title="Oefeningen"
           actionType1="add"
-          actionType2="delete"
-          actionType3="error"
+          actionType2="error"
           actionPress1={() => navigation.navigate("ExercisesAdd")}
           actionPress2={() => Alert.alert("Action2 is empty!")}
-          actionPress3={() => Alert.alert("Action3 is empty!")}
-          amountActions={3}
+          amountActions={2}
         />
         <Container type="ScrollView">{this.showExercisesContainer()}</Container>
       </>
