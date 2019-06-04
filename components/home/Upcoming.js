@@ -10,20 +10,22 @@ export default class Upcoming extends Component {
   static propTypes = {
     img: PropTypes.any,
     gradientColor: PropTypes.array,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    topText: PropTypes.string,
+    time: PropTypes.string
   };
 
   render() {
-    const { img, gradientColor, onPress } = this.props;
+    const { img, gradientColor, onPress, topText, time } = this.props;
     return (
-      <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+      <TouchableOpacity activeOpacity={0.8} style={styles.container} onPress={onPress}>
         <LinearGradient colors={gradientColor} start={[0, 0]} end={[1, 1]} locations={[0.3, 1]} style={styles.gradient}>
           <Image style={styles.image} source={img} resizeMode="contain" />
         </LinearGradient>
         <View style={styles.textContainer}>
           <View style={styles.text}>
-            <Text style={styles.smallText}>Neem uw medicatie over</Text>
-            <Text style={styles.bigText}>2 uur</Text>
+            <Text style={styles.smallText}>{topText}</Text>
+            <Text style={styles.bigText}>{time}</Text>
           </View>
         </View>
       </TouchableOpacity>
