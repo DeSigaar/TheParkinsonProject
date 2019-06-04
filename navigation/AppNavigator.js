@@ -8,7 +8,11 @@ import { connect } from "react-redux";
 import { Skeleton } from "../components/common";
 import { HomeScreen, ProfileScreen, SchemaScreen, MomentsScreen } from "../screens/";
 import { HomeScreen as MedicinesScreen, AddScreen as MedicinesAddScreen } from "../screens/medicines";
-import { HomeScreen as ExercisesScreen, AddScreen as ExercisesAddScreen } from "../screens/exercises";
+import {
+  HomeScreen as ExercisesScreen,
+  AddScreen as ExercisesAddScreen,
+  EditScreen as ExercisesEditScreen
+} from "../screens/exercises";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
@@ -21,7 +25,8 @@ const Navigation = createAppContainer(
       Medicines: { screen: MedicinesScreen },
       MedicinesAdd: { screen: MedicinesAddScreen },
       Exercises: { screen: ExercisesScreen },
-      ExercisesAdd: { screen: ExercisesAddScreen }
+      ExercisesAdd: { screen: ExercisesAddScreen },
+      ExercisesEdit: { screen: ExercisesEditScreen }
     },
     {
       defaultNavigationOptions: {

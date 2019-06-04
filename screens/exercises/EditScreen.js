@@ -7,7 +7,7 @@ import { Header, Container } from "../../components/common";
 import { TextInputWithHeader, MomentsWithHeader, PeriodPickerWithHeader, SubmitButton } from "../../components/forms";
 import Gradients from "../../constants/Gradients";
 
-class AddScreen extends Component {
+class EditScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
@@ -26,6 +26,15 @@ class AddScreen extends Component {
       };
     });
 
+    const exID = this.props.navigation.getParam("id", "0");
+
+    moments.forEach((moment, i) => {
+      moment.exercises.forEach((exercise, i) => {
+        if (exercise.id === exID) {
+          console.log("yay");
+        }
+      });
+    });
     this.state = {
       moments,
       name: "",
@@ -42,8 +51,8 @@ class AddScreen extends Component {
       buttonSaturday: false,
       buttonSunday: false
     };
+    console.log(this.props.navigation.getParam("id", "0"));
   }
-
   showDateTimePicker = endOrStart => {
     if (endOrStart == "start") {
       this.setState({ startOrEnd: endOrStart });
@@ -117,7 +126,6 @@ class AddScreen extends Component {
       this.setState({ startText: today });
     }
 
-    const id = uuidv4();
     moments.forEach((moment, i) => {
       if (moment.count !== 0) {
         moments[i] = {
@@ -125,7 +133,7 @@ class AddScreen extends Component {
           exercises: [
             ...moment.exercises,
             {
-              id: id,
+              id: uuidv4(),
               name,
               startTime: startText,
               startDate: endText,
@@ -163,7 +171,7 @@ class AddScreen extends Component {
 
     return (
       <>
-        <Header navigation={navigation} title="Oefening toevoegen" />
+        <Header navigation={navigation} title="Oefening wijzigen" />
         <Container type="ScrollView">
           <TextInputWithHeader
             header="Naam van oefening"
@@ -226,4 +234,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddScreen);
+)(EditScreen);

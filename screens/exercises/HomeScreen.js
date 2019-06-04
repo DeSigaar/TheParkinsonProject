@@ -79,7 +79,10 @@ class HomeScreen extends Component {
   };
 
   loopExercises = array => {
+    const { navigation } = this.props;
+
     return array.map(item => {
+      console.log(item.id);
       return (
         <SchemaItem
           key={item.id}
@@ -87,7 +90,7 @@ class HomeScreen extends Component {
           description={"description"}
           img={require("../../assets/images/icon/home/oefeningen.png")}
           gradientColor={Gradients.green}
-          onPress={() => navigation.navigate("ExercisesEdit", item.id)}
+          onPress={() => navigation.navigate("ExercisesEdit", { id: item.id })}
         />
       );
     });
