@@ -82,7 +82,6 @@ class HomeScreen extends Component {
     const { navigation } = this.props;
 
     return array.map(item => {
-      console.log(item.id);
       return (
         <SchemaItem
           key={item.id}

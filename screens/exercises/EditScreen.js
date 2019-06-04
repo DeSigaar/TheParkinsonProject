@@ -27,29 +27,51 @@ class EditScreen extends Component {
     });
 
     const exID = this.props.navigation.getParam("id", "0");
-
+    let name;
+    let startText;
+    let endText;
+    let isDateTimePickerVisible;
+    let startOrEnd;
+    let days;
+    let buttonMonday;
+    let buttonTuesday;
+    let buttonWednesday;
+    let buttonThursday;
+    let buttonFriday;
+    let buttonSaturday;
+    let buttonSunday;
     moments.forEach((moment, i) => {
       moment.exercises.forEach((exercise, i) => {
         if (exercise.id === exID) {
-          console.log("yay");
+          name = exercise.name;
+          startText = exercise.startTime;
+          endText = exercise.startDate;
+          buttonMonday = exercise.days.monday;
+          buttonTuesday = exercise.days.thursday;
+          buttonWednesday = exercise.days.wednesday;
+          buttonThursday = exercise.days.thursday;
+          buttonFriday = exercise.days.friday;
+          buttonSaturday = exercise.days.saturday;
+          buttonSunday = exercise.days.sunday;
+          console.log(name);
         }
       });
     });
     this.state = {
       moments,
-      name: "",
-      startText: "Vandaag",
-      endText: "N.v.t.",
+      name: name,
+      startText: startText,
+      endText: endText,
       isDateTimePickerVisible: false,
       startOrEnd: "",
       days: "",
-      buttonMonday: false,
-      buttonTuesday: false,
-      buttonWednesday: false,
-      buttonThursday: false,
-      buttonFriday: false,
-      buttonSaturday: false,
-      buttonSunday: false
+      buttonMonday: buttonMonday,
+      buttonTuesday: buttonTuesday,
+      buttonWednesday: buttonWednesday,
+      buttonThursday: buttonThursday,
+      buttonFriday: buttonFriday,
+      buttonSaturday: buttonSaturday,
+      buttonSunday: buttonSunday
     };
     console.log(this.props.navigation.getParam("id", "0"));
   }
