@@ -79,6 +79,8 @@ class HomeScreen extends Component {
   };
 
   loopMedicines = array => {
+    const { navigation } = this.props;
+
     return array.map(item => {
       return (
         <SchemaItem
@@ -87,7 +89,7 @@ class HomeScreen extends Component {
           description={"description"}
           img={require("../../assets/images/icon/home/medicatie.png")}
           gradientColor={Gradients.blue}
-          onPress={() => navigation.navigate("MedicinesEdit", item.id)}
+          onPress={() => navigation.navigate("MedicinesEdit", { id: item.id })}
         />
       );
     });

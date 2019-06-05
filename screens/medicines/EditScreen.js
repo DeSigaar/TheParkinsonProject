@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import RepeatPicker from "../../components/exercises/RepeatPicker";
 import { updateMoments } from "../../store/actions/firebaseActions";
 import { Header, Container } from "../../components/common";
 import { TextInputWithHeader, MomentsWithHeader, PeriodPickerWithHeader, SubmitButton } from "../../components/forms";
 import Gradients from "../../constants/Gradients";
 
-class AddScreen extends Component {
+class EditScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array,
+    moments: PropTypes.array.isRequired,
     updateMoments: PropTypes.func
   };
 
@@ -19,28 +18,40 @@ class AddScreen extends Component {
     super(props);
 
     let { moments } = this.props;
+    const medID = this.props.navigation.getParam("id", "0");
+
+    let state;
+
+    // Loop through all moments
     moments.forEach((moment, i) => {
       moments[i] = {
         ...moment,
         count: 0
       };
+
+      moment.medicines.forEach((medicine, o) => {
+        if (medicine.id === medID) {
+          moments[i] = {
+            ...moment,
+            count: medicine.amount
+          };
+
+          state = {
+            id: medID,
+            name: medicine.name,
+            startText: medicine.startTime,
+            endText: medicine.endTime,
+            days: medicine.days
+          };
+        }
+      });
     });
 
     this.state = {
       moments,
-      name: "",
-      startText: "Vandaag",
-      endText: "N.v.t.",
+      ...state,
       isDateTimePickerVisible: false,
-      startOrEnd: "",
-      days: "",
-      buttonMonday: false,
-      buttonTuesday: false,
-      buttonWednesday: false,
-      buttonThursday: false,
-      buttonFriday: false,
-      buttonSaturday: false,
-      buttonSunday: false
+      startOrEnd: ""
     };
   }
 
@@ -107,54 +118,55 @@ class AddScreen extends Component {
 
   handleSubmit = () => {
     const { navigation, updateMoments, user } = this.props;
-    const { name, startText, endText, days } = this.state;
+    const { name, startText, endText, days, id } = this.state;
 
     let { moments } = this.state;
-    const uuidv4 = require("uuid/v4");
 
     const today = new Date().getDate();
     if (startText == "Vandaag") {
       this.setState({ startText: today });
     }
 
-    const id = uuidv4();
     moments.forEach((moment, i) => {
+      // Remove all medicines from moments
+      moments[i].medicines = moments[i].medicines.filter(medicine => medicine.id !== id);
+
+      // Add all medicines to moments
       if (moment.count !== 0) {
-        moments[i] = {
-          ...moment,
-          exercises: [
-            ...moment.exercises,
-            {
-              id: id,
-              name,
-              startTime: startText,
-              startDate: endText,
-              amount: moment.count,
-              days
-            }
-          ]
-        };
+        moments[i].medicines = [
+          ...moments[i].medicines,
+          {
+            id,
+            name,
+            startTime: startText,
+            endTime: endText,
+            amount: moment.count,
+            days
+          }
+        ];
       }
+
       delete moments[i].count;
     });
 
     updateMoments(user.uid, moments);
-    navigation.navigate("Exercises");
+    navigation.navigate("Medicines");
   };
 
-  toggleDateButton = buttonName => {
-    this.setState({ [buttonName]: !this.state[buttonName] });
-    this.setState({
-      days: {
-        monday: this.state.buttonMonday,
-        tuesday: this.state.buttonTuesday,
-        wednesday: this.state.buttonWednesday,
-        thursday: this.state.buttonThursday,
-        friday: this.state.buttonFriday,
-        saturday: this.state.buttonSaturday,
-        sunday: this.state.buttonSunday
-      }
+  handleDelete = () => {
+    let { moments } = this.state;
+    const { navigation, updateMoments, user } = this.props;
+    const { id } = this.state;
+
+    moments.forEach((moment, i) => {
+      moments[i].medicines = moments[i].medicines.filter(medicine => medicine.id !== id);
+
+      moment.count = 0;
+      delete moments[i].count;
     });
+
+    updateMoments(user.uid, moments);
+    navigation.navigate("Medicines");
   };
 
   render() {
@@ -163,10 +175,10 @@ class AddScreen extends Component {
 
     return (
       <>
-        <Header navigation={navigation} title="Oefening toevoegen" />
+        <Header navigation={navigation} title="Medicijn aanpassen" />
         <Container type="ScrollView">
           <TextInputWithHeader
-            header="Naam van oefening"
+            header="Naam van medicijn"
             onChangeText={name => {
               this.setState({ name });
             }}
@@ -182,24 +194,16 @@ class AddScreen extends Component {
             onCancel={() => this.hideDateTimePicker()}
           />
 
-          {/* TODO: See if this is needed */}
-          <RepeatPicker
-            header={this.state.repetitieHeader}
-            inputPlaceholder="10"
-            inputplaceholderTextColor="#fff"
-            pickerSelectedValue={this.state.indication}
-            state={this.state}
-            toggleButton={this.toggleDateButton}
-            onValueChange={(item, i) => this.setState({ indication: item })}
-          />
+          {/* TODO: See if <RepeatPicker /> is needed */}
 
           <MomentsWithHeader
             moments={moments}
-            gradient={Gradients.green}
+            gradient={Gradients.blue}
             handlePressMoment={(position, type) => this.handlePressMoment(position, type)}
           />
 
-          <SubmitButton handleSubmit={() => this.handleSubmit()} gradient={Gradients.green} text="Voeg oefening toe" />
+          <SubmitButton handleSubmit={() => this.handleSubmit()} gradient={Gradients.blue} text="Pas medicijn aan" />
+          <SubmitButton handleSubmit={() => this.handleDelete()} gradient={Gradients.red} text="Verwijder medicijn " />
         </Container>
       </>
     );
@@ -226,4 +230,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddScreen);
+)(EditScreen);

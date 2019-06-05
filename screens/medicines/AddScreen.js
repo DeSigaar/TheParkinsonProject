@@ -10,7 +10,7 @@ class AddScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array.isRequired,
+    moments: PropTypes.array,
     updateMoments: PropTypes.func
   };
 
@@ -109,6 +109,8 @@ class AddScreen extends Component {
       this.setState({ startText: today });
     }
 
+    const id = uuidv4();
+
     moments.forEach((moment, i) => {
       if (moment.count !== 0) {
         moments[i] = {
@@ -116,7 +118,7 @@ class AddScreen extends Component {
           medicines: [
             ...moment.medicines,
             {
-              id: uuidv4(),
+              id: id,
               name,
               startTime: startText,
               endTime: endText,
