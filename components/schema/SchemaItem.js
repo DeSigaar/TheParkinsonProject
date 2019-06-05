@@ -12,7 +12,6 @@ export default class SchemaItem extends Component {
     description: PropTypes.string,
     img: PropTypes.any,
     gradientColor: PropTypes.array,
-    key: PropTypes.string,
     onPress: PropTypes.func
   };
 

@@ -18,42 +18,42 @@ class EditScreen extends Component {
     super(props);
 
     let { moments } = this.props;
+    const medID = this.props.navigation.getParam("id", "0");
+
+    let state;
+
+    // Loop through all moments
     moments.forEach((moment, i) => {
       moments[i] = {
         ...moment,
         count: 0
       };
-    });
 
-    const medID = this.props.navigation.getParam("id", "0");
-
-    moments.forEach((moment, i) => {
-      moment.medicines.forEach((medicine, i) => {
+      moment.medicines.forEach((medicine, o) => {
         if (medicine.id === medID) {
-          console.log("yay");
+          moments[i] = {
+            ...moment,
+            count: medicine.amount
+          };
+
+          state = {
+            id: medID,
+            name: medicine.name,
+            startText: medicine.startTime,
+            endText: medicine.endTime,
+            days: medicine.days
+          };
         }
       });
     });
 
-    console.log(this.props.navigation.getParam("id", "0"));
-
     this.state = {
       moments,
-      name: " ",
-      startText: "Vandaag",
-      endText: "N.v.t.",
+      ...state,
       isDateTimePickerVisible: false,
-      startOrEnd: "",
-      days: ""
+      startOrEnd: ""
     };
   }
-
-  // filldata = () => {
-  //   let { moments } = this.props;
-  //   moments.map((moments, i) => {
-  //     console.log(moments.medicines);
-  //   });
-  // };
 
   showDateTimePicker = endOrStart => {
     if (endOrStart == "start") {
@@ -118,10 +118,9 @@ class EditScreen extends Component {
 
   handleSubmit = () => {
     const { navigation, updateMoments, user } = this.props;
-    const { name, startText, endText, days } = this.state;
+    const { name, startText, endText, days, id } = this.state;
 
     let { moments } = this.state;
-    const uuidv4 = require("uuid/v4");
 
     const today = new Date().getDate();
     if (startText == "Vandaag") {
@@ -129,22 +128,40 @@ class EditScreen extends Component {
     }
 
     moments.forEach((moment, i) => {
+      // Remove all medicines from moments
+      moments[i].medicines = moments[i].medicines.filter(medicine => medicine.id !== id);
+
+      // Add all medicines to moments
       if (moment.count !== 0) {
-        moments[i] = {
-          ...moment,
-          medicines: [
-            ...moment.medicines,
-            {
-              id: uuidv4(),
-              name,
-              startTime: startText,
-              endTime: endText,
-              amount: moment.count,
-              days
-            }
-          ]
-        };
+        moments[i].medicines = [
+          ...moments[i].medicines,
+          {
+            id,
+            name,
+            startTime: startText,
+            endTime: endText,
+            amount: moment.count,
+            days
+          }
+        ];
       }
+
+      delete moments[i].count;
+    });
+
+    updateMoments(user.uid, moments);
+    navigation.navigate("Medicines");
+  };
+
+  handleDelete = () => {
+    let { moments } = this.state;
+    const { navigation, updateMoments, user } = this.props;
+    const { id } = this.state;
+
+    moments.forEach((moment, i) => {
+      moments[i].medicines = moments[i].medicines.filter(medicine => medicine.id !== id);
+
+      moment.count = 0;
       delete moments[i].count;
     });
 
@@ -185,7 +202,12 @@ class EditScreen extends Component {
             handlePressMoment={(position, type) => this.handlePressMoment(position, type)}
           />
 
-          <SubmitButton handleSubmit={() => this.handleSubmit()} gradient={Gradients.blue} text="Voeg medicijn toe" />
+          <SubmitButton handleSubmit={() => this.handleSubmit()} gradient={Gradients.blue} text="Pas medicijn aan" />
+          <SubmitButton
+            handleSubmit={() => this.handleDelete()}
+            gradient={Gradients.orange}
+            text="verwijder medicijn "
+          />
         </Container>
       </>
     );
