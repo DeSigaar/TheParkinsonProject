@@ -12,7 +12,11 @@ import {
   AddScreen as MedicinesAddScreen,
   EditScreen as MedicinesEditScreen
 } from "../screens/medicines";
-import { HomeScreen as ExercisesScreen, AddScreen as ExercisesAddScreen } from "../screens/exercises";
+import {
+  HomeScreen as ExercisesScreen,
+  AddScreen as ExercisesAddScreen,
+  EditScreen as ExercisesEditScreen
+} from "../screens/exercises";
 
 // Create the App stack with options
 const Navigation = createAppContainer(
@@ -26,7 +30,8 @@ const Navigation = createAppContainer(
       MedicinesAdd: { screen: MedicinesAddScreen },
       MedicinesEdit: { screen: MedicinesEditScreen },
       Exercises: { screen: ExercisesScreen },
-      ExercisesAdd: { screen: ExercisesAddScreen }
+      ExercisesAdd: { screen: ExercisesAddScreen },
+      ExercisesEdit: { screen: ExercisesEditScreen }
     },
     {
       defaultNavigationOptions: {
