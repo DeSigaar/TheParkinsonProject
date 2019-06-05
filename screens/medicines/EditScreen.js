@@ -203,11 +203,7 @@ class EditScreen extends Component {
           />
 
           <SubmitButton handleSubmit={() => this.handleSubmit()} gradient={Gradients.blue} text="Pas medicijn aan" />
-          <SubmitButton
-            handleSubmit={() => this.handleDelete()}
-            gradient={Gradients.orange}
-            text="verwijder medicijn "
-          />
+          <SubmitButton handleSubmit={() => this.handleDelete()} gradient={Gradients.red} text="Verwijder medicijn " />
         </Container>
       </>
     );
