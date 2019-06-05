@@ -19,61 +19,41 @@ class EditScreen extends Component {
     super(props);
 
     let { moments } = this.props;
+    const exID = this.props.navigation.getParam("id", "0");
+
+    let state;
+
+    // Loop through all moments
     moments.forEach((moment, i) => {
       moments[i] = {
         ...moment,
         count: 0
       };
-    });
 
-    const exID = this.props.navigation.getParam("id", "0");
-    let name;
-    let startText;
-    let endText;
-    let isDateTimePickerVisible;
-    let startOrEnd;
-    let days;
-    let buttonMonday;
-    let buttonTuesday;
-    let buttonWednesday;
-    let buttonThursday;
-    let buttonFriday;
-    let buttonSaturday;
-    let buttonSunday;
-    moments.forEach((moment, i) => {
-      moment.exercises.forEach((exercise, i) => {
+      moment.exercises.forEach((exercise, o) => {
         if (exercise.id === exID) {
-          name = exercise.name;
-          startText = exercise.startTime;
-          endText = exercise.startDate;
-          buttonMonday = exercise.days.monday;
-          buttonTuesday = exercise.days.thursday;
-          buttonWednesday = exercise.days.wednesday;
-          buttonThursday = exercise.days.thursday;
-          buttonFriday = exercise.days.friday;
-          buttonSaturday = exercise.days.saturday;
-          buttonSunday = exercise.days.sunday;
-          console.log(name);
+          moments[i] = {
+            ...moment,
+            count: exercise.amount
+          };
+
+          state = {
+            id: exID,
+            name: exercise.name,
+            startText: exercise.startDate,
+            endText: exercise.startTime,
+            days: exercise.days
+          };
         }
       });
     });
+
     this.state = {
       moments,
-      name: name,
-      startText: startText,
-      endText: endText,
+      ...state,
       isDateTimePickerVisible: false,
-      startOrEnd: "",
-      days: "",
-      buttonMonday: buttonMonday,
-      buttonTuesday: buttonTuesday,
-      buttonWednesday: buttonWednesday,
-      buttonThursday: buttonThursday,
-      buttonFriday: buttonFriday,
-      buttonSaturday: buttonSaturday,
-      buttonSunday: buttonSunday
+      startOrEnd: ""
     };
-    console.log(this.props.navigation.getParam("id", "0"));
   }
   showDateTimePicker = endOrStart => {
     if (endOrStart == "start") {
@@ -138,10 +118,9 @@ class EditScreen extends Component {
 
   handleSubmit = () => {
     const { navigation, updateMoments, user } = this.props;
-    const { name, startText, endText, days } = this.state;
+    const { name, startText, endText, days, id } = this.state;
 
     let { moments } = this.state;
-    const uuidv4 = require("uuid/v4");
 
     const today = new Date().getDate();
     if (startText == "Vandaag") {
@@ -149,21 +128,20 @@ class EditScreen extends Component {
     }
 
     moments.forEach((moment, i) => {
+      moments[i].exercises = moments[i].exercises.filter(exercise => exercise.id !== id);
+
       if (moment.count !== 0) {
-        moments[i] = {
-          ...moment,
-          exercises: [
-            ...moment.exercises,
-            {
-              id: uuidv4(),
-              name,
-              startTime: startText,
-              startDate: endText,
-              amount: moment.count,
-              days
-            }
-          ]
-        };
+        moments[i].exercises = [
+          ...moments[i].exercises,
+          {
+            id,
+            name,
+            startTime: startText,
+            endTime: endText,
+            amount: moment.count,
+            days
+          }
+        ];
       }
       delete moments[i].count;
     });
