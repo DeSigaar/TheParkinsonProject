@@ -15,34 +15,72 @@ class HomeScreen extends Component {
     exercises: PropTypes.array
   };
 
+  //new
   getUniqueExercises = () => {
     const { moments } = this.props;
-    let uniqueExercises = new Array();
+    let uniqueExercise = [];
+    let sortedExercise = {};
+    var currentLetter = "";
 
+    // Filter all Exercise so it only appears once.
     if (moments) {
       moments.forEach(moment => {
         moment.exercises.forEach(exercise => {
-          if (uniqueExercises.filter(e => e.name === exercise.name).length === 0) {
-            uniqueExercises.push(exercise);
+          if (uniqueExercise.filter(m => m.name === exercise.name).length === 0) {
+            uniqueExercise.push(exercise);
           }
         });
       });
 
-      return uniqueExercises;
+      // Sort Exercises on alpabetical order
+      uniqueExercise.sort(function(a, b) {
+        let textA = a.name.toUpperCase();
+        let textB = b.name.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+
+      // Create new object with "letter" -> medcines
+      uniqueExercise.forEach((exercise, i) => {
+        if (
+          exercise.name
+            .toUpperCase()
+            .trim()
+            .charAt(0) !== currentLetter
+        ) {
+          currentLetter = exercise.name
+            .toUpperCase()
+            .trim()
+            .charAt(0);
+          sortedExercise[currentLetter] = [];
+          sortedExercise[currentLetter].push(exercise);
+        } else {
+          sortedExercise[currentLetter].push(exercise);
+        }
+      });
+
+      return sortedExercise;
     }
   };
 
   showExercisesContainer = () => {
     const exercises = this.getUniqueExercises();
+
     if (exercises) {
-      return <SchemaMomentIndicator moment="A">{this.loopExercises(exercises)}</SchemaMomentIndicator>;
+      return Object.keys(exercises).map((key, index) => {
+        return (
+          <SchemaMomentIndicator moment={key} key={index}>
+            {this.loopExercises(exercises[key])}
+          </SchemaMomentIndicator>
+        );
+      });
     } else {
-      //image (medicine not found, see adobeXD)
-      return <Text>Geen oefeningen ingesteld</Text>;
+      return <Text>Geen medicijnen ingesteld</Text>;
     }
   };
 
   loopExercises = array => {
+    const { navigation } = this.props;
+
     return array.map(item => {
       return (
         <SchemaItem
@@ -51,6 +89,7 @@ class HomeScreen extends Component {
           description={"description"}
           img={require("../../assets/images/icon/home/oefeningen.png")}
           gradientColor={Gradients.green}
+          onPress={() => navigation.navigate("ExercisesEdit", { id: item.id })}
         />
       );
     });

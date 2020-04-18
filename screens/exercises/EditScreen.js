@@ -7,7 +7,7 @@ import { Header, Container } from "../../components/common";
 import { TextInputWithHeader, MomentsWithHeader, PeriodPickerWithHeader, SubmitButton } from "../../components/forms";
 import Gradients from "../../constants/Gradients";
 
-class AddScreen extends Component {
+class EditScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
@@ -19,31 +19,42 @@ class AddScreen extends Component {
     super(props);
 
     let { moments } = this.props;
+    const exID = this.props.navigation.getParam("id", "0");
+
+    let state;
+
+    // Loop through all moments
     moments.forEach((moment, i) => {
       moments[i] = {
         ...moment,
         count: 0
       };
+
+      moment.exercises.forEach((exercise, o) => {
+        if (exercise.id === exID) {
+          moments[i] = {
+            ...moment,
+            count: exercise.amount
+          };
+
+          state = {
+            id: exID,
+            name: exercise.name,
+            startText: exercise.startDate,
+            endText: exercise.startTime,
+            days: exercise.days
+          };
+        }
+      });
     });
 
     this.state = {
       moments,
-      name: "",
-      startText: "Vandaag",
-      endText: "N.v.t.",
+      ...state,
       isDateTimePickerVisible: false,
-      startOrEnd: "",
-      days: "",
-      buttonMonday: false,
-      buttonTuesday: false,
-      buttonWednesday: false,
-      buttonThursday: false,
-      buttonFriday: false,
-      buttonSaturday: false,
-      buttonSunday: false
+      startOrEnd: ""
     };
   }
-
   showDateTimePicker = endOrStart => {
     if (endOrStart == "start") {
       this.setState({ startOrEnd: endOrStart });
@@ -107,33 +118,30 @@ class AddScreen extends Component {
 
   handleSubmit = () => {
     const { navigation, updateMoments, user } = this.props;
-    const { name, startText, endText, days } = this.state;
+    const { name, startText, endText, days, id } = this.state;
 
     let { moments } = this.state;
-    const uuidv4 = require("uuid/v4");
 
     const today = new Date().getDate();
     if (startText == "Vandaag") {
       this.setState({ startText: today });
     }
 
-    const id = uuidv4();
     moments.forEach((moment, i) => {
+      moments[i].exercises = moments[i].exercises.filter(exercise => exercise.id !== id);
+
       if (moment.count !== 0) {
-        moments[i] = {
-          ...moment,
-          exercises: [
-            ...moment.exercises,
-            {
-              id: id,
-              name,
-              startTime: startText,
-              startDate: endText,
-              amount: moment.count,
-              days
-            }
-          ]
-        };
+        moments[i].exercises = [
+          ...moments[i].exercises,
+          {
+            id,
+            name,
+            startTime: startText,
+            endTime: endText,
+            amount: moment.count,
+            days
+          }
+        ];
       }
       delete moments[i].count;
     });
@@ -163,7 +171,7 @@ class AddScreen extends Component {
 
     return (
       <>
-        <Header navigation={navigation} title="Oefening toevoegen" />
+        <Header navigation={navigation} title="Oefening wijzigen" />
         <Container type="ScrollView">
           <TextInputWithHeader
             header="Naam van oefening"
@@ -226,4 +234,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddScreen);
+)(EditScreen);

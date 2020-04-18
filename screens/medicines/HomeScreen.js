@@ -11,14 +11,18 @@ class HomeScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    moments: PropTypes.array
+    moments: PropTypes.array,
+    medicines: PropTypes.array
   };
 
   //new
   getUniqueMedicines = () => {
     const { moments } = this.props;
-    let uniqueMedicine = new Array();
+    let uniqueMedicine = [];
+    let sortedMedicine = {};
+    var currentLetter = "";
 
+    // Filter all medicine so it only appears once.
     if (moments) {
       moments.forEach(moment => {
         moment.medicines.forEach(medicine => {
@@ -28,16 +32,48 @@ class HomeScreen extends Component {
         });
       });
 
-      return uniqueMedicine;
+      // Sort medicines on alpabetical order
+      uniqueMedicine.sort(function(a, b) {
+        let textA = a.name.toUpperCase();
+        let textB = b.name.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+
+      // Create new object with "letter" -> medcines
+      uniqueMedicine.forEach((medicine, i) => {
+        if (
+          medicine.name
+            .toUpperCase()
+            .trim()
+            .charAt(0) !== currentLetter
+        ) {
+          currentLetter = medicine.name
+            .toUpperCase()
+            .trim()
+            .charAt(0);
+          sortedMedicine[currentLetter] = [];
+          sortedMedicine[currentLetter].push(medicine);
+        } else {
+          sortedMedicine[currentLetter].push(medicine);
+        }
+      });
+
+      return sortedMedicine;
     }
   };
 
   showMedicinesContainer = () => {
     const medicines = this.getUniqueMedicines();
+
     if (medicines) {
-      return <SchemaMomentIndicator moment="A">{this.loopMedicines(medicines)}</SchemaMomentIndicator>;
+      return Object.keys(medicines).map((key, index) => {
+        return (
+          <SchemaMomentIndicator moment={key} key={index}>
+            {this.loopMedicines(medicines[key])}
+          </SchemaMomentIndicator>
+        );
+      });
     } else {
-      //image (medicine not found, see adobeXD)
       return <Text>Geen medicijnen ingesteld</Text>;
     }
   };
@@ -51,6 +87,7 @@ class HomeScreen extends Component {
           description={"description"}
           img={require("../../assets/images/icon/home/medicatie.png")}
           gradientColor={Gradients.blue}
+          onPress={() => navigation.navigate("MedicinesEdit", item.id)}
         />
       );
     });
